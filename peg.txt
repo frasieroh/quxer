@@ -1,4 +1,4 @@
-~grammar     = (ws r : rule)+ ws {{ result = ast_grammar(r, countr); }}
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
 
 ~ws          = (" " / "\n" / "\t")*
 
