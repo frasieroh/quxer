@@ -10,11 +10,11 @@ void write_helper_macros(FILE* file, writer_config_t* config)
 {
     fprintf(file,
         "#define c(x) "
-            "(((capture_t*)get_arraylist(context->capture, x))->str)\n"
+            "(((capture_t*)get_stack(context->capture, x))->str)\n"
         "#define s(x) "
-            "(((capture_t*)get_arraylist(context->capture, x))->start)\n"
+            "(((capture_t*)get_stack(context->capture, x))->start)\n"
         "#define e(x) "
-            "(((capture_t*)get_arraylist(context->capture, x))->end)\n"
+            "(((capture_t*)get_stack(context->capture, x))->end)\n"
         "#define ccount (context->capture->len)\n");
     return;
 }

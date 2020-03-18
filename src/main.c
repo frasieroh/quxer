@@ -6,12 +6,18 @@
 #include <string.h>
 
 #include "internal.h"
-#include "peg/ast.h"
 #include "utils/grammar.h"
 #include "utils/writer.h"
 
+#ifndef BOOTSTRAP
+#include "peg/ast.h"
+#else
+#include "peg/pegspec.h"
+#endif
+
 int main(int argc, char** argv)
 {
+#ifndef BOOTSTRAP
     if (!(argc >= 3)) {
         printf(
             "Usage: quxer infile outfiles_prefix [OPTIONS]\n"
@@ -55,6 +61,15 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
     exit(EXIT_SUCCESS);
+#else
+    printf("Generating parser.c from metagrammar\n");
+    grammar_t* metagrammar = init_metagrammar();
+    writer_config_t* config = init_config("parser", "ast_node_t*");
+    write_parser(metagrammar, config);
+    free_config(config);
+    free_grammar(metagrammar);
+    exit(EXIT_SUCCESS);
+#endif
 }
 
 #endif

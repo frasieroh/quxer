@@ -52,4 +52,8 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Build directory
 build
+
+# Swap files
+[._]*.sw[a-z]

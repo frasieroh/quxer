@@ -14,8 +14,15 @@ file(GLOB SRCS
     "${PROJECT_SOURCE_DIR}/src/templates/*.c"
     "${PROJECT_SOURCE_DIR}/src/peg/*.c"
     "${PROJECT_SOURCE_DIR}/shared/src/*.c"
-
 )
+
+if ("${CMAKE_C_FLAGS}" MATCHES "-DBOOTSTRAP")
+    list(REMOVE_ITEM SRCS
+        "${PROJECT_SOURCE_DIR}/src/peg/parser.c"
+        "${PROJECT_SOURCE_DIR}/src/peg/ast.c"
+        "${PROJECT_SOURCE_DIR}/shared/src/internal.c"
+    )
+endif()
 
 add_executable(${PROJECT_NAME}  ${SRCS})
 

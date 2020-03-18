@@ -7,6 +7,46 @@
 
 #include "internal.h"
 
+stack_t* init_stack(uint32_t cap)
+{
+    stack_t* list = malloc(sizeof(stack_t));
+    list->arr = malloc(sizeof(void*) * cap);
+    list->cap = cap;
+    list->len = 0;
+    return list;
+}
+
+void free_stack(stack_t* list)
+{
+    free(list->arr);
+    free(list);
+    return;
+}
+
+void append_stack(stack_t* list, void* element)
+{
+    if (list->len >= list->cap) {
+        list->arr = realloc(list->arr, sizeof(void*) * list->cap * 2);
+    }
+    list->arr[list->len++] = element;
+    return;
+}
+
+void* pop_stack(stack_t* list)
+{
+    return list->arr[--(list->len)];
+}
+
+void* get_stack(stack_t* list, uint32_t index)
+{
+    return list->arr[index];
+}
+
+// Compilation will fail if these functions are defined during the
+// bootstrapping process because extern references will be undefined.
+// This file is only needed for stack_t definitions.
+// #ifndef BOOTSTRAP
+
 void free_tree(rnode_t* node, pnode_flag_t exclude)
 {
     if (!(node->flags & exclude)) {
@@ -25,46 +65,11 @@ void finalize_tree(rnode_t* node)
     node->flags |= IS_FINAL;
 }
 
-arraylist_t* init_arraylist(uint32_t cap)
-{
-    arraylist_t* list = malloc(sizeof(arraylist_t) + sizeof(void*) * cap);
-    list->cap = cap;
-    list->len = 0;
-    return list;
-}
-
-void append_arraylist(arraylist_t** list, void* element)
-{
-    if ((*list)->len == (*list)->cap) {
-        arraylist_t* old_list = *list;
-        (*list) = malloc(
-                sizeof(arraylist_t) + sizeof(void*) * old_list->cap * 2);
-        (*list)->cap = old_list->cap * 2;
-        (*list)->len = old_list->len;
-        for (uint32_t i = 0; i < (*list)->len; ++i) {
-            (*list)->arr[i] = old_list->arr[i];
-        }
-        free(old_list);
-    }
-    (*list)->arr[(*list)->len++] = element;
-    return;
-}
-
-void* pop_arraylist(arraylist_t* list)
-{
-    return list->arr[--(list->len)];
-}
-
-void* get_arraylist(arraylist_t* list, uint32_t index)
-{
-    return list->arr[index];
-}
-
 memo_state_t* init_memo_state(imported_file_t* imported_file,
         uint32_t num_rules)
 {
     memo_state_t* state = malloc(sizeof(memo_state_t));
-    state->call_stack = init_arraylist(64);
+    state->call_stack = init_stack(64);
     state->cache_head = NULL;
     state->cache_arr = calloc(sizeof(cached_rnode_t*),
             (imported_file->text_len + 1) * num_rules);
@@ -102,9 +107,9 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
         (*cached_rnode)->flags |= IN_PROGRESS;
         (*cached_rnode)->next = state->cache_head;
         state->cache_head = *cached_rnode;
-        append_arraylist(&(state->call_stack), &id);
+        append_stack(state->call_stack, &id);
         rnode_t* result = eval_map[id](state, text, text_length, pos);
-        pop_arraylist(state->call_stack);
+        pop_stack(state->call_stack);
         (*cached_rnode)->result = result;
         (*cached_rnode)->flags ^= IN_PROGRESS;
         if (result) {
@@ -126,7 +131,7 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
 #endif
         return result;
     } else if ((*cached_rnode)->flags & IN_PROGRESS) {
-        uint32_t top_id = *((uint32_t*)get_arraylist(
+        uint32_t top_id = *((uint32_t*)get_stack(
                 state->call_stack, state->call_stack->len - 1));
         if (top_id != id) {
             printf("Indirect left recursion: rule %s\n", name_map[id]);
@@ -162,9 +167,9 @@ rnode_t* grow_lr(uint32_t id, memo_state_t* state, uint8_t* text,
             &(state->cache_arr[id * (text_length + 1) + pos]);
     rnode_t* result;
     while (1) {
-        append_arraylist(&(state->call_stack), &id);
+        append_stack(state->call_stack, &id);
         result = eval_map[id](state, text, text_length, pos);
-        pop_arraylist(state->call_stack);
+        pop_stack(state->call_stack);
         if (!result || result->end <= pos) {
             break;
         }
@@ -273,10 +278,10 @@ void free_capture(capture_t* capture)
 context_t* init_context()
 {
     context_t* context = malloc(sizeof(context_t));
-    context->capture = init_arraylist(64);
-    context->alias = malloc(sizeof(arraylist_t*) * num_nodes);
+    context->capture = init_stack(64);
+    context->alias = malloc(sizeof(stack_t*) * num_nodes);
     for (uint32_t i = 0; i < num_nodes; ++i) {
-        context->alias[i] = init_arraylist(64);
+        context->alias[i] = init_stack(64);
     }
     context->result = NULL;
     return context;
@@ -285,7 +290,7 @@ context_t* init_context()
 void free_context(context_t* context)
 {
     for (uint32_t i = 0; i < context->capture->len; ++i) {
-        free_capture(get_arraylist(context->capture, i));
+        free_capture(get_stack(context->capture, i));
     }
     free(context->capture);
     for (uint32_t i = 0; i < num_nodes; ++i) {
@@ -313,8 +318,8 @@ void generate_semantic_result_recursive(
         generate_semantic_result_recursive(
                 inner_context, text, node->children[0]);
         if (node->flags & ALIAS) {
-            append_arraylist(
-                    &(context->alias[node->id]), inner_context->result);
+            append_stack(
+                    context->alias[node->id], inner_context->result);
         }
         free_context(inner_context);
     } else {
@@ -324,8 +329,8 @@ void generate_semantic_result_recursive(
         }
     }
     if (node->flags & DO_CAPTURE) {
-        append_arraylist(
-                &(context->capture),
+        append_stack(
+                context->capture,
                 init_capture(text, node->start, node->end));
     }
     if (node->flags & SEMANTIC_ACTION) {
@@ -333,6 +338,8 @@ void generate_semantic_result_recursive(
     }
     return;
 }
+
+// #endif // #ifndef BOOTSTRAP
 
 #endif
 

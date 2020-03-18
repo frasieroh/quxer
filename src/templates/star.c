@@ -11,12 +11,12 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 1       uint32_t start_<child_id> = start_<id>;
 2       rnode_t* result_<child_id> = NULL;
 3       uint32_t num_children_<id> = 0;
-4       arraylist_t* list_<id> = init_arraylist(64);
+4       stack_t* list_<id> = init_stack(64);
         do {
 5           result_<child_id> = NULL;
             ... child parser ...
 6           if (result_<child_id> != NULL) {
-7               append_arraylist(&list_<id>, result_<child id>);
+7               append_stack(list_<id>, result_<child id>);
 8               start_<child_id> = result_<child_id>->end;
 9               ++num_children_<id>;
             }
@@ -36,7 +36,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 20          result_<id>->end = start_<id>;
         }
 21      result_<id>->id = <id>
-22      free(list_<id>);
+22      free_stack(list_<id>);
     */
 {
     uint32_t id = node->id;
@@ -46,7 +46,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 /*1*/   "uint32_t start_%u = start_%u;\n"
 /*2*/   "rnode_t* result_%u = NULL;\n"
 /*3*/   "uint32_t num_children_%u = 0;\n"
-/*4*/   "arraylist_t* list_%u = init_arraylist(64);\n"
+/*4*/   "stack_t* list_%u = init_stack(64);\n"
         "do {\n"
 /*5*/   "result_%u = NULL;\n",
 /*1*/   child_id, id,
@@ -57,7 +57,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
     write_template(file, config, child_node);
     fprintf(file,
 /*6*/   "if (result_%u != NULL) {\n"
-/*7*/   "    append_arraylist(&list_%u, result_%u);\n"
+/*7*/   "    append_stack(list_%u, result_%u);\n"
 /*8*/   "    start_%u = result_%u->end;\n"
 /*9*/   "    ++num_children_%u;\n"
         "}\n"
@@ -83,7 +83,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 /*20*/  "result_%u->end = start_%u;\n"
         "}\n"
 /*21*/  "result_%u->id = %u;\n"
-/*22*/  "free(list_%u);\n",
+/*22*/  "free_stack(list_%u);\n",
 /*11*/  id, id,
 /*12*/  id, flags_str,
 /*13*/  id,

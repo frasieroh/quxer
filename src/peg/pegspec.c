@@ -23,7 +23,7 @@ grammar_t* init_metagrammar()
     because parser.c can parse this grammar directly from a file, but it's
     kept here for posterity. The present parser.c was generated from peg.txt
     in the root directory.
-    ~grammar     = (ws r : rule)+ ws {{ result = ast_grammar(r, countr); }}
+    ~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
     
     ~ws          = (" " / "\n" / "\t")*
     
@@ -108,9 +108,10 @@ grammar_t* init_metagrammar()
             AliasedNontm("rule", "r")
  		));
         rule_t* rule_grammar = init_rule("grammar",
-            Action(Seq(2, pack_pnodes(buf, 2,
+            Action(Seq(3, pack_pnodes(buf, 3,
                     Plus(temp1),
-                    Nontm("ws"))),
+                    Nontm("ws"),
+                    Not(Range(0, 255)))),
                 "result = ast_grammar(r, countr);")
         );
         // ~ws

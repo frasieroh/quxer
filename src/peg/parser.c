@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "peg/ast.h"
 #include "peg/parser.h"
+#include "peg/ast.h"
 #define EVAL_grammar 0
 #define EVAL_ws 1
 #define EVAL_wsp 2
@@ -40,7 +40,7 @@ rnode_t* result_1 = NULL;
 uint32_t start_2 = start_1;
 rnode_t* result_2 = NULL;
 uint32_t num_children_1 = 0;
-arraylist_t* list_1 = init_arraylist(64);
+stack_t* list_1 = init_stack(64);
 do {
 result_2 = NULL;
 uint32_t current_position_2 = start_2;
@@ -90,7 +90,7 @@ result_2->children[1] = result_4;
 result_2->id = 2;
 exit_2:
 if (result_2 != NULL) {
-    append_arraylist(&list_1, result_2);
+    append_stack(list_1, result_2);
     start_2 = result_2->end;
     ++num_children_1;
 }
@@ -107,7 +107,7 @@ result_1->children[i] = list_1->arr[i];
 result_1->end = ((rnode_t*)list_1->arr[num_children_1 - 1])->end;
 result_1->id = 1;
 }
-free(list_1);
+free_stack(list_1);
 if (result_1 == NULL) {
 goto exit_0;
 }
@@ -183,7 +183,7 @@ rnode_t* result_8 = NULL;
 uint32_t start_9 = start_8;
 rnode_t* result_9 = NULL;
 uint32_t num_children_8 = 0;
-arraylist_t* list_8 = init_arraylist(64);
+stack_t* list_8 = init_stack(64);
 do {
 result_9 = NULL;
 uint32_t start_10 = start_9;
@@ -284,7 +284,7 @@ goto exit_9;
 }
 exit_9:
 if (result_9 != NULL) {
-    append_arraylist(&list_8, result_9);
+    append_stack(list_8, result_9);
     start_9 = result_9->end;
     ++num_children_8;
 }
@@ -303,7 +303,7 @@ result_8->end = ((rnode_t*)list_8->arr[num_children_8 - 1])->end;
 result_8->end = start_8;
 }
 result_8->id = 8;
-free(list_8);
+free_stack(list_8);
 return result_8;
 }
 rnode_t* eval_wsp(memo_state_t* state, uint8_t* text,
@@ -313,7 +313,7 @@ rnode_t* result_13 = NULL;
 uint32_t start_14 = start_13;
 rnode_t* result_14 = NULL;
 uint32_t num_children_13 = 0;
-arraylist_t* list_13 = init_arraylist(64);
+stack_t* list_13 = init_stack(64);
 do {
 result_14 = NULL;
 uint32_t start_15 = start_14;
@@ -414,7 +414,7 @@ goto exit_14;
 }
 exit_14:
 if (result_14 != NULL) {
-    append_arraylist(&list_13, result_14);
+    append_stack(list_13, result_14);
     start_14 = result_14->end;
     ++num_children_13;
 }
@@ -431,7 +431,7 @@ result_13->children[i] = list_13->arr[i];
 result_13->end = ((rnode_t*)list_13->arr[num_children_13 - 1])->end;
 result_13->id = 13;
 }
-free(list_13);
+free_stack(list_13);
 return result_13;
 }
 rnode_t* eval_rule(memo_state_t* state, uint8_t* text,
@@ -595,7 +595,7 @@ rnode_t* result_25 = NULL;
 uint32_t start_26 = start_25;
 rnode_t* result_26 = NULL;
 uint32_t num_children_25 = 0;
-arraylist_t* list_25 = init_arraylist(64);
+stack_t* list_25 = init_stack(64);
 do {
 result_26 = NULL;
 uint32_t start_27 = start_26;
@@ -707,7 +707,7 @@ goto exit_26;
 }
 exit_26:
 if (result_26 != NULL) {
-    append_arraylist(&list_25, result_26);
+    append_stack(list_25, result_26);
     start_26 = result_26->end;
     ++num_children_25;
 }
@@ -724,7 +724,7 @@ result_25->children[i] = list_25->arr[i];
 result_25->end = ((rnode_t*)list_25->arr[num_children_25 - 1])->end;
 result_25->id = 25;
 }
-free(list_25);
+free_stack(list_25);
 return result_25;
 }
 rnode_t* eval_body(memo_state_t* state, uint8_t* text,
@@ -771,7 +771,7 @@ rnode_t* result_34 = NULL;
 uint32_t start_35 = start_34;
 rnode_t* result_35 = NULL;
 uint32_t num_children_34 = 0;
-arraylist_t* list_34 = init_arraylist(64);
+stack_t* list_34 = init_stack(64);
 do {
 result_35 = NULL;
 uint32_t current_position_35 = start_35;
@@ -870,7 +870,7 @@ result_35->children[3] = result_39;
 result_35->id = 35;
 exit_35:
 if (result_35 != NULL) {
-    append_arraylist(&list_34, result_35);
+    append_stack(list_34, result_35);
     start_35 = result_35->end;
     ++num_children_34;
 }
@@ -889,7 +889,7 @@ result_34->end = ((rnode_t*)list_34->arr[num_children_34 - 1])->end;
 result_34->end = start_34;
 }
 result_34->id = 34;
-free(list_34);
+free_stack(list_34);
 if (result_34 == NULL) {
 free_tree(result_33, IS_CACHED);
 goto exit_32;
@@ -934,7 +934,7 @@ rnode_t* result_42 = NULL;
 uint32_t start_43 = start_42;
 rnode_t* result_43 = NULL;
 uint32_t num_children_42 = 0;
-arraylist_t* list_42 = init_arraylist(64);
+stack_t* list_42 = init_stack(64);
 do {
 result_43 = NULL;
 uint32_t current_position_43 = start_43;
@@ -984,7 +984,7 @@ result_43->children[1] = result_45;
 result_43->id = 43;
 exit_43:
 if (result_43 != NULL) {
-    append_arraylist(&list_42, result_43);
+    append_stack(list_42, result_43);
     start_43 = result_43->end;
     ++num_children_42;
 }
@@ -1003,7 +1003,7 @@ result_42->end = ((rnode_t*)list_42->arr[num_children_42 - 1])->end;
 result_42->end = start_42;
 }
 result_42->id = 42;
-free(list_42);
+free_stack(list_42);
 if (result_42 == NULL) {
 free_tree(result_41, IS_CACHED);
 goto exit_40;
@@ -2498,7 +2498,7 @@ rnode_t* result_121 = NULL;
 uint32_t start_122 = start_121;
 rnode_t* result_122 = NULL;
 uint32_t num_children_121 = 0;
-arraylist_t* list_121 = init_arraylist(64);
+stack_t* list_121 = init_stack(64);
 do {
 result_122 = NULL;
 uint32_t start_123 = start_122;
@@ -2685,7 +2685,7 @@ goto exit_122;
 }
 exit_122:
 if (result_122 != NULL) {
-    append_arraylist(&list_121, result_122);
+    append_stack(list_121, result_122);
     start_122 = result_122->end;
     ++num_children_121;
 }
@@ -2704,7 +2704,7 @@ result_121->end = ((rnode_t*)list_121->arr[num_children_121 - 1])->end;
 result_121->end = start_121;
 }
 result_121->id = 121;
-free(list_121);
+free_stack(list_121);
 if (result_121 == NULL) {
 free_tree(result_120, IS_CACHED);
 goto exit_119;
@@ -2785,7 +2785,7 @@ rnode_t* result_135 = NULL;
 uint32_t start_136 = start_135;
 rnode_t* result_136 = NULL;
 uint32_t num_children_135 = 0;
-arraylist_t* list_135 = init_arraylist(64);
+stack_t* list_135 = init_stack(64);
 do {
 result_136 = NULL;
 uint32_t start_137 = start_136;
@@ -2972,7 +2972,7 @@ goto exit_136;
 }
 exit_136:
 if (result_136 != NULL) {
-    append_arraylist(&list_135, result_136);
+    append_stack(list_135, result_136);
     start_136 = result_136->end;
     ++num_children_135;
 }
@@ -2991,7 +2991,7 @@ result_135->end = ((rnode_t*)list_135->arr[num_children_135 - 1])->end;
 result_135->end = start_135;
 }
 result_135->id = 135;
-free(list_135);
+free_stack(list_135);
 if (result_135 == NULL) {
 free_tree(result_134, IS_CACHED);
 goto exit_133;
@@ -3097,7 +3097,7 @@ rnode_t* result_150 = NULL;
 uint32_t start_151 = start_150;
 rnode_t* result_151 = NULL;
 uint32_t num_children_150 = 0;
-arraylist_t* list_150 = init_arraylist(64);
+stack_t* list_150 = init_stack(64);
 do {
 result_151 = NULL;
 uint32_t start_152 = start_151;
@@ -3284,7 +3284,7 @@ goto exit_151;
 }
 exit_151:
 if (result_151 != NULL) {
-    append_arraylist(&list_150, result_151);
+    append_stack(list_150, result_151);
     start_151 = result_151->end;
     ++num_children_150;
 }
@@ -3303,7 +3303,7 @@ result_150->end = ((rnode_t*)list_150->arr[num_children_150 - 1])->end;
 result_150->end = start_150;
 }
 result_150->id = 150;
-free(list_150);
+free_stack(list_150);
 if (result_150 == NULL) {
 free_tree(result_149, IS_CACHED);
 goto exit_148;
@@ -3349,9 +3349,9 @@ result_148->id = 148;
 exit_148:
 return result_148;
 }
-#define c(x) (((capture_t*)get_arraylist(context->capture, x))->str)
-#define s(x) (((capture_t*)get_arraylist(context->capture, x))->start)
-#define e(x) (((capture_t*)get_arraylist(context->capture, x))->end)
+#define c(x) (((capture_t*)get_stack(context->capture, x))->str)
+#define s(x) (((capture_t*)get_stack(context->capture, x))->start)
+#define e(x) (((capture_t*)get_stack(context->capture, x))->end)
 #define ccount (context->capture->len)
 void semantic_action_0(context_t* context) {
 ast_node_t* result = NULL;

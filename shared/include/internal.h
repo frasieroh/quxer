@@ -19,8 +19,8 @@ typedef struct rnode_t_ {
 typedef struct {
     uint32_t cap;
     uint32_t len;
-    void* arr[0];
-} arraylist_t;
+    void** arr;
+} stack_t;
 
 typedef enum {
     IN_PROGRESS = 0x1,
@@ -34,7 +34,7 @@ typedef struct cached_rnode_t_ {
 } cached_rnode_t;
 
 typedef struct {
-    arraylist_t* call_stack;
+    stack_t* call_stack;
     cached_rnode_t* cache_head;
     cached_rnode_t** cache_arr;
 } memo_state_t;
@@ -51,18 +51,24 @@ typedef struct {
 } capture_t;
 
 typedef struct {
-    arraylist_t* capture; // capture->arr[index] -> capture_t*
-    arraylist_t** alias; // alias[which]->arr[index] -> void*
+    stack_t* capture; // capture->arr[index] -> capture_t*
+    stack_t** alias; // alias[which]->arr[index] -> void*
     void* result;
 } context_t;
 
+stack_t* init_stack(uint32_t cap);
+void free_stack(stack_t* list);
+void append_stack(stack_t* list, void* element);
+void* pop_stack(stack_t* list);
+void* get_stack(stack_t* list, uint32_t index);
+
+// Compilation will fail if these functions are defined during the
+// bootstrapping process because extern references will be undefined.
+// This file is only needed for stack_t definitions.
+// #ifndef BOOTSTRAP
+
 void free_tree(rnode_t* node, pnode_flag_t exclude);
 void finalize_tree(rnode_t* node);
-
-arraylist_t* init_arraylist(uint32_t cap);
-void append_arraylist(arraylist_t** list, void* element);
-void* pop_arraylist(arraylist_t* list);
-void* get_arraylist(arraylist_t* list, uint32_t index);
 
 memo_state_t* init_memo_state(
     imported_file_t* imported_file, uint32_t num_rules);
@@ -93,6 +99,8 @@ void free_context(context_t* context);
 void* generate_semantic_result(uint8_t* text, rnode_t* root);
 void generate_semantic_result_recursive(
         context_t* context, uint8_t* text, rnode_t* node);
+
+// #endif // #ifndef BOOTSTRAP
 
 #endif
 
