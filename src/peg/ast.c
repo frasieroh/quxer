@@ -98,7 +98,7 @@ ast_node_t* ast_Seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
     } else {
         result_pnode = pop_stack(list);
     }
-    free(list);
+    free_stack(list);
     ast_node_t* ast_node = allocate_ast_node(num);
     ast_node->type = PNODE_T;
     ast_node->data.pnode = result_pnode;
@@ -224,7 +224,7 @@ ast_node_t* ast_CClass(uint8_t* str)
     ast_node_t* ast_node = allocate_ast_node(0);
     ast_node->type = PNODE_T;
     ast_node->data.pnode = Alt(list->len, (pnode_t**)(list->arr));
-    free(list);
+    free_stack(list);
     return ast_node;
 }
 

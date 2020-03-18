@@ -62,11 +62,6 @@ void append_stack(stack_t* list, void* element);
 void* pop_stack(stack_t* list);
 void* get_stack(stack_t* list, uint32_t index);
 
-// Compilation will fail if these functions are defined during the
-// bootstrapping process because extern references will be undefined.
-// This file is only needed for stack_t definitions.
-// #ifndef BOOTSTRAP
-
 void free_tree(rnode_t* node, pnode_flag_t exclude);
 void finalize_tree(rnode_t* node);
 
@@ -99,8 +94,6 @@ void free_context(context_t* context);
 void* generate_semantic_result(uint8_t* text, rnode_t* root);
 void generate_semantic_result_recursive(
         context_t* context, uint8_t* text, rnode_t* node);
-
-// #endif // #ifndef BOOTSTRAP
 
 #endif
 

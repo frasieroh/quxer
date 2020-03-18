@@ -26,7 +26,8 @@ void free_stack(stack_t* list)
 void append_stack(stack_t* list, void* element)
 {
     if (list->len >= list->cap) {
-        list->arr = realloc(list->arr, sizeof(void*) * list->cap * 2);
+        list->cap *= 2;
+        list->arr = realloc(list->arr, sizeof(void*) * list->cap);
     }
     list->arr[list->len++] = element;
     return;
@@ -41,11 +42,6 @@ void* get_stack(stack_t* list, uint32_t index)
 {
     return list->arr[index];
 }
-
-// Compilation will fail if these functions are defined during the
-// bootstrapping process because extern references will be undefined.
-// This file is only needed for stack_t definitions.
-// #ifndef BOOTSTRAP
 
 void free_tree(rnode_t* node, pnode_flag_t exclude)
 {
@@ -88,8 +84,8 @@ void free_memo_state(memo_state_t* state)
         }
         free(curr);
     }
+    free_stack(state->call_stack);
     free(state->cache_arr);
-    free(state->call_stack);
     free(state);
     return;
 }
@@ -292,9 +288,9 @@ void free_context(context_t* context)
     for (uint32_t i = 0; i < context->capture->len; ++i) {
         free_capture(get_stack(context->capture, i));
     }
-    free(context->capture);
+    free_stack(context->capture);
     for (uint32_t i = 0; i < num_nodes; ++i) {
-        free(context->alias[i]);
+        free_stack(context->alias[i]);
     }
     free(context->alias);
     free(context);
@@ -338,8 +334,6 @@ void generate_semantic_result_recursive(
     }
     return;
 }
-
-// #endif // #ifndef BOOTSTRAP
 
 #endif
 
