@@ -1097,7 +1097,6 @@ result_50->id = 50;
 exit_50:
 if (result_50) {
 result_49 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_49->flags = 0;
 result_49->end = result_50->end;
 result_49->num_children = 1;
 result_49->children[0] = result_50;
@@ -1107,6 +1106,7 @@ result_49->end = start_49;
 result_49->num_children = 0;
 }
 result_49->type = OPTIONAL_T;
+result_49->flags = 0;
 result_49->start = start_49;
 result_49->id = 49;
 if (result_49 == NULL) {
@@ -1207,7 +1207,6 @@ result_56->id = 56;
 exit_56:
 if (result_56) {
 result_55 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_55->flags = 0;
 result_55->end = result_56->end;
 result_55->num_children = 1;
 result_55->children[0] = result_56;
@@ -1217,6 +1216,7 @@ result_55->end = start_55;
 result_55->num_children = 0;
 }
 result_55->type = OPTIONAL_T;
+result_55->flags = 0;
 result_55->start = start_55;
 result_55->id = 55;
 if (result_55 == NULL) {
@@ -1317,7 +1317,6 @@ result_62->id = 62;
 exit_62:
 if (result_62) {
 result_61 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_61->flags = 0;
 result_61->end = result_62->end;
 result_61->num_children = 1;
 result_61->children[0] = result_62;
@@ -1327,6 +1326,7 @@ result_61->end = start_61;
 result_61->num_children = 0;
 }
 result_61->type = OPTIONAL_T;
+result_61->flags = 0;
 result_61->start = start_61;
 result_61->id = 61;
 if (result_61 == NULL) {

@@ -238,13 +238,13 @@ void* parse_file(char* filename)
     rnode_t* result = call_eval(0, state, imported_file->text, 
             imported_file->text_len, 0);
     if (result) {
-        printf("parse succeeded\n");
+        printf("Parse succeeded\n");
         finalize_tree(result);
         free_memo_state(state);
         semantic_result = generate_semantic_result(imported_file->text, result);
         free_tree(result, 0);
     } else {
-        printf("parse failed\n");
+        printf("Parse failed\n");
         free_memo_state(state);
     }
     free_file(imported_file);

@@ -13,16 +13,16 @@ void write_optional(FILE* file, writer_config_t* config, pnode_t* node)
         ... child parser ...
 3       if (result_<child_id>) {
 4           result_<id> = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-5           result_<id>->flags = <flags_str>;
-6           result_<id>->end = result_<child_id>->end;
-7           result_<id>->num_children = 1;
-8           result_<id>->children[0] = result_<child_id>
+5           result_<id>->end = result_<child_id>->end;
+6           result_<id>->num_children = 1;
+7           result_<id>->children[0] = result_<child_id>
         } else {
-9           result_<id> = malloc(sizeof(rnode_t));
-10          result_<id>->end = start_<id>;
-11          result_<id>->num_children = 0;
+8           result_<id> = malloc(sizeof(rnode_t));
+9           result_<id>->end = start_<id>;
+10          result_<id>->num_children = 0;
         }
-12      result_<id>->type = OPTIONAL_T;
+11      result_<id>->type = OPTIONAL_T;
+12      result_<id>->flags = <flags_str>;
 13      result_<id>->start = start_<id>;
 14      result_<id>->id = <id>
     */
@@ -40,28 +40,28 @@ void write_optional(FILE* file, writer_config_t* config, pnode_t* node)
     fprintf(file,
 /*3*/   "if (result_%u) {\n"
 /*4*/   "result_%u = malloc(sizeof(rnode_t) + sizeof(rnode_t*));\n"
-/*5*/   "result_%u->flags = %s"
-/*6*/   "result_%u->end = result_%u->end;\n"
-/*7*/   "result_%u->num_children = 1;\n"
-/*8*/   "result_%u->children[0] = result_%u;\n"
+/*5*/   "result_%u->end = result_%u->end;\n"
+/*6*/   "result_%u->num_children = 1;\n"
+/*7*/   "result_%u->children[0] = result_%u;\n"
         "} else {\n"
-/*9*/   "result_%u = malloc(sizeof(rnode_t));\n"
-/*10*/  "result_%u->end = start_%u;\n"
-/*11*/  "result_%u->num_children = 0;\n"
+/*8*/   "result_%u = malloc(sizeof(rnode_t));\n"
+/*9*/   "result_%u->end = start_%u;\n"
+/*10*/  "result_%u->num_children = 0;\n"
         "}\n"
-/*12*/  "result_%u->type = OPTIONAL_T;\n"
+/*11*/  "result_%u->type = OPTIONAL_T;\n"
+/*12*/  "result_%u->flags = %s"
 /*13*/  "result_%u->start = start_%u;\n"
 /*14*/  "result_%u->id = %u;\n",
 /*3*/   child_id,
 /*4*/   id,
-/*5*/   id, flags_str,
-/*6*/   id, child_id,
-/*7*/   id,
-/*8*/   id, child_id,
+/*5*/   id, child_id,
+/*6*/   id,
+/*7*/   id, child_id,
 /*9*/   id,
-/*10*/  id, id,
+/*9*/   id, id,
+/*10*/  id,
 /*11*/  id,
-/*12*/  id,
+/*12*/  id, flags_str,
 /*13*/  id, id,
 /*14*/  id, id);
     free(flags_str);
