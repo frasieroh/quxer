@@ -28,9 +28,9 @@
 evalfcn_t eval_map[] = {eval_grammar, eval_ws, eval_wsp, eval_rule, eval_name, eval_body, eval_alt, eval_seq, eval_operator, eval_prefix, eval_and, eval_not, eval_postfix, eval_star, eval_plus, eval_option, eval_group, eval_final, eval_nonterminal, eval_literal, eval_cclass, eval_dot, eval_code, };
 char* name_map[] = {"grammar", "ws", "wsp", "rule", "name", "body", "alt", "seq", "operator", "prefix", "and", "not", "postfix", "star", "plus", "option", "group", "final", "nonterminal", "literal", "cclass", "dot", "code", };
 uint32_t num_rules = 23;
-actionfcn_t semantic_action_map[162] = {[0] = semantic_action_0, [18] = semantic_action_18, [31] = semantic_action_31, [32] = semantic_action_32, [40] = semantic_action_40, [47] = semantic_action_47, [53] = semantic_action_53, [59] = semantic_action_59, [66] = semantic_action_66, [70] = semantic_action_70, [77] = semantic_action_77, [81] = semantic_action_81, [85] = semantic_action_85, [93] = semantic_action_93, [99] = semantic_action_99, [105] = semantic_action_105, [107] = semantic_action_107, [108] = semantic_action_108, [109] = semantic_action_109, [110] = semantic_action_110, [112] = semantic_action_112, [118] = semantic_action_118, [119] = semantic_action_119, [133] = semantic_action_133, [147] = semantic_action_147, };
-uint32_t num_nodes = 162;
-aliasallocsfcn_t alias_allocs_map[162] = {[0] = alias_allocs_0, [18] = alias_allocs_18, [31] = alias_allocs_31, [32] = alias_allocs_32, [40] = alias_allocs_40, [47] = alias_allocs_47, [53] = alias_allocs_53, [59] = alias_allocs_59, [66] = alias_allocs_66, [70] = alias_allocs_70, [77] = alias_allocs_77, [81] = alias_allocs_81, [85] = alias_allocs_85, [93] = alias_allocs_93, [99] = alias_allocs_99, [105] = alias_allocs_105, [107] = alias_allocs_107, [108] = alias_allocs_108, [109] = alias_allocs_109, [110] = alias_allocs_110, [112] = alias_allocs_112, [118] = alias_allocs_118, [119] = alias_allocs_119, [133] = alias_allocs_133, [147] = alias_allocs_147, };
+actionfcn_t semantic_action_map[171] = {[0] = semantic_action_0, [18] = semantic_action_18, [31] = semantic_action_31, [32] = semantic_action_32, [40] = semantic_action_40, [47] = semantic_action_47, [57] = semantic_action_57, [67] = semantic_action_67, [78] = semantic_action_78, [82] = semantic_action_82, [89] = semantic_action_89, [93] = semantic_action_93, [97] = semantic_action_97, [105] = semantic_action_105, [111] = semantic_action_111, [117] = semantic_action_117, [119] = semantic_action_119, [120] = semantic_action_120, [121] = semantic_action_121, [122] = semantic_action_122, [124] = semantic_action_124, [130] = semantic_action_130, [131] = semantic_action_131, [145] = semantic_action_145, [159] = semantic_action_159, };
+uint32_t num_nodes = 171;
+aliasallocsfcn_t alias_allocs_map[171] = {[0] = alias_allocs_0, [18] = alias_allocs_18, [31] = alias_allocs_31, [32] = alias_allocs_32, [40] = alias_allocs_40, [47] = alias_allocs_47, [57] = alias_allocs_57, [67] = alias_allocs_67, [78] = alias_allocs_78, [82] = alias_allocs_82, [89] = alias_allocs_89, [93] = alias_allocs_93, [97] = alias_allocs_97, [105] = alias_allocs_105, [111] = alias_allocs_111, [117] = alias_allocs_117, [119] = alias_allocs_119, [120] = alias_allocs_120, [121] = alias_allocs_121, [122] = alias_allocs_122, [124] = alias_allocs_124, [130] = alias_allocs_130, [131] = alias_allocs_131, [145] = alias_allocs_145, [159] = alias_allocs_159, };
 rnode_t* eval_grammar(memo_state_t* state, uint8_t* text,
                  uint32_t text_length, uint32_t pos) {
 uint32_t start_0 = pos;
@@ -41,7 +41,7 @@ rnode_t* result_1 = NULL;
 uint32_t start_2 = start_1;
 rnode_t* result_2 = NULL;
 uint32_t num_children_1 = 0;
-dyn_arrt* list_1 = init_dyn_arr(16);
+dyn_arr_t* list_1 = init_dyn_arr(16);
 do {
 result_2 = NULL;
 uint32_t current_position_2 = start_2;
@@ -184,7 +184,7 @@ rnode_t* result_8 = NULL;
 uint32_t start_9 = start_8;
 rnode_t* result_9 = NULL;
 uint32_t num_children_8 = 0;
-dyn_arrt* list_8 = init_dyn_arr(16);
+dyn_arr_t* list_8 = init_dyn_arr(16);
 do {
 result_9 = NULL;
 uint32_t start_10 = start_9;
@@ -314,7 +314,7 @@ rnode_t* result_13 = NULL;
 uint32_t start_14 = start_13;
 rnode_t* result_14 = NULL;
 uint32_t num_children_13 = 0;
-dyn_arrt* list_13 = init_dyn_arr(16);
+dyn_arr_t* list_13 = init_dyn_arr(16);
 do {
 result_14 = NULL;
 uint32_t start_15 = start_14;
@@ -596,7 +596,7 @@ rnode_t* result_25 = NULL;
 uint32_t start_26 = start_25;
 rnode_t* result_26 = NULL;
 uint32_t num_children_25 = 0;
-dyn_arrt* list_25 = init_dyn_arr(16);
+dyn_arr_t* list_25 = init_dyn_arr(16);
 do {
 result_26 = NULL;
 uint32_t start_27 = start_26;
@@ -772,7 +772,7 @@ rnode_t* result_34 = NULL;
 uint32_t start_35 = start_34;
 rnode_t* result_35 = NULL;
 uint32_t num_children_34 = 0;
-dyn_arrt* list_34 = init_dyn_arr(16);
+dyn_arr_t* list_34 = init_dyn_arr(16);
 do {
 result_35 = NULL;
 uint32_t current_position_35 = start_35;
@@ -935,7 +935,7 @@ rnode_t* result_42 = NULL;
 uint32_t start_43 = start_42;
 rnode_t* result_43 = NULL;
 uint32_t num_children_42 = 0;
-dyn_arrt* list_42 = init_dyn_arr(16);
+dyn_arr_t* list_42 = init_dyn_arr(16);
 do {
 result_43 = NULL;
 uint32_t current_position_43 = start_43;
@@ -1070,30 +1070,132 @@ goto exit_50;
 current_position_50 = result_51->end;
 uint32_t start_52 = current_position_50;
 rnode_t* result_52 = NULL;
-rnode_t* result_52_nt = call_eval(EVAL_code, state, text, text_length, start_52);
-if (result_52_nt) {
-result_52 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_52->flags = DO_CAPTURE | 0;
-result_52->type = NONTERMINAL_T;
+uint8_t bytesbuf_52[] = {123, 123, };
+uint8_t c_52;
+for (uint32_t i_52 = 0; i_52 < 2; ++i_52) {
+c_52 = bytesbuf_52[i_52];
+if (i_52 + start_52 < text_length
+    && c_52 == text[i_52 + start_52]) {
+if (i_52 == 2 - 1) {
+result_52 = malloc(sizeof(rnode_t));
+result_52->flags = 0;
+result_52->type = LITERAL_T;
 result_52->start = start_52;
-result_52->end = result_52_nt->end;
-result_52->num_children = 1;
-result_52->children[0] = result_52_nt;
+result_52->end = start_52 + 2;
+result_52->num_children = 0;
 result_52->id = 52;
+}
+} else {
+break;
+}
 }
 if (result_52 == NULL) {
 free_tree(result_51, IS_CACHED);
 goto exit_50;
 }
 current_position_50 = result_52->end;
-result_50 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
+uint32_t start_53 = current_position_50;
+rnode_t* result_53 = NULL;
+rnode_t* result_53_nt = call_eval(EVAL_ws, state, text, text_length, start_53);
+if (result_53_nt) {
+result_53 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_53->flags = 0;
+result_53->type = NONTERMINAL_T;
+result_53->start = start_53;
+result_53->end = result_53_nt->end;
+result_53->num_children = 1;
+result_53->children[0] = result_53_nt;
+result_53->id = 53;
+}
+if (result_53 == NULL) {
+free_tree(result_51, IS_CACHED);
+free_tree(result_52, IS_CACHED);
+goto exit_50;
+}
+current_position_50 = result_53->end;
+uint32_t start_54 = current_position_50;
+rnode_t* result_54 = NULL;
+rnode_t* result_54_nt = call_eval(EVAL_code, state, text, text_length, start_54);
+if (result_54_nt) {
+result_54 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_54->flags = DO_CAPTURE | 0;
+result_54->type = NONTERMINAL_T;
+result_54->start = start_54;
+result_54->end = result_54_nt->end;
+result_54->num_children = 1;
+result_54->children[0] = result_54_nt;
+result_54->id = 54;
+}
+if (result_54 == NULL) {
+free_tree(result_51, IS_CACHED);
+free_tree(result_52, IS_CACHED);
+free_tree(result_53, IS_CACHED);
+goto exit_50;
+}
+current_position_50 = result_54->end;
+uint32_t start_55 = current_position_50;
+rnode_t* result_55 = NULL;
+rnode_t* result_55_nt = call_eval(EVAL_ws, state, text, text_length, start_55);
+if (result_55_nt) {
+result_55 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_55->flags = 0;
+result_55->type = NONTERMINAL_T;
+result_55->start = start_55;
+result_55->end = result_55_nt->end;
+result_55->num_children = 1;
+result_55->children[0] = result_55_nt;
+result_55->id = 55;
+}
+if (result_55 == NULL) {
+free_tree(result_51, IS_CACHED);
+free_tree(result_52, IS_CACHED);
+free_tree(result_53, IS_CACHED);
+free_tree(result_54, IS_CACHED);
+goto exit_50;
+}
+current_position_50 = result_55->end;
+uint32_t start_56 = current_position_50;
+rnode_t* result_56 = NULL;
+uint8_t bytesbuf_56[] = {125, 125, };
+uint8_t c_56;
+for (uint32_t i_56 = 0; i_56 < 2; ++i_56) {
+c_56 = bytesbuf_56[i_56];
+if (i_56 + start_56 < text_length
+    && c_56 == text[i_56 + start_56]) {
+if (i_56 == 2 - 1) {
+result_56 = malloc(sizeof(rnode_t));
+result_56->flags = 0;
+result_56->type = LITERAL_T;
+result_56->start = start_56;
+result_56->end = start_56 + 2;
+result_56->num_children = 0;
+result_56->id = 56;
+}
+} else {
+break;
+}
+}
+if (result_56 == NULL) {
+free_tree(result_51, IS_CACHED);
+free_tree(result_52, IS_CACHED);
+free_tree(result_53, IS_CACHED);
+free_tree(result_54, IS_CACHED);
+free_tree(result_55, IS_CACHED);
+goto exit_50;
+}
+current_position_50 = result_56->end;
+result_50 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 6);
 result_50->flags = 0;
 result_50->type = SEQUENCE_T;
 result_50->start = start_50;
-result_50->end = result_52->end;
-result_50->num_children = 2;
+result_50->end = result_56->end;
+result_50->num_children = 6;
 result_50->children[0] = result_51;
 result_50->children[1] = result_52;
+result_50->children[2] = result_53;
+result_50->children[3] = result_54;
+result_50->children[4] = result_55;
+result_50->children[5] = result_56;
 result_50->id = 50;
 exit_50:
 if (result_50) {
@@ -1136,54 +1238,15 @@ result_46->children[0] = result_47;
 result_46->id = 46;
 goto exit_46;
 }
-uint32_t start_53 = start_46;
-rnode_t* result_53 = NULL;
-uint32_t current_position_53 = start_53;
-uint32_t start_54 = current_position_53;
-rnode_t* result_54 = NULL;
-rnode_t* result_54_nt = call_eval(EVAL_postfix, state, text, text_length, start_54);
-if (result_54_nt) {
-result_54 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_54->flags = ALIAS | 0;
-result_54->type = NONTERMINAL_T;
-result_54->start = start_54;
-result_54->end = result_54_nt->end;
-result_54->num_children = 1;
-result_54->children[0] = result_54_nt;
-result_54->id = 54;
-}
-if (result_54 == NULL) {
-goto exit_53;
-}
-current_position_53 = result_54->end;
-uint32_t start_55 = current_position_53;
-rnode_t* result_55 = NULL;
-uint32_t start_56 = start_55;
-rnode_t* result_56 = NULL;
-uint32_t current_position_56 = start_56;
-uint32_t start_57 = current_position_56;
+uint32_t start_57 = start_46;
 rnode_t* result_57 = NULL;
-rnode_t* result_57_nt = call_eval(EVAL_ws, state, text, text_length, start_57);
-if (result_57_nt) {
-result_57 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_57->flags = 0;
-result_57->type = NONTERMINAL_T;
-result_57->start = start_57;
-result_57->end = result_57_nt->end;
-result_57->num_children = 1;
-result_57->children[0] = result_57_nt;
-result_57->id = 57;
-}
-if (result_57 == NULL) {
-goto exit_56;
-}
-current_position_56 = result_57->end;
-uint32_t start_58 = current_position_56;
+uint32_t current_position_57 = start_57;
+uint32_t start_58 = current_position_57;
 rnode_t* result_58 = NULL;
-rnode_t* result_58_nt = call_eval(EVAL_code, state, text, text_length, start_58);
+rnode_t* result_58_nt = call_eval(EVAL_postfix, state, text, text_length, start_58);
 if (result_58_nt) {
 result_58 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_58->flags = DO_CAPTURE | 0;
+result_58->flags = ALIAS | 0;
 result_58->type = NONTERMINAL_T;
 result_58->start = start_58;
 result_58->end = result_58_nt->end;
@@ -1192,86 +1255,58 @@ result_58->children[0] = result_58_nt;
 result_58->id = 58;
 }
 if (result_58 == NULL) {
-free_tree(result_57, IS_CACHED);
-goto exit_56;
+goto exit_57;
 }
-current_position_56 = result_58->end;
-result_56 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
-result_56->flags = 0;
-result_56->type = SEQUENCE_T;
-result_56->start = start_56;
-result_56->end = result_58->end;
-result_56->num_children = 2;
-result_56->children[0] = result_57;
-result_56->children[1] = result_58;
-result_56->id = 56;
-exit_56:
-if (result_56) {
-result_55 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_55->end = result_56->end;
-result_55->num_children = 1;
-result_55->children[0] = result_56;
-} else {
-result_55 = malloc(sizeof(rnode_t));
-result_55->end = start_55;
-result_55->num_children = 0;
-}
-result_55->type = OPTIONAL_T;
-result_55->flags = 0;
-result_55->start = start_55;
-result_55->id = 55;
-if (result_55 == NULL) {
-free_tree(result_54, IS_CACHED);
-goto exit_53;
-}
-current_position_53 = result_55->end;
-result_53 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
-result_53->flags = SEMANTIC_ACTION | 0;
-result_53->type = SEQUENCE_T;
-result_53->start = start_53;
-result_53->end = result_55->end;
-result_53->num_children = 2;
-result_53->children[0] = result_54;
-result_53->children[1] = result_55;
-result_53->id = 53;
-exit_53:
-if (result_53 != NULL) {
-result_46 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_46->flags = 0;
-result_46->type = ALTERNATIVE_T;
-result_46->start = start_46;
-result_46->end = result_53->end;
-result_46->num_children = 1;
-result_46->children[0] = result_53;
-result_46->id = 46;
-goto exit_46;
-}
-uint32_t start_59 = start_46;
+current_position_57 = result_58->end;
+uint32_t start_59 = current_position_57;
 rnode_t* result_59 = NULL;
-uint32_t current_position_59 = start_59;
-uint32_t start_60 = current_position_59;
+uint32_t start_60 = start_59;
 rnode_t* result_60 = NULL;
-rnode_t* result_60_nt = call_eval(EVAL_group, state, text, text_length, start_60);
-if (result_60_nt) {
-result_60 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_60->flags = ALIAS | 0;
-result_60->type = NONTERMINAL_T;
-result_60->start = start_60;
-result_60->end = result_60_nt->end;
-result_60->num_children = 1;
-result_60->children[0] = result_60_nt;
-result_60->id = 60;
-}
-if (result_60 == NULL) {
-goto exit_59;
-}
-current_position_59 = result_60->end;
-uint32_t start_61 = current_position_59;
+uint32_t current_position_60 = start_60;
+uint32_t start_61 = current_position_60;
 rnode_t* result_61 = NULL;
-uint32_t start_62 = start_61;
+rnode_t* result_61_nt = call_eval(EVAL_ws, state, text, text_length, start_61);
+if (result_61_nt) {
+result_61 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_61->flags = 0;
+result_61->type = NONTERMINAL_T;
+result_61->start = start_61;
+result_61->end = result_61_nt->end;
+result_61->num_children = 1;
+result_61->children[0] = result_61_nt;
+result_61->id = 61;
+}
+if (result_61 == NULL) {
+goto exit_60;
+}
+current_position_60 = result_61->end;
+uint32_t start_62 = current_position_60;
 rnode_t* result_62 = NULL;
-uint32_t current_position_62 = start_62;
-uint32_t start_63 = current_position_62;
+uint8_t bytesbuf_62[] = {123, 123, };
+uint8_t c_62;
+for (uint32_t i_62 = 0; i_62 < 2; ++i_62) {
+c_62 = bytesbuf_62[i_62];
+if (i_62 + start_62 < text_length
+    && c_62 == text[i_62 + start_62]) {
+if (i_62 == 2 - 1) {
+result_62 = malloc(sizeof(rnode_t));
+result_62->flags = 0;
+result_62->type = LITERAL_T;
+result_62->start = start_62;
+result_62->end = start_62 + 2;
+result_62->num_children = 0;
+result_62->id = 62;
+}
+} else {
+break;
+}
+}
+if (result_62 == NULL) {
+free_tree(result_61, IS_CACHED);
+goto exit_60;
+}
+current_position_60 = result_62->end;
+uint32_t start_63 = current_position_60;
 rnode_t* result_63 = NULL;
 rnode_t* result_63_nt = call_eval(EVAL_ws, state, text, text_length, start_63);
 if (result_63_nt) {
@@ -1285,10 +1320,12 @@ result_63->children[0] = result_63_nt;
 result_63->id = 63;
 }
 if (result_63 == NULL) {
-goto exit_62;
+free_tree(result_61, IS_CACHED);
+free_tree(result_62, IS_CACHED);
+goto exit_60;
 }
-current_position_62 = result_63->end;
-uint32_t start_64 = current_position_62;
+current_position_60 = result_63->end;
+uint32_t start_64 = current_position_60;
 rnode_t* result_64 = NULL;
 rnode_t* result_64_nt = call_eval(EVAL_code, state, text, text_length, start_64);
 if (result_64_nt) {
@@ -1302,93 +1339,126 @@ result_64->children[0] = result_64_nt;
 result_64->id = 64;
 }
 if (result_64 == NULL) {
+free_tree(result_61, IS_CACHED);
+free_tree(result_62, IS_CACHED);
 free_tree(result_63, IS_CACHED);
-goto exit_62;
+goto exit_60;
 }
-current_position_62 = result_64->end;
-result_62 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
-result_62->flags = 0;
-result_62->type = SEQUENCE_T;
-result_62->start = start_62;
-result_62->end = result_64->end;
-result_62->num_children = 2;
-result_62->children[0] = result_63;
-result_62->children[1] = result_64;
-result_62->id = 62;
-exit_62:
-if (result_62) {
-result_61 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_61->end = result_62->end;
-result_61->num_children = 1;
-result_61->children[0] = result_62;
+current_position_60 = result_64->end;
+uint32_t start_65 = current_position_60;
+rnode_t* result_65 = NULL;
+rnode_t* result_65_nt = call_eval(EVAL_ws, state, text, text_length, start_65);
+if (result_65_nt) {
+result_65 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_65->flags = 0;
+result_65->type = NONTERMINAL_T;
+result_65->start = start_65;
+result_65->end = result_65_nt->end;
+result_65->num_children = 1;
+result_65->children[0] = result_65_nt;
+result_65->id = 65;
+}
+if (result_65 == NULL) {
+free_tree(result_61, IS_CACHED);
+free_tree(result_62, IS_CACHED);
+free_tree(result_63, IS_CACHED);
+free_tree(result_64, IS_CACHED);
+goto exit_60;
+}
+current_position_60 = result_65->end;
+uint32_t start_66 = current_position_60;
+rnode_t* result_66 = NULL;
+uint8_t bytesbuf_66[] = {125, 125, };
+uint8_t c_66;
+for (uint32_t i_66 = 0; i_66 < 2; ++i_66) {
+c_66 = bytesbuf_66[i_66];
+if (i_66 + start_66 < text_length
+    && c_66 == text[i_66 + start_66]) {
+if (i_66 == 2 - 1) {
+result_66 = malloc(sizeof(rnode_t));
+result_66->flags = 0;
+result_66->type = LITERAL_T;
+result_66->start = start_66;
+result_66->end = start_66 + 2;
+result_66->num_children = 0;
+result_66->id = 66;
+}
 } else {
-result_61 = malloc(sizeof(rnode_t));
-result_61->end = start_61;
-result_61->num_children = 0;
+break;
 }
-result_61->type = OPTIONAL_T;
-result_61->flags = 0;
-result_61->start = start_61;
-result_61->id = 61;
-if (result_61 == NULL) {
-free_tree(result_60, IS_CACHED);
-goto exit_59;
 }
-current_position_59 = result_61->end;
-result_59 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
-result_59->flags = SEMANTIC_ACTION | 0;
-result_59->type = SEQUENCE_T;
-result_59->start = start_59;
-result_59->end = result_61->end;
-result_59->num_children = 2;
+if (result_66 == NULL) {
+free_tree(result_61, IS_CACHED);
+free_tree(result_62, IS_CACHED);
+free_tree(result_63, IS_CACHED);
+free_tree(result_64, IS_CACHED);
+free_tree(result_65, IS_CACHED);
+goto exit_60;
+}
+current_position_60 = result_66->end;
+result_60 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 6);
+result_60->flags = 0;
+result_60->type = SEQUENCE_T;
+result_60->start = start_60;
+result_60->end = result_66->end;
+result_60->num_children = 6;
+result_60->children[0] = result_61;
+result_60->children[1] = result_62;
+result_60->children[2] = result_63;
+result_60->children[3] = result_64;
+result_60->children[4] = result_65;
+result_60->children[5] = result_66;
+result_60->id = 60;
+exit_60:
+if (result_60) {
+result_59 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_59->end = result_60->end;
+result_59->num_children = 1;
 result_59->children[0] = result_60;
-result_59->children[1] = result_61;
+} else {
+result_59 = malloc(sizeof(rnode_t));
+result_59->end = start_59;
+result_59->num_children = 0;
+}
+result_59->type = OPTIONAL_T;
+result_59->flags = 0;
+result_59->start = start_59;
 result_59->id = 59;
-exit_59:
-if (result_59 != NULL) {
+if (result_59 == NULL) {
+free_tree(result_58, IS_CACHED);
+goto exit_57;
+}
+current_position_57 = result_59->end;
+result_57 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
+result_57->flags = SEMANTIC_ACTION | 0;
+result_57->type = SEQUENCE_T;
+result_57->start = start_57;
+result_57->end = result_59->end;
+result_57->num_children = 2;
+result_57->children[0] = result_58;
+result_57->children[1] = result_59;
+result_57->id = 57;
+exit_57:
+if (result_57 != NULL) {
 result_46 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
 result_46->flags = 0;
 result_46->type = ALTERNATIVE_T;
 result_46->start = start_46;
-result_46->end = result_59->end;
+result_46->end = result_57->end;
 result_46->num_children = 1;
-result_46->children[0] = result_59;
+result_46->children[0] = result_57;
 result_46->id = 46;
 goto exit_46;
 }
-exit_46:
-return result_46;
-}
-rnode_t* eval_prefix(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_65 = pos;
-rnode_t* result_65 = NULL;
-uint32_t start_66 = start_65;
-rnode_t* result_66 = NULL;
-uint32_t current_position_66 = start_66;
-uint32_t start_67 = current_position_66;
+uint32_t start_67 = start_46;
 rnode_t* result_67 = NULL;
-rnode_t* result_67_nt = call_eval(EVAL_and, state, text, text_length, start_67);
-if (result_67_nt) {
-result_67 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_67->flags = 0;
-result_67->type = NONTERMINAL_T;
-result_67->start = start_67;
-result_67->end = result_67_nt->end;
-result_67->num_children = 1;
-result_67->children[0] = result_67_nt;
-result_67->id = 67;
-}
-if (result_67 == NULL) {
-goto exit_66;
-}
-current_position_66 = result_67->end;
-uint32_t start_68 = current_position_66;
+uint32_t current_position_67 = start_67;
+uint32_t start_68 = current_position_67;
 rnode_t* result_68 = NULL;
-rnode_t* result_68_nt = call_eval(EVAL_ws, state, text, text_length, start_68);
+rnode_t* result_68_nt = call_eval(EVAL_group, state, text, text_length, start_68);
 if (result_68_nt) {
 result_68 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_68->flags = 0;
+result_68->flags = ALIAS | 0;
 result_68->type = NONTERMINAL_T;
 result_68->start = start_68;
 result_68->end = result_68_nt->end;
@@ -1397,57 +1467,17 @@ result_68->children[0] = result_68_nt;
 result_68->id = 68;
 }
 if (result_68 == NULL) {
-free_tree(result_67, IS_CACHED);
-goto exit_66;
+goto exit_67;
 }
-current_position_66 = result_68->end;
-uint32_t start_69 = current_position_66;
+current_position_67 = result_68->end;
+uint32_t start_69 = current_position_67;
 rnode_t* result_69 = NULL;
-rnode_t* result_69_nt = call_eval(EVAL_group, state, text, text_length, start_69);
-if (result_69_nt) {
-result_69 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_69->flags = ALIAS | 0;
-result_69->type = NONTERMINAL_T;
-result_69->start = start_69;
-result_69->end = result_69_nt->end;
-result_69->num_children = 1;
-result_69->children[0] = result_69_nt;
-result_69->id = 69;
-}
-if (result_69 == NULL) {
-free_tree(result_67, IS_CACHED);
-free_tree(result_68, IS_CACHED);
-goto exit_66;
-}
-current_position_66 = result_69->end;
-result_66 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_66->flags = SEMANTIC_ACTION | 0;
-result_66->type = SEQUENCE_T;
-result_66->start = start_66;
-result_66->end = result_69->end;
-result_66->num_children = 3;
-result_66->children[0] = result_67;
-result_66->children[1] = result_68;
-result_66->children[2] = result_69;
-result_66->id = 66;
-exit_66:
-if (result_66 != NULL) {
-result_65 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_65->flags = 0;
-result_65->type = ALTERNATIVE_T;
-result_65->start = start_65;
-result_65->end = result_66->end;
-result_65->num_children = 1;
-result_65->children[0] = result_66;
-result_65->id = 65;
-goto exit_65;
-}
-uint32_t start_70 = start_65;
+uint32_t start_70 = start_69;
 rnode_t* result_70 = NULL;
 uint32_t current_position_70 = start_70;
 uint32_t start_71 = current_position_70;
 rnode_t* result_71 = NULL;
-rnode_t* result_71_nt = call_eval(EVAL_not, state, text, text_length, start_71);
+rnode_t* result_71_nt = call_eval(EVAL_ws, state, text, text_length, start_71);
 if (result_71_nt) {
 result_71 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_71->flags = 0;
@@ -1464,16 +1494,24 @@ goto exit_70;
 current_position_70 = result_71->end;
 uint32_t start_72 = current_position_70;
 rnode_t* result_72 = NULL;
-rnode_t* result_72_nt = call_eval(EVAL_ws, state, text, text_length, start_72);
-if (result_72_nt) {
-result_72 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+uint8_t bytesbuf_72[] = {123, 123, };
+uint8_t c_72;
+for (uint32_t i_72 = 0; i_72 < 2; ++i_72) {
+c_72 = bytesbuf_72[i_72];
+if (i_72 + start_72 < text_length
+    && c_72 == text[i_72 + start_72]) {
+if (i_72 == 2 - 1) {
+result_72 = malloc(sizeof(rnode_t));
 result_72->flags = 0;
-result_72->type = NONTERMINAL_T;
+result_72->type = LITERAL_T;
 result_72->start = start_72;
-result_72->end = result_72_nt->end;
-result_72->num_children = 1;
-result_72->children[0] = result_72_nt;
+result_72->end = start_72 + 2;
+result_72->num_children = 0;
 result_72->id = 72;
+}
+} else {
+break;
+}
 }
 if (result_72 == NULL) {
 free_tree(result_71, IS_CACHED);
@@ -1482,10 +1520,10 @@ goto exit_70;
 current_position_70 = result_72->end;
 uint32_t start_73 = current_position_70;
 rnode_t* result_73 = NULL;
-rnode_t* result_73_nt = call_eval(EVAL_group, state, text, text_length, start_73);
+rnode_t* result_73_nt = call_eval(EVAL_ws, state, text, text_length, start_73);
 if (result_73_nt) {
 result_73 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_73->flags = ALIAS | 0;
+result_73->flags = 0;
 result_73->type = NONTERMINAL_T;
 result_73->start = start_73;
 result_73->end = result_73_nt->end;
@@ -1499,108 +1537,144 @@ free_tree(result_72, IS_CACHED);
 goto exit_70;
 }
 current_position_70 = result_73->end;
-result_70 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_70->flags = SEMANTIC_ACTION | 0;
+uint32_t start_74 = current_position_70;
+rnode_t* result_74 = NULL;
+rnode_t* result_74_nt = call_eval(EVAL_code, state, text, text_length, start_74);
+if (result_74_nt) {
+result_74 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_74->flags = DO_CAPTURE | 0;
+result_74->type = NONTERMINAL_T;
+result_74->start = start_74;
+result_74->end = result_74_nt->end;
+result_74->num_children = 1;
+result_74->children[0] = result_74_nt;
+result_74->id = 74;
+}
+if (result_74 == NULL) {
+free_tree(result_71, IS_CACHED);
+free_tree(result_72, IS_CACHED);
+free_tree(result_73, IS_CACHED);
+goto exit_70;
+}
+current_position_70 = result_74->end;
+uint32_t start_75 = current_position_70;
+rnode_t* result_75 = NULL;
+rnode_t* result_75_nt = call_eval(EVAL_ws, state, text, text_length, start_75);
+if (result_75_nt) {
+result_75 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_75->flags = 0;
+result_75->type = NONTERMINAL_T;
+result_75->start = start_75;
+result_75->end = result_75_nt->end;
+result_75->num_children = 1;
+result_75->children[0] = result_75_nt;
+result_75->id = 75;
+}
+if (result_75 == NULL) {
+free_tree(result_71, IS_CACHED);
+free_tree(result_72, IS_CACHED);
+free_tree(result_73, IS_CACHED);
+free_tree(result_74, IS_CACHED);
+goto exit_70;
+}
+current_position_70 = result_75->end;
+uint32_t start_76 = current_position_70;
+rnode_t* result_76 = NULL;
+uint8_t bytesbuf_76[] = {125, 125, };
+uint8_t c_76;
+for (uint32_t i_76 = 0; i_76 < 2; ++i_76) {
+c_76 = bytesbuf_76[i_76];
+if (i_76 + start_76 < text_length
+    && c_76 == text[i_76 + start_76]) {
+if (i_76 == 2 - 1) {
+result_76 = malloc(sizeof(rnode_t));
+result_76->flags = 0;
+result_76->type = LITERAL_T;
+result_76->start = start_76;
+result_76->end = start_76 + 2;
+result_76->num_children = 0;
+result_76->id = 76;
+}
+} else {
+break;
+}
+}
+if (result_76 == NULL) {
+free_tree(result_71, IS_CACHED);
+free_tree(result_72, IS_CACHED);
+free_tree(result_73, IS_CACHED);
+free_tree(result_74, IS_CACHED);
+free_tree(result_75, IS_CACHED);
+goto exit_70;
+}
+current_position_70 = result_76->end;
+result_70 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 6);
+result_70->flags = 0;
 result_70->type = SEQUENCE_T;
 result_70->start = start_70;
-result_70->end = result_73->end;
-result_70->num_children = 3;
+result_70->end = result_76->end;
+result_70->num_children = 6;
 result_70->children[0] = result_71;
 result_70->children[1] = result_72;
 result_70->children[2] = result_73;
+result_70->children[3] = result_74;
+result_70->children[4] = result_75;
+result_70->children[5] = result_76;
 result_70->id = 70;
 exit_70:
-if (result_70 != NULL) {
-result_65 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_65->flags = 0;
-result_65->type = ALTERNATIVE_T;
-result_65->start = start_65;
-result_65->end = result_70->end;
-result_65->num_children = 1;
-result_65->children[0] = result_70;
-result_65->id = 65;
-goto exit_65;
-}
-exit_65:
-return result_65;
-}
-rnode_t* eval_and(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_74 = pos;
-rnode_t* result_74 = NULL;
-uint8_t bytesbuf_74[] = {38, };
-uint8_t c_74;
-for (uint32_t i_74 = 0; i_74 < 1; ++i_74) {
-c_74 = bytesbuf_74[i_74];
-if (i_74 + start_74 < text_length
-    && c_74 == text[i_74 + start_74]) {
-if (i_74 == 1 - 1) {
-result_74 = malloc(sizeof(rnode_t));
-result_74->flags = 0;
-result_74->type = LITERAL_T;
-result_74->start = start_74;
-result_74->end = start_74 + 1;
-result_74->num_children = 0;
-result_74->id = 74;
-}
+if (result_70) {
+result_69 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_69->end = result_70->end;
+result_69->num_children = 1;
+result_69->children[0] = result_70;
 } else {
-break;
+result_69 = malloc(sizeof(rnode_t));
+result_69->end = start_69;
+result_69->num_children = 0;
 }
+result_69->type = OPTIONAL_T;
+result_69->flags = 0;
+result_69->start = start_69;
+result_69->id = 69;
+if (result_69 == NULL) {
+free_tree(result_68, IS_CACHED);
+goto exit_67;
 }
-return result_74;
+current_position_67 = result_69->end;
+result_67 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
+result_67->flags = SEMANTIC_ACTION | 0;
+result_67->type = SEQUENCE_T;
+result_67->start = start_67;
+result_67->end = result_69->end;
+result_67->num_children = 2;
+result_67->children[0] = result_68;
+result_67->children[1] = result_69;
+result_67->id = 67;
+exit_67:
+if (result_67 != NULL) {
+result_46 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_46->flags = 0;
+result_46->type = ALTERNATIVE_T;
+result_46->start = start_46;
+result_46->end = result_67->end;
+result_46->num_children = 1;
+result_46->children[0] = result_67;
+result_46->id = 46;
+goto exit_46;
 }
-rnode_t* eval_not(memo_state_t* state, uint8_t* text,
+exit_46:
+return result_46;
+}
+rnode_t* eval_prefix(memo_state_t* state, uint8_t* text,
                  uint32_t text_length, uint32_t pos) {
-uint32_t start_75 = pos;
-rnode_t* result_75 = NULL;
-uint8_t bytesbuf_75[] = {33, };
-uint8_t c_75;
-for (uint32_t i_75 = 0; i_75 < 1; ++i_75) {
-c_75 = bytesbuf_75[i_75];
-if (i_75 + start_75 < text_length
-    && c_75 == text[i_75 + start_75]) {
-if (i_75 == 1 - 1) {
-result_75 = malloc(sizeof(rnode_t));
-result_75->flags = 0;
-result_75->type = LITERAL_T;
-result_75->start = start_75;
-result_75->end = start_75 + 1;
-result_75->num_children = 0;
-result_75->id = 75;
-}
-} else {
-break;
-}
-}
-return result_75;
-}
-rnode_t* eval_postfix(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_76 = pos;
-rnode_t* result_76 = NULL;
-uint32_t start_77 = start_76;
+uint32_t start_77 = pos;
 rnode_t* result_77 = NULL;
-uint32_t current_position_77 = start_77;
-uint32_t start_78 = current_position_77;
+uint32_t start_78 = start_77;
 rnode_t* result_78 = NULL;
-rnode_t* result_78_nt = call_eval(EVAL_group, state, text, text_length, start_78);
-if (result_78_nt) {
-result_78 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_78->flags = ALIAS | 0;
-result_78->type = NONTERMINAL_T;
-result_78->start = start_78;
-result_78->end = result_78_nt->end;
-result_78->num_children = 1;
-result_78->children[0] = result_78_nt;
-result_78->id = 78;
-}
-if (result_78 == NULL) {
-goto exit_77;
-}
-current_position_77 = result_78->end;
-uint32_t start_79 = current_position_77;
+uint32_t current_position_78 = start_78;
+uint32_t start_79 = current_position_78;
 rnode_t* result_79 = NULL;
-rnode_t* result_79_nt = call_eval(EVAL_ws, state, text, text_length, start_79);
+rnode_t* result_79_nt = call_eval(EVAL_and, state, text, text_length, start_79);
 if (result_79_nt) {
 result_79 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_79->flags = 0;
@@ -1612,13 +1686,12 @@ result_79->children[0] = result_79_nt;
 result_79->id = 79;
 }
 if (result_79 == NULL) {
-free_tree(result_78, IS_CACHED);
-goto exit_77;
+goto exit_78;
 }
-current_position_77 = result_79->end;
-uint32_t start_80 = current_position_77;
+current_position_78 = result_79->end;
+uint32_t start_80 = current_position_78;
 rnode_t* result_80 = NULL;
-rnode_t* result_80_nt = call_eval(EVAL_star, state, text, text_length, start_80);
+rnode_t* result_80_nt = call_eval(EVAL_ws, state, text, text_length, start_80);
 if (result_80_nt) {
 result_80 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_80->flags = 0;
@@ -1630,56 +1703,57 @@ result_80->children[0] = result_80_nt;
 result_80->id = 80;
 }
 if (result_80 == NULL) {
-free_tree(result_78, IS_CACHED);
 free_tree(result_79, IS_CACHED);
+goto exit_78;
+}
+current_position_78 = result_80->end;
+uint32_t start_81 = current_position_78;
+rnode_t* result_81 = NULL;
+rnode_t* result_81_nt = call_eval(EVAL_group, state, text, text_length, start_81);
+if (result_81_nt) {
+result_81 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_81->flags = ALIAS | 0;
+result_81->type = NONTERMINAL_T;
+result_81->start = start_81;
+result_81->end = result_81_nt->end;
+result_81->num_children = 1;
+result_81->children[0] = result_81_nt;
+result_81->id = 81;
+}
+if (result_81 == NULL) {
+free_tree(result_79, IS_CACHED);
+free_tree(result_80, IS_CACHED);
+goto exit_78;
+}
+current_position_78 = result_81->end;
+result_78 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_78->flags = SEMANTIC_ACTION | 0;
+result_78->type = SEQUENCE_T;
+result_78->start = start_78;
+result_78->end = result_81->end;
+result_78->num_children = 3;
+result_78->children[0] = result_79;
+result_78->children[1] = result_80;
+result_78->children[2] = result_81;
+result_78->id = 78;
+exit_78:
+if (result_78 != NULL) {
+result_77 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_77->flags = 0;
+result_77->type = ALTERNATIVE_T;
+result_77->start = start_77;
+result_77->end = result_78->end;
+result_77->num_children = 1;
+result_77->children[0] = result_78;
+result_77->id = 77;
 goto exit_77;
 }
-current_position_77 = result_80->end;
-result_77 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_77->flags = SEMANTIC_ACTION | 0;
-result_77->type = SEQUENCE_T;
-result_77->start = start_77;
-result_77->end = result_80->end;
-result_77->num_children = 3;
-result_77->children[0] = result_78;
-result_77->children[1] = result_79;
-result_77->children[2] = result_80;
-result_77->id = 77;
-exit_77:
-if (result_77 != NULL) {
-result_76 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_76->flags = 0;
-result_76->type = ALTERNATIVE_T;
-result_76->start = start_76;
-result_76->end = result_77->end;
-result_76->num_children = 1;
-result_76->children[0] = result_77;
-result_76->id = 76;
-goto exit_76;
-}
-uint32_t start_81 = start_76;
-rnode_t* result_81 = NULL;
-uint32_t current_position_81 = start_81;
-uint32_t start_82 = current_position_81;
+uint32_t start_82 = start_77;
 rnode_t* result_82 = NULL;
-rnode_t* result_82_nt = call_eval(EVAL_group, state, text, text_length, start_82);
-if (result_82_nt) {
-result_82 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_82->flags = ALIAS | 0;
-result_82->type = NONTERMINAL_T;
-result_82->start = start_82;
-result_82->end = result_82_nt->end;
-result_82->num_children = 1;
-result_82->children[0] = result_82_nt;
-result_82->id = 82;
-}
-if (result_82 == NULL) {
-goto exit_81;
-}
-current_position_81 = result_82->end;
-uint32_t start_83 = current_position_81;
+uint32_t current_position_82 = start_82;
+uint32_t start_83 = current_position_82;
 rnode_t* result_83 = NULL;
-rnode_t* result_83_nt = call_eval(EVAL_ws, state, text, text_length, start_83);
+rnode_t* result_83_nt = call_eval(EVAL_not, state, text, text_length, start_83);
 if (result_83_nt) {
 result_83 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_83->flags = 0;
@@ -1691,13 +1765,12 @@ result_83->children[0] = result_83_nt;
 result_83->id = 83;
 }
 if (result_83 == NULL) {
-free_tree(result_82, IS_CACHED);
-goto exit_81;
+goto exit_82;
 }
-current_position_81 = result_83->end;
-uint32_t start_84 = current_position_81;
+current_position_82 = result_83->end;
+uint32_t start_84 = current_position_82;
 rnode_t* result_84 = NULL;
-rnode_t* result_84_nt = call_eval(EVAL_plus, state, text, text_length, start_84);
+rnode_t* result_84_nt = call_eval(EVAL_ws, state, text, text_length, start_84);
 if (result_84_nt) {
 result_84 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_84->flags = 0;
@@ -1709,217 +1782,202 @@ result_84->children[0] = result_84_nt;
 result_84->id = 84;
 }
 if (result_84 == NULL) {
-free_tree(result_82, IS_CACHED);
 free_tree(result_83, IS_CACHED);
-goto exit_81;
+goto exit_82;
 }
-current_position_81 = result_84->end;
-result_81 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_81->flags = SEMANTIC_ACTION | 0;
-result_81->type = SEQUENCE_T;
-result_81->start = start_81;
-result_81->end = result_84->end;
-result_81->num_children = 3;
-result_81->children[0] = result_82;
-result_81->children[1] = result_83;
-result_81->children[2] = result_84;
-result_81->id = 81;
-exit_81:
-if (result_81 != NULL) {
-result_76 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_76->flags = 0;
-result_76->type = ALTERNATIVE_T;
-result_76->start = start_76;
-result_76->end = result_81->end;
-result_76->num_children = 1;
-result_76->children[0] = result_81;
-result_76->id = 76;
-goto exit_76;
-}
-uint32_t start_85 = start_76;
+current_position_82 = result_84->end;
+uint32_t start_85 = current_position_82;
 rnode_t* result_85 = NULL;
-uint32_t current_position_85 = start_85;
-uint32_t start_86 = current_position_85;
+rnode_t* result_85_nt = call_eval(EVAL_group, state, text, text_length, start_85);
+if (result_85_nt) {
+result_85 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_85->flags = ALIAS | 0;
+result_85->type = NONTERMINAL_T;
+result_85->start = start_85;
+result_85->end = result_85_nt->end;
+result_85->num_children = 1;
+result_85->children[0] = result_85_nt;
+result_85->id = 85;
+}
+if (result_85 == NULL) {
+free_tree(result_83, IS_CACHED);
+free_tree(result_84, IS_CACHED);
+goto exit_82;
+}
+current_position_82 = result_85->end;
+result_82 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_82->flags = SEMANTIC_ACTION | 0;
+result_82->type = SEQUENCE_T;
+result_82->start = start_82;
+result_82->end = result_85->end;
+result_82->num_children = 3;
+result_82->children[0] = result_83;
+result_82->children[1] = result_84;
+result_82->children[2] = result_85;
+result_82->id = 82;
+exit_82:
+if (result_82 != NULL) {
+result_77 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_77->flags = 0;
+result_77->type = ALTERNATIVE_T;
+result_77->start = start_77;
+result_77->end = result_82->end;
+result_77->num_children = 1;
+result_77->children[0] = result_82;
+result_77->id = 77;
+goto exit_77;
+}
+exit_77:
+return result_77;
+}
+rnode_t* eval_and(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_86 = pos;
 rnode_t* result_86 = NULL;
-rnode_t* result_86_nt = call_eval(EVAL_group, state, text, text_length, start_86);
-if (result_86_nt) {
-result_86 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_86->flags = ALIAS | 0;
-result_86->type = NONTERMINAL_T;
+uint8_t bytesbuf_86[] = {38, };
+uint8_t c_86;
+for (uint32_t i_86 = 0; i_86 < 1; ++i_86) {
+c_86 = bytesbuf_86[i_86];
+if (i_86 + start_86 < text_length
+    && c_86 == text[i_86 + start_86]) {
+if (i_86 == 1 - 1) {
+result_86 = malloc(sizeof(rnode_t));
+result_86->flags = 0;
+result_86->type = LITERAL_T;
 result_86->start = start_86;
-result_86->end = result_86_nt->end;
-result_86->num_children = 1;
-result_86->children[0] = result_86_nt;
+result_86->end = start_86 + 1;
+result_86->num_children = 0;
 result_86->id = 86;
 }
-if (result_86 == NULL) {
-goto exit_85;
+} else {
+break;
 }
-current_position_85 = result_86->end;
-uint32_t start_87 = current_position_85;
+}
+return result_86;
+}
+rnode_t* eval_not(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_87 = pos;
 rnode_t* result_87 = NULL;
-rnode_t* result_87_nt = call_eval(EVAL_ws, state, text, text_length, start_87);
-if (result_87_nt) {
-result_87 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+uint8_t bytesbuf_87[] = {33, };
+uint8_t c_87;
+for (uint32_t i_87 = 0; i_87 < 1; ++i_87) {
+c_87 = bytesbuf_87[i_87];
+if (i_87 + start_87 < text_length
+    && c_87 == text[i_87 + start_87]) {
+if (i_87 == 1 - 1) {
+result_87 = malloc(sizeof(rnode_t));
 result_87->flags = 0;
-result_87->type = NONTERMINAL_T;
+result_87->type = LITERAL_T;
 result_87->start = start_87;
-result_87->end = result_87_nt->end;
-result_87->num_children = 1;
-result_87->children[0] = result_87_nt;
+result_87->end = start_87 + 1;
+result_87->num_children = 0;
 result_87->id = 87;
 }
-if (result_87 == NULL) {
-free_tree(result_86, IS_CACHED);
-goto exit_85;
-}
-current_position_85 = result_87->end;
-uint32_t start_88 = current_position_85;
-rnode_t* result_88 = NULL;
-rnode_t* result_88_nt = call_eval(EVAL_option, state, text, text_length, start_88);
-if (result_88_nt) {
-result_88 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_88->flags = 0;
-result_88->type = NONTERMINAL_T;
-result_88->start = start_88;
-result_88->end = result_88_nt->end;
-result_88->num_children = 1;
-result_88->children[0] = result_88_nt;
-result_88->id = 88;
-}
-if (result_88 == NULL) {
-free_tree(result_86, IS_CACHED);
-free_tree(result_87, IS_CACHED);
-goto exit_85;
-}
-current_position_85 = result_88->end;
-result_85 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_85->flags = SEMANTIC_ACTION | 0;
-result_85->type = SEQUENCE_T;
-result_85->start = start_85;
-result_85->end = result_88->end;
-result_85->num_children = 3;
-result_85->children[0] = result_86;
-result_85->children[1] = result_87;
-result_85->children[2] = result_88;
-result_85->id = 85;
-exit_85:
-if (result_85 != NULL) {
-result_76 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_76->flags = 0;
-result_76->type = ALTERNATIVE_T;
-result_76->start = start_76;
-result_76->end = result_85->end;
-result_76->num_children = 1;
-result_76->children[0] = result_85;
-result_76->id = 76;
-goto exit_76;
-}
-exit_76:
-return result_76;
-}
-rnode_t* eval_star(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_89 = pos;
-rnode_t* result_89 = NULL;
-uint8_t bytesbuf_89[] = {42, };
-uint8_t c_89;
-for (uint32_t i_89 = 0; i_89 < 1; ++i_89) {
-c_89 = bytesbuf_89[i_89];
-if (i_89 + start_89 < text_length
-    && c_89 == text[i_89 + start_89]) {
-if (i_89 == 1 - 1) {
-result_89 = malloc(sizeof(rnode_t));
-result_89->flags = 0;
-result_89->type = LITERAL_T;
-result_89->start = start_89;
-result_89->end = start_89 + 1;
-result_89->num_children = 0;
-result_89->id = 89;
-}
 } else {
 break;
 }
 }
-return result_89;
+return result_87;
 }
-rnode_t* eval_plus(memo_state_t* state, uint8_t* text,
+rnode_t* eval_postfix(memo_state_t* state, uint8_t* text,
                  uint32_t text_length, uint32_t pos) {
-uint32_t start_90 = pos;
+uint32_t start_88 = pos;
+rnode_t* result_88 = NULL;
+uint32_t start_89 = start_88;
+rnode_t* result_89 = NULL;
+uint32_t current_position_89 = start_89;
+uint32_t start_90 = current_position_89;
 rnode_t* result_90 = NULL;
-uint8_t bytesbuf_90[] = {43, };
-uint8_t c_90;
-for (uint32_t i_90 = 0; i_90 < 1; ++i_90) {
-c_90 = bytesbuf_90[i_90];
-if (i_90 + start_90 < text_length
-    && c_90 == text[i_90 + start_90]) {
-if (i_90 == 1 - 1) {
-result_90 = malloc(sizeof(rnode_t));
-result_90->flags = 0;
-result_90->type = LITERAL_T;
+rnode_t* result_90_nt = call_eval(EVAL_group, state, text, text_length, start_90);
+if (result_90_nt) {
+result_90 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_90->flags = ALIAS | 0;
+result_90->type = NONTERMINAL_T;
 result_90->start = start_90;
-result_90->end = start_90 + 1;
-result_90->num_children = 0;
+result_90->end = result_90_nt->end;
+result_90->num_children = 1;
+result_90->children[0] = result_90_nt;
 result_90->id = 90;
 }
-} else {
-break;
+if (result_90 == NULL) {
+goto exit_89;
 }
-}
-return result_90;
-}
-rnode_t* eval_option(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_91 = pos;
+current_position_89 = result_90->end;
+uint32_t start_91 = current_position_89;
 rnode_t* result_91 = NULL;
-uint8_t bytesbuf_91[] = {63, };
-uint8_t c_91;
-for (uint32_t i_91 = 0; i_91 < 1; ++i_91) {
-c_91 = bytesbuf_91[i_91];
-if (i_91 + start_91 < text_length
-    && c_91 == text[i_91 + start_91]) {
-if (i_91 == 1 - 1) {
-result_91 = malloc(sizeof(rnode_t));
+rnode_t* result_91_nt = call_eval(EVAL_ws, state, text, text_length, start_91);
+if (result_91_nt) {
+result_91 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_91->flags = 0;
-result_91->type = LITERAL_T;
+result_91->type = NONTERMINAL_T;
 result_91->start = start_91;
-result_91->end = start_91 + 1;
-result_91->num_children = 0;
+result_91->end = result_91_nt->end;
+result_91->num_children = 1;
+result_91->children[0] = result_91_nt;
 result_91->id = 91;
 }
-} else {
-break;
+if (result_91 == NULL) {
+free_tree(result_90, IS_CACHED);
+goto exit_89;
 }
-}
-return result_91;
-}
-rnode_t* eval_group(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_92 = pos;
+current_position_89 = result_91->end;
+uint32_t start_92 = current_position_89;
 rnode_t* result_92 = NULL;
-uint32_t start_93 = start_92;
+rnode_t* result_92_nt = call_eval(EVAL_star, state, text, text_length, start_92);
+if (result_92_nt) {
+result_92 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_92->flags = 0;
+result_92->type = NONTERMINAL_T;
+result_92->start = start_92;
+result_92->end = result_92_nt->end;
+result_92->num_children = 1;
+result_92->children[0] = result_92_nt;
+result_92->id = 92;
+}
+if (result_92 == NULL) {
+free_tree(result_90, IS_CACHED);
+free_tree(result_91, IS_CACHED);
+goto exit_89;
+}
+current_position_89 = result_92->end;
+result_89 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_89->flags = SEMANTIC_ACTION | 0;
+result_89->type = SEQUENCE_T;
+result_89->start = start_89;
+result_89->end = result_92->end;
+result_89->num_children = 3;
+result_89->children[0] = result_90;
+result_89->children[1] = result_91;
+result_89->children[2] = result_92;
+result_89->id = 89;
+exit_89:
+if (result_89 != NULL) {
+result_88 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_88->flags = 0;
+result_88->type = ALTERNATIVE_T;
+result_88->start = start_88;
+result_88->end = result_89->end;
+result_88->num_children = 1;
+result_88->children[0] = result_89;
+result_88->id = 88;
+goto exit_88;
+}
+uint32_t start_93 = start_88;
 rnode_t* result_93 = NULL;
 uint32_t current_position_93 = start_93;
 uint32_t start_94 = current_position_93;
 rnode_t* result_94 = NULL;
-uint8_t bytesbuf_94[] = {40, };
-uint8_t c_94;
-for (uint32_t i_94 = 0; i_94 < 1; ++i_94) {
-c_94 = bytesbuf_94[i_94];
-if (i_94 + start_94 < text_length
-    && c_94 == text[i_94 + start_94]) {
-if (i_94 == 1 - 1) {
-result_94 = malloc(sizeof(rnode_t));
-result_94->flags = 0;
-result_94->type = LITERAL_T;
+rnode_t* result_94_nt = call_eval(EVAL_group, state, text, text_length, start_94);
+if (result_94_nt) {
+result_94 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_94->flags = ALIAS | 0;
+result_94->type = NONTERMINAL_T;
 result_94->start = start_94;
-result_94->end = start_94 + 1;
-result_94->num_children = 0;
+result_94->end = result_94_nt->end;
+result_94->num_children = 1;
+result_94->children[0] = result_94_nt;
 result_94->id = 94;
-}
-} else {
-break;
-}
 }
 if (result_94 == NULL) {
 goto exit_93;
@@ -1945,10 +2003,10 @@ goto exit_93;
 current_position_93 = result_95->end;
 uint32_t start_96 = current_position_93;
 rnode_t* result_96 = NULL;
-rnode_t* result_96_nt = call_eval(EVAL_body, state, text, text_length, start_96);
+rnode_t* result_96_nt = call_eval(EVAL_plus, state, text, text_length, start_96);
 if (result_96_nt) {
 result_96 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_96->flags = ALIAS | 0;
+result_96->flags = 0;
 result_96->type = NONTERMINAL_T;
 result_96->start = start_96;
 result_96->end = result_96_nt->end;
@@ -1962,254 +2020,223 @@ free_tree(result_95, IS_CACHED);
 goto exit_93;
 }
 current_position_93 = result_96->end;
-uint32_t start_97 = current_position_93;
-rnode_t* result_97 = NULL;
-rnode_t* result_97_nt = call_eval(EVAL_ws, state, text, text_length, start_97);
-if (result_97_nt) {
-result_97 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_97->flags = 0;
-result_97->type = NONTERMINAL_T;
-result_97->start = start_97;
-result_97->end = result_97_nt->end;
-result_97->num_children = 1;
-result_97->children[0] = result_97_nt;
-result_97->id = 97;
-}
-if (result_97 == NULL) {
-free_tree(result_94, IS_CACHED);
-free_tree(result_95, IS_CACHED);
-free_tree(result_96, IS_CACHED);
-goto exit_93;
-}
-current_position_93 = result_97->end;
-uint32_t start_98 = current_position_93;
-rnode_t* result_98 = NULL;
-uint8_t bytesbuf_98[] = {41, };
-uint8_t c_98;
-for (uint32_t i_98 = 0; i_98 < 1; ++i_98) {
-c_98 = bytesbuf_98[i_98];
-if (i_98 + start_98 < text_length
-    && c_98 == text[i_98 + start_98]) {
-if (i_98 == 1 - 1) {
-result_98 = malloc(sizeof(rnode_t));
-result_98->flags = 0;
-result_98->type = LITERAL_T;
-result_98->start = start_98;
-result_98->end = start_98 + 1;
-result_98->num_children = 0;
-result_98->id = 98;
-}
-} else {
-break;
-}
-}
-if (result_98 == NULL) {
-free_tree(result_94, IS_CACHED);
-free_tree(result_95, IS_CACHED);
-free_tree(result_96, IS_CACHED);
-free_tree(result_97, IS_CACHED);
-goto exit_93;
-}
-current_position_93 = result_98->end;
-result_93 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 5);
+result_93 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
 result_93->flags = SEMANTIC_ACTION | 0;
 result_93->type = SEQUENCE_T;
 result_93->start = start_93;
-result_93->end = result_98->end;
-result_93->num_children = 5;
+result_93->end = result_96->end;
+result_93->num_children = 3;
 result_93->children[0] = result_94;
 result_93->children[1] = result_95;
 result_93->children[2] = result_96;
-result_93->children[3] = result_97;
-result_93->children[4] = result_98;
 result_93->id = 93;
 exit_93:
 if (result_93 != NULL) {
-result_92 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_92->flags = 0;
-result_92->type = ALTERNATIVE_T;
-result_92->start = start_92;
-result_92->end = result_93->end;
-result_92->num_children = 1;
-result_92->children[0] = result_93;
-result_92->id = 92;
-goto exit_92;
+result_88 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_88->flags = 0;
+result_88->type = ALTERNATIVE_T;
+result_88->start = start_88;
+result_88->end = result_93->end;
+result_88->num_children = 1;
+result_88->children[0] = result_93;
+result_88->id = 88;
+goto exit_88;
 }
-uint32_t start_99 = start_92;
+uint32_t start_97 = start_88;
+rnode_t* result_97 = NULL;
+uint32_t current_position_97 = start_97;
+uint32_t start_98 = current_position_97;
+rnode_t* result_98 = NULL;
+rnode_t* result_98_nt = call_eval(EVAL_group, state, text, text_length, start_98);
+if (result_98_nt) {
+result_98 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_98->flags = ALIAS | 0;
+result_98->type = NONTERMINAL_T;
+result_98->start = start_98;
+result_98->end = result_98_nt->end;
+result_98->num_children = 1;
+result_98->children[0] = result_98_nt;
+result_98->id = 98;
+}
+if (result_98 == NULL) {
+goto exit_97;
+}
+current_position_97 = result_98->end;
+uint32_t start_99 = current_position_97;
 rnode_t* result_99 = NULL;
-uint32_t current_position_99 = start_99;
-uint32_t start_100 = current_position_99;
+rnode_t* result_99_nt = call_eval(EVAL_ws, state, text, text_length, start_99);
+if (result_99_nt) {
+result_99 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_99->flags = 0;
+result_99->type = NONTERMINAL_T;
+result_99->start = start_99;
+result_99->end = result_99_nt->end;
+result_99->num_children = 1;
+result_99->children[0] = result_99_nt;
+result_99->id = 99;
+}
+if (result_99 == NULL) {
+free_tree(result_98, IS_CACHED);
+goto exit_97;
+}
+current_position_97 = result_99->end;
+uint32_t start_100 = current_position_97;
 rnode_t* result_100 = NULL;
-uint8_t bytesbuf_100[] = {60, };
-uint8_t c_100;
-for (uint32_t i_100 = 0; i_100 < 1; ++i_100) {
-c_100 = bytesbuf_100[i_100];
-if (i_100 + start_100 < text_length
-    && c_100 == text[i_100 + start_100]) {
-if (i_100 == 1 - 1) {
-result_100 = malloc(sizeof(rnode_t));
+rnode_t* result_100_nt = call_eval(EVAL_option, state, text, text_length, start_100);
+if (result_100_nt) {
+result_100 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_100->flags = 0;
-result_100->type = LITERAL_T;
+result_100->type = NONTERMINAL_T;
 result_100->start = start_100;
-result_100->end = start_100 + 1;
-result_100->num_children = 0;
+result_100->end = result_100_nt->end;
+result_100->num_children = 1;
+result_100->children[0] = result_100_nt;
 result_100->id = 100;
 }
-} else {
-break;
-}
-}
 if (result_100 == NULL) {
-goto exit_99;
+free_tree(result_98, IS_CACHED);
+free_tree(result_99, IS_CACHED);
+goto exit_97;
 }
-current_position_99 = result_100->end;
-uint32_t start_101 = current_position_99;
+current_position_97 = result_100->end;
+result_97 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_97->flags = SEMANTIC_ACTION | 0;
+result_97->type = SEQUENCE_T;
+result_97->start = start_97;
+result_97->end = result_100->end;
+result_97->num_children = 3;
+result_97->children[0] = result_98;
+result_97->children[1] = result_99;
+result_97->children[2] = result_100;
+result_97->id = 97;
+exit_97:
+if (result_97 != NULL) {
+result_88 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_88->flags = 0;
+result_88->type = ALTERNATIVE_T;
+result_88->start = start_88;
+result_88->end = result_97->end;
+result_88->num_children = 1;
+result_88->children[0] = result_97;
+result_88->id = 88;
+goto exit_88;
+}
+exit_88:
+return result_88;
+}
+rnode_t* eval_star(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_101 = pos;
 rnode_t* result_101 = NULL;
-rnode_t* result_101_nt = call_eval(EVAL_ws, state, text, text_length, start_101);
-if (result_101_nt) {
-result_101 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+uint8_t bytesbuf_101[] = {42, };
+uint8_t c_101;
+for (uint32_t i_101 = 0; i_101 < 1; ++i_101) {
+c_101 = bytesbuf_101[i_101];
+if (i_101 + start_101 < text_length
+    && c_101 == text[i_101 + start_101]) {
+if (i_101 == 1 - 1) {
+result_101 = malloc(sizeof(rnode_t));
 result_101->flags = 0;
-result_101->type = NONTERMINAL_T;
+result_101->type = LITERAL_T;
 result_101->start = start_101;
-result_101->end = result_101_nt->end;
-result_101->num_children = 1;
-result_101->children[0] = result_101_nt;
+result_101->end = start_101 + 1;
+result_101->num_children = 0;
 result_101->id = 101;
 }
-if (result_101 == NULL) {
-free_tree(result_100, IS_CACHED);
-goto exit_99;
+} else {
+break;
 }
-current_position_99 = result_101->end;
-uint32_t start_102 = current_position_99;
+}
+return result_101;
+}
+rnode_t* eval_plus(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_102 = pos;
 rnode_t* result_102 = NULL;
-rnode_t* result_102_nt = call_eval(EVAL_body, state, text, text_length, start_102);
-if (result_102_nt) {
-result_102 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_102->flags = ALIAS | 0;
-result_102->type = NONTERMINAL_T;
+uint8_t bytesbuf_102[] = {43, };
+uint8_t c_102;
+for (uint32_t i_102 = 0; i_102 < 1; ++i_102) {
+c_102 = bytesbuf_102[i_102];
+if (i_102 + start_102 < text_length
+    && c_102 == text[i_102 + start_102]) {
+if (i_102 == 1 - 1) {
+result_102 = malloc(sizeof(rnode_t));
+result_102->flags = 0;
+result_102->type = LITERAL_T;
 result_102->start = start_102;
-result_102->end = result_102_nt->end;
-result_102->num_children = 1;
-result_102->children[0] = result_102_nt;
+result_102->end = start_102 + 1;
+result_102->num_children = 0;
 result_102->id = 102;
-}
-if (result_102 == NULL) {
-free_tree(result_100, IS_CACHED);
-free_tree(result_101, IS_CACHED);
-goto exit_99;
-}
-current_position_99 = result_102->end;
-uint32_t start_103 = current_position_99;
-rnode_t* result_103 = NULL;
-rnode_t* result_103_nt = call_eval(EVAL_ws, state, text, text_length, start_103);
-if (result_103_nt) {
-result_103 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_103->flags = 0;
-result_103->type = NONTERMINAL_T;
-result_103->start = start_103;
-result_103->end = result_103_nt->end;
-result_103->num_children = 1;
-result_103->children[0] = result_103_nt;
-result_103->id = 103;
-}
-if (result_103 == NULL) {
-free_tree(result_100, IS_CACHED);
-free_tree(result_101, IS_CACHED);
-free_tree(result_102, IS_CACHED);
-goto exit_99;
-}
-current_position_99 = result_103->end;
-uint32_t start_104 = current_position_99;
-rnode_t* result_104 = NULL;
-uint8_t bytesbuf_104[] = {62, };
-uint8_t c_104;
-for (uint32_t i_104 = 0; i_104 < 1; ++i_104) {
-c_104 = bytesbuf_104[i_104];
-if (i_104 + start_104 < text_length
-    && c_104 == text[i_104 + start_104]) {
-if (i_104 == 1 - 1) {
-result_104 = malloc(sizeof(rnode_t));
-result_104->flags = 0;
-result_104->type = LITERAL_T;
-result_104->start = start_104;
-result_104->end = start_104 + 1;
-result_104->num_children = 0;
-result_104->id = 104;
 }
 } else {
 break;
 }
 }
-if (result_104 == NULL) {
-free_tree(result_100, IS_CACHED);
-free_tree(result_101, IS_CACHED);
-free_tree(result_102, IS_CACHED);
-free_tree(result_103, IS_CACHED);
-goto exit_99;
+return result_102;
 }
-current_position_99 = result_104->end;
-result_99 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 5);
-result_99->flags = SEMANTIC_ACTION | 0;
-result_99->type = SEQUENCE_T;
-result_99->start = start_99;
-result_99->end = result_104->end;
-result_99->num_children = 5;
-result_99->children[0] = result_100;
-result_99->children[1] = result_101;
-result_99->children[2] = result_102;
-result_99->children[3] = result_103;
-result_99->children[4] = result_104;
-result_99->id = 99;
-exit_99:
-if (result_99 != NULL) {
-result_92 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_92->flags = 0;
-result_92->type = ALTERNATIVE_T;
-result_92->start = start_92;
-result_92->end = result_99->end;
-result_92->num_children = 1;
-result_92->children[0] = result_99;
-result_92->id = 92;
-goto exit_92;
-}
-uint32_t start_105 = start_92;
-rnode_t* result_105 = NULL;
-rnode_t* result_105_nt = call_eval(EVAL_final, state, text, text_length, start_105);
-if (result_105_nt) {
-result_105 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_105->flags = SEMANTIC_ACTION | ALIAS | 0;
-result_105->type = NONTERMINAL_T;
-result_105->start = start_105;
-result_105->end = result_105_nt->end;
-result_105->num_children = 1;
-result_105->children[0] = result_105_nt;
-result_105->id = 105;
-}
-if (result_105 != NULL) {
-result_92 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_92->flags = 0;
-result_92->type = ALTERNATIVE_T;
-result_92->start = start_92;
-result_92->end = result_105->end;
-result_92->num_children = 1;
-result_92->children[0] = result_105;
-result_92->id = 92;
-goto exit_92;
-}
-exit_92:
-return result_92;
-}
-rnode_t* eval_final(memo_state_t* state, uint8_t* text,
+rnode_t* eval_option(memo_state_t* state, uint8_t* text,
                  uint32_t text_length, uint32_t pos) {
-uint32_t start_106 = pos;
+uint32_t start_103 = pos;
+rnode_t* result_103 = NULL;
+uint8_t bytesbuf_103[] = {63, };
+uint8_t c_103;
+for (uint32_t i_103 = 0; i_103 < 1; ++i_103) {
+c_103 = bytesbuf_103[i_103];
+if (i_103 + start_103 < text_length
+    && c_103 == text[i_103 + start_103]) {
+if (i_103 == 1 - 1) {
+result_103 = malloc(sizeof(rnode_t));
+result_103->flags = 0;
+result_103->type = LITERAL_T;
+result_103->start = start_103;
+result_103->end = start_103 + 1;
+result_103->num_children = 0;
+result_103->id = 103;
+}
+} else {
+break;
+}
+}
+return result_103;
+}
+rnode_t* eval_group(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_104 = pos;
+rnode_t* result_104 = NULL;
+uint32_t start_105 = start_104;
+rnode_t* result_105 = NULL;
+uint32_t current_position_105 = start_105;
+uint32_t start_106 = current_position_105;
 rnode_t* result_106 = NULL;
-uint32_t start_107 = start_106;
+uint8_t bytesbuf_106[] = {40, };
+uint8_t c_106;
+for (uint32_t i_106 = 0; i_106 < 1; ++i_106) {
+c_106 = bytesbuf_106[i_106];
+if (i_106 + start_106 < text_length
+    && c_106 == text[i_106 + start_106]) {
+if (i_106 == 1 - 1) {
+result_106 = malloc(sizeof(rnode_t));
+result_106->flags = 0;
+result_106->type = LITERAL_T;
+result_106->start = start_106;
+result_106->end = start_106 + 1;
+result_106->num_children = 0;
+result_106->id = 106;
+}
+} else {
+break;
+}
+}
+if (result_106 == NULL) {
+goto exit_105;
+}
+current_position_105 = result_106->end;
+uint32_t start_107 = current_position_105;
 rnode_t* result_107 = NULL;
-rnode_t* result_107_nt = call_eval(EVAL_nonterminal, state, text, text_length, start_107);
+rnode_t* result_107_nt = call_eval(EVAL_ws, state, text, text_length, start_107);
 if (result_107_nt) {
 result_107 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_107->flags = SEMANTIC_ACTION | ALIAS | 0;
+result_107->flags = 0;
 result_107->type = NONTERMINAL_T;
 result_107->start = start_107;
 result_107->end = result_107_nt->end;
@@ -2217,23 +2244,17 @@ result_107->num_children = 1;
 result_107->children[0] = result_107_nt;
 result_107->id = 107;
 }
-if (result_107 != NULL) {
-result_106 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_106->flags = 0;
-result_106->type = ALTERNATIVE_T;
-result_106->start = start_106;
-result_106->end = result_107->end;
-result_106->num_children = 1;
-result_106->children[0] = result_107;
-result_106->id = 106;
-goto exit_106;
+if (result_107 == NULL) {
+free_tree(result_106, IS_CACHED);
+goto exit_105;
 }
-uint32_t start_108 = start_106;
+current_position_105 = result_107->end;
+uint32_t start_108 = current_position_105;
 rnode_t* result_108 = NULL;
-rnode_t* result_108_nt = call_eval(EVAL_literal, state, text, text_length, start_108);
+rnode_t* result_108_nt = call_eval(EVAL_body, state, text, text_length, start_108);
 if (result_108_nt) {
 result_108 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_108->flags = SEMANTIC_ACTION | ALIAS | 0;
+result_108->flags = ALIAS | 0;
 result_108->type = NONTERMINAL_T;
 result_108->start = start_108;
 result_108->end = result_108_nt->end;
@@ -2241,23 +2262,18 @@ result_108->num_children = 1;
 result_108->children[0] = result_108_nt;
 result_108->id = 108;
 }
-if (result_108 != NULL) {
-result_106 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_106->flags = 0;
-result_106->type = ALTERNATIVE_T;
-result_106->start = start_106;
-result_106->end = result_108->end;
-result_106->num_children = 1;
-result_106->children[0] = result_108;
-result_106->id = 106;
-goto exit_106;
+if (result_108 == NULL) {
+free_tree(result_106, IS_CACHED);
+free_tree(result_107, IS_CACHED);
+goto exit_105;
 }
-uint32_t start_109 = start_106;
+current_position_105 = result_108->end;
+uint32_t start_109 = current_position_105;
 rnode_t* result_109 = NULL;
-rnode_t* result_109_nt = call_eval(EVAL_cclass, state, text, text_length, start_109);
+rnode_t* result_109_nt = call_eval(EVAL_ws, state, text, text_length, start_109);
 if (result_109_nt) {
 result_109 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_109->flags = SEMANTIC_ACTION | ALIAS | 0;
+result_109->flags = 0;
 result_109->type = NONTERMINAL_T;
 result_109->start = start_109;
 result_109->end = result_109_nt->end;
@@ -2265,57 +2281,100 @@ result_109->num_children = 1;
 result_109->children[0] = result_109_nt;
 result_109->id = 109;
 }
-if (result_109 != NULL) {
-result_106 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_106->flags = 0;
-result_106->type = ALTERNATIVE_T;
-result_106->start = start_106;
-result_106->end = result_109->end;
-result_106->num_children = 1;
-result_106->children[0] = result_109;
-result_106->id = 106;
-goto exit_106;
+if (result_109 == NULL) {
+free_tree(result_106, IS_CACHED);
+free_tree(result_107, IS_CACHED);
+free_tree(result_108, IS_CACHED);
+goto exit_105;
 }
-uint32_t start_110 = start_106;
+current_position_105 = result_109->end;
+uint32_t start_110 = current_position_105;
 rnode_t* result_110 = NULL;
-rnode_t* result_110_nt = call_eval(EVAL_dot, state, text, text_length, start_110);
-if (result_110_nt) {
-result_110 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_110->flags = SEMANTIC_ACTION | ALIAS | 0;
-result_110->type = NONTERMINAL_T;
+uint8_t bytesbuf_110[] = {41, };
+uint8_t c_110;
+for (uint32_t i_110 = 0; i_110 < 1; ++i_110) {
+c_110 = bytesbuf_110[i_110];
+if (i_110 + start_110 < text_length
+    && c_110 == text[i_110 + start_110]) {
+if (i_110 == 1 - 1) {
+result_110 = malloc(sizeof(rnode_t));
+result_110->flags = 0;
+result_110->type = LITERAL_T;
 result_110->start = start_110;
-result_110->end = result_110_nt->end;
-result_110->num_children = 1;
-result_110->children[0] = result_110_nt;
+result_110->end = start_110 + 1;
+result_110->num_children = 0;
 result_110->id = 110;
 }
-if (result_110 != NULL) {
-result_106 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_106->flags = 0;
-result_106->type = ALTERNATIVE_T;
-result_106->start = start_106;
-result_106->end = result_110->end;
-result_106->num_children = 1;
-result_106->children[0] = result_110;
-result_106->id = 106;
-goto exit_106;
+} else {
+break;
 }
-exit_106:
-return result_106;
 }
-rnode_t* eval_nonterminal(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_111 = pos;
+if (result_110 == NULL) {
+free_tree(result_106, IS_CACHED);
+free_tree(result_107, IS_CACHED);
+free_tree(result_108, IS_CACHED);
+free_tree(result_109, IS_CACHED);
+goto exit_105;
+}
+current_position_105 = result_110->end;
+result_105 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 5);
+result_105->flags = SEMANTIC_ACTION | 0;
+result_105->type = SEQUENCE_T;
+result_105->start = start_105;
+result_105->end = result_110->end;
+result_105->num_children = 5;
+result_105->children[0] = result_106;
+result_105->children[1] = result_107;
+result_105->children[2] = result_108;
+result_105->children[3] = result_109;
+result_105->children[4] = result_110;
+result_105->id = 105;
+exit_105:
+if (result_105 != NULL) {
+result_104 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_104->flags = 0;
+result_104->type = ALTERNATIVE_T;
+result_104->start = start_104;
+result_104->end = result_105->end;
+result_104->num_children = 1;
+result_104->children[0] = result_105;
+result_104->id = 104;
+goto exit_104;
+}
+uint32_t start_111 = start_104;
 rnode_t* result_111 = NULL;
-uint32_t start_112 = start_111;
+uint32_t current_position_111 = start_111;
+uint32_t start_112 = current_position_111;
 rnode_t* result_112 = NULL;
-uint32_t current_position_112 = start_112;
-uint32_t start_113 = current_position_112;
+uint8_t bytesbuf_112[] = {60, };
+uint8_t c_112;
+for (uint32_t i_112 = 0; i_112 < 1; ++i_112) {
+c_112 = bytesbuf_112[i_112];
+if (i_112 + start_112 < text_length
+    && c_112 == text[i_112 + start_112]) {
+if (i_112 == 1 - 1) {
+result_112 = malloc(sizeof(rnode_t));
+result_112->flags = 0;
+result_112->type = LITERAL_T;
+result_112->start = start_112;
+result_112->end = start_112 + 1;
+result_112->num_children = 0;
+result_112->id = 112;
+}
+} else {
+break;
+}
+}
+if (result_112 == NULL) {
+goto exit_111;
+}
+current_position_111 = result_112->end;
+uint32_t start_113 = current_position_111;
 rnode_t* result_113 = NULL;
-rnode_t* result_113_nt = call_eval(EVAL_name, state, text, text_length, start_113);
+rnode_t* result_113_nt = call_eval(EVAL_ws, state, text, text_length, start_113);
 if (result_113_nt) {
 result_113 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_113->flags = DO_CAPTURE | 0;
+result_113->flags = 0;
 result_113->type = NONTERMINAL_T;
 result_113->start = start_113;
 result_113->end = result_113_nt->end;
@@ -2324,15 +2383,16 @@ result_113->children[0] = result_113_nt;
 result_113->id = 113;
 }
 if (result_113 == NULL) {
-goto exit_112;
+free_tree(result_112, IS_CACHED);
+goto exit_111;
 }
-current_position_112 = result_113->end;
-uint32_t start_114 = current_position_112;
+current_position_111 = result_113->end;
+uint32_t start_114 = current_position_111;
 rnode_t* result_114 = NULL;
-rnode_t* result_114_nt = call_eval(EVAL_ws, state, text, text_length, start_114);
+rnode_t* result_114_nt = call_eval(EVAL_body, state, text, text_length, start_114);
 if (result_114_nt) {
 result_114 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_114->flags = 0;
+result_114->flags = ALIAS | 0;
 result_114->type = NONTERMINAL_T;
 result_114->start = start_114;
 result_114->end = result_114_nt->end;
@@ -2341,63 +2401,90 @@ result_114->children[0] = result_114_nt;
 result_114->id = 114;
 }
 if (result_114 == NULL) {
+free_tree(result_112, IS_CACHED);
 free_tree(result_113, IS_CACHED);
-goto exit_112;
+goto exit_111;
 }
-current_position_112 = result_114->end;
-uint32_t start_115 = current_position_112;
+current_position_111 = result_114->end;
+uint32_t start_115 = current_position_111;
 rnode_t* result_115 = NULL;
-uint8_t bytesbuf_115[] = {58, };
-uint8_t c_115;
-for (uint32_t i_115 = 0; i_115 < 1; ++i_115) {
-c_115 = bytesbuf_115[i_115];
-if (i_115 + start_115 < text_length
-    && c_115 == text[i_115 + start_115]) {
-if (i_115 == 1 - 1) {
-result_115 = malloc(sizeof(rnode_t));
+rnode_t* result_115_nt = call_eval(EVAL_ws, state, text, text_length, start_115);
+if (result_115_nt) {
+result_115 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_115->flags = 0;
-result_115->type = LITERAL_T;
+result_115->type = NONTERMINAL_T;
 result_115->start = start_115;
-result_115->end = start_115 + 1;
-result_115->num_children = 0;
+result_115->end = result_115_nt->end;
+result_115->num_children = 1;
+result_115->children[0] = result_115_nt;
 result_115->id = 115;
+}
+if (result_115 == NULL) {
+free_tree(result_112, IS_CACHED);
+free_tree(result_113, IS_CACHED);
+free_tree(result_114, IS_CACHED);
+goto exit_111;
+}
+current_position_111 = result_115->end;
+uint32_t start_116 = current_position_111;
+rnode_t* result_116 = NULL;
+uint8_t bytesbuf_116[] = {62, };
+uint8_t c_116;
+for (uint32_t i_116 = 0; i_116 < 1; ++i_116) {
+c_116 = bytesbuf_116[i_116];
+if (i_116 + start_116 < text_length
+    && c_116 == text[i_116 + start_116]) {
+if (i_116 == 1 - 1) {
+result_116 = malloc(sizeof(rnode_t));
+result_116->flags = 0;
+result_116->type = LITERAL_T;
+result_116->start = start_116;
+result_116->end = start_116 + 1;
+result_116->num_children = 0;
+result_116->id = 116;
 }
 } else {
 break;
 }
 }
-if (result_115 == NULL) {
-free_tree(result_113, IS_CACHED);
-free_tree(result_114, IS_CACHED);
-goto exit_112;
-}
-current_position_112 = result_115->end;
-uint32_t start_116 = current_position_112;
-rnode_t* result_116 = NULL;
-rnode_t* result_116_nt = call_eval(EVAL_ws, state, text, text_length, start_116);
-if (result_116_nt) {
-result_116 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_116->flags = 0;
-result_116->type = NONTERMINAL_T;
-result_116->start = start_116;
-result_116->end = result_116_nt->end;
-result_116->num_children = 1;
-result_116->children[0] = result_116_nt;
-result_116->id = 116;
-}
 if (result_116 == NULL) {
+free_tree(result_112, IS_CACHED);
 free_tree(result_113, IS_CACHED);
 free_tree(result_114, IS_CACHED);
 free_tree(result_115, IS_CACHED);
-goto exit_112;
+goto exit_111;
 }
-current_position_112 = result_116->end;
-uint32_t start_117 = current_position_112;
+current_position_111 = result_116->end;
+result_111 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 5);
+result_111->flags = SEMANTIC_ACTION | 0;
+result_111->type = SEQUENCE_T;
+result_111->start = start_111;
+result_111->end = result_116->end;
+result_111->num_children = 5;
+result_111->children[0] = result_112;
+result_111->children[1] = result_113;
+result_111->children[2] = result_114;
+result_111->children[3] = result_115;
+result_111->children[4] = result_116;
+result_111->id = 111;
+exit_111:
+if (result_111 != NULL) {
+result_104 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_104->flags = 0;
+result_104->type = ALTERNATIVE_T;
+result_104->start = start_104;
+result_104->end = result_111->end;
+result_104->num_children = 1;
+result_104->children[0] = result_111;
+result_104->id = 104;
+goto exit_104;
+}
+uint32_t start_117 = start_104;
 rnode_t* result_117 = NULL;
-rnode_t* result_117_nt = call_eval(EVAL_name, state, text, text_length, start_117);
+rnode_t* result_117_nt = call_eval(EVAL_final, state, text, text_length, start_117);
 if (result_117_nt) {
 result_117 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_117->flags = DO_CAPTURE | 0;
+result_117->flags = SEMANTIC_ACTION | ALIAS | 0;
 result_117->type = NONTERMINAL_T;
 result_117->start = start_117;
 result_117->end = result_117_nt->end;
@@ -2405,313 +2492,290 @@ result_117->num_children = 1;
 result_117->children[0] = result_117_nt;
 result_117->id = 117;
 }
-if (result_117 == NULL) {
-free_tree(result_113, IS_CACHED);
-free_tree(result_114, IS_CACHED);
-free_tree(result_115, IS_CACHED);
-free_tree(result_116, IS_CACHED);
-goto exit_112;
+if (result_117 != NULL) {
+result_104 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_104->flags = 0;
+result_104->type = ALTERNATIVE_T;
+result_104->start = start_104;
+result_104->end = result_117->end;
+result_104->num_children = 1;
+result_104->children[0] = result_117;
+result_104->id = 104;
+goto exit_104;
 }
-current_position_112 = result_117->end;
-result_112 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 5);
-result_112->flags = SEMANTIC_ACTION | 0;
-result_112->type = SEQUENCE_T;
-result_112->start = start_112;
-result_112->end = result_117->end;
-result_112->num_children = 5;
-result_112->children[0] = result_113;
-result_112->children[1] = result_114;
-result_112->children[2] = result_115;
-result_112->children[3] = result_116;
-result_112->children[4] = result_117;
-result_112->id = 112;
-exit_112:
-if (result_112 != NULL) {
-result_111 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_111->flags = 0;
-result_111->type = ALTERNATIVE_T;
-result_111->start = start_111;
-result_111->end = result_112->end;
-result_111->num_children = 1;
-result_111->children[0] = result_112;
-result_111->id = 111;
-goto exit_111;
+exit_104:
+return result_104;
 }
-uint32_t start_118 = start_111;
-rnode_t* result_118 = NULL;
-rnode_t* result_118_nt = call_eval(EVAL_name, state, text, text_length, start_118);
-if (result_118_nt) {
-result_118 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
-result_118->flags = DO_CAPTURE | SEMANTIC_ACTION | 0;
-result_118->type = NONTERMINAL_T;
-result_118->start = start_118;
-result_118->end = result_118_nt->end;
-result_118->num_children = 1;
-result_118->children[0] = result_118_nt;
-result_118->id = 118;
-}
-if (result_118 != NULL) {
-result_111 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_111->flags = 0;
-result_111->type = ALTERNATIVE_T;
-result_111->start = start_111;
-result_111->end = result_118->end;
-result_111->num_children = 1;
-result_111->children[0] = result_118;
-result_111->id = 111;
-goto exit_111;
-}
-exit_111:
-return result_111;
-}
-rnode_t* eval_literal(memo_state_t* state, uint8_t* text,
+rnode_t* eval_final(memo_state_t* state, uint8_t* text,
                  uint32_t text_length, uint32_t pos) {
-uint32_t start_119 = pos;
+uint32_t start_118 = pos;
+rnode_t* result_118 = NULL;
+uint32_t start_119 = start_118;
 rnode_t* result_119 = NULL;
-uint32_t current_position_119 = start_119;
-uint32_t start_120 = current_position_119;
+rnode_t* result_119_nt = call_eval(EVAL_nonterminal, state, text, text_length, start_119);
+if (result_119_nt) {
+result_119 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_119->flags = SEMANTIC_ACTION | ALIAS | 0;
+result_119->type = NONTERMINAL_T;
+result_119->start = start_119;
+result_119->end = result_119_nt->end;
+result_119->num_children = 1;
+result_119->children[0] = result_119_nt;
+result_119->id = 119;
+}
+if (result_119 != NULL) {
+result_118 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_118->flags = 0;
+result_118->type = ALTERNATIVE_T;
+result_118->start = start_118;
+result_118->end = result_119->end;
+result_118->num_children = 1;
+result_118->children[0] = result_119;
+result_118->id = 118;
+goto exit_118;
+}
+uint32_t start_120 = start_118;
 rnode_t* result_120 = NULL;
-uint8_t bytesbuf_120[] = {34, };
-uint8_t c_120;
-for (uint32_t i_120 = 0; i_120 < 1; ++i_120) {
-c_120 = bytesbuf_120[i_120];
-if (i_120 + start_120 < text_length
-    && c_120 == text[i_120 + start_120]) {
-if (i_120 == 1 - 1) {
-result_120 = malloc(sizeof(rnode_t));
-result_120->flags = 0;
-result_120->type = LITERAL_T;
+rnode_t* result_120_nt = call_eval(EVAL_literal, state, text, text_length, start_120);
+if (result_120_nt) {
+result_120 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_120->flags = SEMANTIC_ACTION | ALIAS | 0;
+result_120->type = NONTERMINAL_T;
 result_120->start = start_120;
-result_120->end = start_120 + 1;
-result_120->num_children = 0;
+result_120->end = result_120_nt->end;
+result_120->num_children = 1;
+result_120->children[0] = result_120_nt;
 result_120->id = 120;
 }
-} else {
-break;
+if (result_120 != NULL) {
+result_118 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_118->flags = 0;
+result_118->type = ALTERNATIVE_T;
+result_118->start = start_118;
+result_118->end = result_120->end;
+result_118->num_children = 1;
+result_118->children[0] = result_120;
+result_118->id = 118;
+goto exit_118;
 }
-}
-if (result_120 == NULL) {
-goto exit_119;
-}
-current_position_119 = result_120->end;
-uint32_t start_121 = current_position_119;
+uint32_t start_121 = start_118;
 rnode_t* result_121 = NULL;
-uint32_t start_122 = start_121;
+rnode_t* result_121_nt = call_eval(EVAL_cclass, state, text, text_length, start_121);
+if (result_121_nt) {
+result_121 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_121->flags = SEMANTIC_ACTION | ALIAS | 0;
+result_121->type = NONTERMINAL_T;
+result_121->start = start_121;
+result_121->end = result_121_nt->end;
+result_121->num_children = 1;
+result_121->children[0] = result_121_nt;
+result_121->id = 121;
+}
+if (result_121 != NULL) {
+result_118 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_118->flags = 0;
+result_118->type = ALTERNATIVE_T;
+result_118->start = start_118;
+result_118->end = result_121->end;
+result_118->num_children = 1;
+result_118->children[0] = result_121;
+result_118->id = 118;
+goto exit_118;
+}
+uint32_t start_122 = start_118;
 rnode_t* result_122 = NULL;
-uint32_t num_children_121 = 0;
-dyn_arrt* list_121 = init_dyn_arr(16);
-do {
-result_122 = NULL;
-uint32_t start_123 = start_122;
+rnode_t* result_122_nt = call_eval(EVAL_dot, state, text, text_length, start_122);
+if (result_122_nt) {
+result_122 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_122->flags = SEMANTIC_ACTION | ALIAS | 0;
+result_122->type = NONTERMINAL_T;
+result_122->start = start_122;
+result_122->end = result_122_nt->end;
+result_122->num_children = 1;
+result_122->children[0] = result_122_nt;
+result_122->id = 122;
+}
+if (result_122 != NULL) {
+result_118 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_118->flags = 0;
+result_118->type = ALTERNATIVE_T;
+result_118->start = start_118;
+result_118->end = result_122->end;
+result_118->num_children = 1;
+result_118->children[0] = result_122;
+result_118->id = 118;
+goto exit_118;
+}
+exit_118:
+return result_118;
+}
+rnode_t* eval_nonterminal(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_123 = pos;
 rnode_t* result_123 = NULL;
-uint32_t current_position_123 = start_123;
-uint32_t start_124 = current_position_123;
+uint32_t start_124 = start_123;
 rnode_t* result_124 = NULL;
-uint32_t start_125 = start_124;
+uint32_t current_position_124 = start_124;
+uint32_t start_125 = current_position_124;
 rnode_t* result_125 = NULL;
-uint8_t bytesbuf_125[] = {92, };
-uint8_t c_125;
-for (uint32_t i_125 = 0; i_125 < 1; ++i_125) {
-c_125 = bytesbuf_125[i_125];
-if (i_125 + start_125 < text_length
-    && c_125 == text[i_125 + start_125]) {
-if (i_125 == 1 - 1) {
-result_125 = malloc(sizeof(rnode_t));
-result_125->flags = 0;
-result_125->type = LITERAL_T;
+rnode_t* result_125_nt = call_eval(EVAL_name, state, text, text_length, start_125);
+if (result_125_nt) {
+result_125 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_125->flags = DO_CAPTURE | 0;
+result_125->type = NONTERMINAL_T;
 result_125->start = start_125;
-result_125->end = start_125 + 1;
-result_125->num_children = 0;
+result_125->end = result_125_nt->end;
+result_125->num_children = 1;
+result_125->children[0] = result_125_nt;
 result_125->id = 125;
 }
-} else {
-break;
+if (result_125 == NULL) {
+goto exit_124;
 }
-}
-if (result_125) {
-result_124 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_124->flags = 0;
-result_124->type = AND_T;
-result_124->start = start_124;
-result_124->end = start_124;
-result_124->num_children = 1;
-result_124->children[0] = result_125;
-result_124->id = 124;
-}
-if (result_124 == NULL) {
-goto exit_123;
-}
-current_position_123 = result_124->end;
-uint32_t start_126 = current_position_123;
+current_position_124 = result_125->end;
+uint32_t start_126 = current_position_124;
 rnode_t* result_126 = NULL;
-if (start_126 < text_length) {
-uint8_t c_126 = text[start_126];
-if (c_126 >= 0 && c_126 <= 255) {
-result_126 = malloc(sizeof(rnode_t));
+rnode_t* result_126_nt = call_eval(EVAL_ws, state, text, text_length, start_126);
+if (result_126_nt) {
+result_126 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
 result_126->flags = 0;
-result_126->type = RANGE_T;
+result_126->type = NONTERMINAL_T;
 result_126->start = start_126;
-result_126->end = start_126 + 1;
-result_126->num_children = 0;
+result_126->end = result_126_nt->end;
+result_126->num_children = 1;
+result_126->children[0] = result_126_nt;
 result_126->id = 126;
 }
-}
 if (result_126 == NULL) {
-free_tree(result_124, IS_CACHED);
-goto exit_123;
+free_tree(result_125, IS_CACHED);
+goto exit_124;
 }
-current_position_123 = result_126->end;
-uint32_t start_127 = current_position_123;
+current_position_124 = result_126->end;
+uint32_t start_127 = current_position_124;
 rnode_t* result_127 = NULL;
-if (start_127 < text_length) {
-uint8_t c_127 = text[start_127];
-if (c_127 >= 0 && c_127 <= 255) {
+uint8_t bytesbuf_127[] = {58, };
+uint8_t c_127;
+for (uint32_t i_127 = 0; i_127 < 1; ++i_127) {
+c_127 = bytesbuf_127[i_127];
+if (i_127 + start_127 < text_length
+    && c_127 == text[i_127 + start_127]) {
+if (i_127 == 1 - 1) {
 result_127 = malloc(sizeof(rnode_t));
 result_127->flags = 0;
-result_127->type = RANGE_T;
+result_127->type = LITERAL_T;
 result_127->start = start_127;
 result_127->end = start_127 + 1;
 result_127->num_children = 0;
 result_127->id = 127;
 }
-}
-if (result_127 == NULL) {
-free_tree(result_124, IS_CACHED);
-free_tree(result_126, IS_CACHED);
-goto exit_123;
-}
-current_position_123 = result_127->end;
-result_123 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_123->flags = 0;
-result_123->type = SEQUENCE_T;
-result_123->start = start_123;
-result_123->end = result_127->end;
-result_123->num_children = 3;
-result_123->children[0] = result_124;
-result_123->children[1] = result_126;
-result_123->children[2] = result_127;
-result_123->id = 123;
-exit_123:
-if (result_123 != NULL) {
-result_122 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_122->flags = 0;
-result_122->type = ALTERNATIVE_T;
-result_122->start = start_122;
-result_122->end = result_123->end;
-result_122->num_children = 1;
-result_122->children[0] = result_123;
-result_122->id = 122;
-goto exit_122;
-}
-uint32_t start_128 = start_122;
-rnode_t* result_128 = NULL;
-uint32_t current_position_128 = start_128;
-uint32_t start_129 = current_position_128;
-rnode_t* result_129 = NULL;
-uint32_t start_130 = start_129;
-rnode_t* result_130 = NULL;
-uint8_t bytesbuf_130[] = {34, };
-uint8_t c_130;
-for (uint32_t i_130 = 0; i_130 < 1; ++i_130) {
-c_130 = bytesbuf_130[i_130];
-if (i_130 + start_130 < text_length
-    && c_130 == text[i_130 + start_130]) {
-if (i_130 == 1 - 1) {
-result_130 = malloc(sizeof(rnode_t));
-result_130->flags = 0;
-result_130->type = LITERAL_T;
-result_130->start = start_130;
-result_130->end = start_130 + 1;
-result_130->num_children = 0;
-result_130->id = 130;
-}
 } else {
 break;
 }
 }
-if (!result_130) {
-result_129 = malloc(sizeof(rnode_t));
-result_129->flags = 0;
-result_129->type = NOT_T;
+if (result_127 == NULL) {
+free_tree(result_125, IS_CACHED);
+free_tree(result_126, IS_CACHED);
+goto exit_124;
+}
+current_position_124 = result_127->end;
+uint32_t start_128 = current_position_124;
+rnode_t* result_128 = NULL;
+rnode_t* result_128_nt = call_eval(EVAL_ws, state, text, text_length, start_128);
+if (result_128_nt) {
+result_128 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_128->flags = 0;
+result_128->type = NONTERMINAL_T;
+result_128->start = start_128;
+result_128->end = result_128_nt->end;
+result_128->num_children = 1;
+result_128->children[0] = result_128_nt;
+result_128->id = 128;
+}
+if (result_128 == NULL) {
+free_tree(result_125, IS_CACHED);
+free_tree(result_126, IS_CACHED);
+free_tree(result_127, IS_CACHED);
+goto exit_124;
+}
+current_position_124 = result_128->end;
+uint32_t start_129 = current_position_124;
+rnode_t* result_129 = NULL;
+rnode_t* result_129_nt = call_eval(EVAL_name, state, text, text_length, start_129);
+if (result_129_nt) {
+result_129 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_129->flags = DO_CAPTURE | 0;
+result_129->type = NONTERMINAL_T;
 result_129->start = start_129;
-result_129->end = start_129;
-result_129->num_children = 0;
+result_129->end = result_129_nt->end;
+result_129->num_children = 1;
+result_129->children[0] = result_129_nt;
 result_129->id = 129;
-} else {
-free_tree(result_130, IS_CACHED);
 }
 if (result_129 == NULL) {
-goto exit_128;
+free_tree(result_125, IS_CACHED);
+free_tree(result_126, IS_CACHED);
+free_tree(result_127, IS_CACHED);
+free_tree(result_128, IS_CACHED);
+goto exit_124;
 }
-current_position_128 = result_129->end;
-uint32_t start_131 = current_position_128;
+current_position_124 = result_129->end;
+result_124 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 5);
+result_124->flags = SEMANTIC_ACTION | 0;
+result_124->type = SEQUENCE_T;
+result_124->start = start_124;
+result_124->end = result_129->end;
+result_124->num_children = 5;
+result_124->children[0] = result_125;
+result_124->children[1] = result_126;
+result_124->children[2] = result_127;
+result_124->children[3] = result_128;
+result_124->children[4] = result_129;
+result_124->id = 124;
+exit_124:
+if (result_124 != NULL) {
+result_123 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_123->flags = 0;
+result_123->type = ALTERNATIVE_T;
+result_123->start = start_123;
+result_123->end = result_124->end;
+result_123->num_children = 1;
+result_123->children[0] = result_124;
+result_123->id = 123;
+goto exit_123;
+}
+uint32_t start_130 = start_123;
+rnode_t* result_130 = NULL;
+rnode_t* result_130_nt = call_eval(EVAL_name, state, text, text_length, start_130);
+if (result_130_nt) {
+result_130 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 1);
+result_130->flags = DO_CAPTURE | SEMANTIC_ACTION | 0;
+result_130->type = NONTERMINAL_T;
+result_130->start = start_130;
+result_130->end = result_130_nt->end;
+result_130->num_children = 1;
+result_130->children[0] = result_130_nt;
+result_130->id = 130;
+}
+if (result_130 != NULL) {
+result_123 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_123->flags = 0;
+result_123->type = ALTERNATIVE_T;
+result_123->start = start_123;
+result_123->end = result_130->end;
+result_123->num_children = 1;
+result_123->children[0] = result_130;
+result_123->id = 123;
+goto exit_123;
+}
+exit_123:
+return result_123;
+}
+rnode_t* eval_literal(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_131 = pos;
 rnode_t* result_131 = NULL;
-if (start_131 < text_length) {
-uint8_t c_131 = text[start_131];
-if (c_131 >= 0 && c_131 <= 255) {
-result_131 = malloc(sizeof(rnode_t));
-result_131->flags = 0;
-result_131->type = RANGE_T;
-result_131->start = start_131;
-result_131->end = start_131 + 1;
-result_131->num_children = 0;
-result_131->id = 131;
-}
-}
-if (result_131 == NULL) {
-free_tree(result_129, IS_CACHED);
-goto exit_128;
-}
-current_position_128 = result_131->end;
-result_128 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
-result_128->flags = 0;
-result_128->type = SEQUENCE_T;
-result_128->start = start_128;
-result_128->end = result_131->end;
-result_128->num_children = 2;
-result_128->children[0] = result_129;
-result_128->children[1] = result_131;
-result_128->id = 128;
-exit_128:
-if (result_128 != NULL) {
-result_122 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_122->flags = 0;
-result_122->type = ALTERNATIVE_T;
-result_122->start = start_122;
-result_122->end = result_128->end;
-result_122->num_children = 1;
-result_122->children[0] = result_128;
-result_122->id = 122;
-goto exit_122;
-}
-exit_122:
-if (result_122 != NULL) {
-    append_dyn_arr(list_121, result_122);
-    start_122 = result_122->end;
-    ++num_children_121;
-}
-} while (result_122 != NULL);
-result_121 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * num_children_121);
-result_121->flags = DO_CAPTURE | 0;
-result_121->type = STAR_T;
-result_121->start = start_121;
-result_121->num_children = num_children_121;
-if (num_children_121) {
-for (uint32_t i = 0; i < num_children_121; ++i) {
-result_121->children[i] = list_121->arr[i];
-}
-result_121->end = ((rnode_t*)list_121->arr[num_children_121 - 1])->end;
-} else {
-result_121->end = start_121;
-}
-result_121->id = 121;
-free_dyn_arr(list_121);
-if (result_121 == NULL) {
-free_tree(result_120, IS_CACHED);
-goto exit_119;
-}
-current_position_119 = result_121->end;
-uint32_t start_132 = current_position_119;
+uint32_t current_position_131 = start_131;
+uint32_t start_132 = current_position_131;
 rnode_t* result_132 = NULL;
 uint8_t bytesbuf_132[] = {34, };
 uint8_t c_132;
@@ -2733,171 +2797,229 @@ break;
 }
 }
 if (result_132 == NULL) {
-free_tree(result_120, IS_CACHED);
-free_tree(result_121, IS_CACHED);
-goto exit_119;
+goto exit_131;
 }
-current_position_119 = result_132->end;
-result_119 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_119->flags = SEMANTIC_ACTION | 0;
-result_119->type = SEQUENCE_T;
-result_119->start = start_119;
-result_119->end = result_132->end;
-result_119->num_children = 3;
-result_119->children[0] = result_120;
-result_119->children[1] = result_121;
-result_119->children[2] = result_132;
-result_119->id = 119;
-exit_119:
-return result_119;
-}
-rnode_t* eval_cclass(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_133 = pos;
+current_position_131 = result_132->end;
+uint32_t start_133 = current_position_131;
 rnode_t* result_133 = NULL;
-uint32_t current_position_133 = start_133;
-uint32_t start_134 = current_position_133;
+uint32_t start_134 = start_133;
 rnode_t* result_134 = NULL;
-uint8_t bytesbuf_134[] = {91, };
-uint8_t c_134;
-for (uint32_t i_134 = 0; i_134 < 1; ++i_134) {
-c_134 = bytesbuf_134[i_134];
-if (i_134 + start_134 < text_length
-    && c_134 == text[i_134 + start_134]) {
-if (i_134 == 1 - 1) {
-result_134 = malloc(sizeof(rnode_t));
-result_134->flags = 0;
-result_134->type = LITERAL_T;
-result_134->start = start_134;
-result_134->end = start_134 + 1;
-result_134->num_children = 0;
-result_134->id = 134;
+uint32_t num_children_133 = 0;
+dyn_arr_t* list_133 = init_dyn_arr(16);
+do {
+result_134 = NULL;
+uint32_t start_135 = start_134;
+rnode_t* result_135 = NULL;
+uint32_t current_position_135 = start_135;
+uint32_t start_136 = current_position_135;
+rnode_t* result_136 = NULL;
+uint32_t start_137 = start_136;
+rnode_t* result_137 = NULL;
+uint8_t bytesbuf_137[] = {92, };
+uint8_t c_137;
+for (uint32_t i_137 = 0; i_137 < 1; ++i_137) {
+c_137 = bytesbuf_137[i_137];
+if (i_137 + start_137 < text_length
+    && c_137 == text[i_137 + start_137]) {
+if (i_137 == 1 - 1) {
+result_137 = malloc(sizeof(rnode_t));
+result_137->flags = 0;
+result_137->type = LITERAL_T;
+result_137->start = start_137;
+result_137->end = start_137 + 1;
+result_137->num_children = 0;
+result_137->id = 137;
 }
 } else {
 break;
 }
 }
-if (result_134 == NULL) {
-goto exit_133;
+if (result_137) {
+result_136 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_136->flags = 0;
+result_136->type = AND_T;
+result_136->start = start_136;
+result_136->end = start_136;
+result_136->num_children = 1;
+result_136->children[0] = result_137;
+result_136->id = 136;
 }
-current_position_133 = result_134->end;
-uint32_t start_135 = current_position_133;
-rnode_t* result_135 = NULL;
-uint32_t start_136 = start_135;
-rnode_t* result_136 = NULL;
-uint32_t num_children_135 = 0;
-dyn_arrt* list_135 = init_dyn_arr(16);
-do {
-result_136 = NULL;
-uint32_t start_137 = start_136;
-rnode_t* result_137 = NULL;
-uint32_t current_position_137 = start_137;
-uint32_t start_138 = current_position_137;
+if (result_136 == NULL) {
+goto exit_135;
+}
+current_position_135 = result_136->end;
+uint32_t start_138 = current_position_135;
 rnode_t* result_138 = NULL;
-uint32_t start_139 = start_138;
+if (start_138 < text_length) {
+uint8_t c_138 = text[start_138];
+if (c_138 >= 0 && c_138 <= 255) {
+result_138 = malloc(sizeof(rnode_t));
+result_138->flags = 0;
+result_138->type = RANGE_T;
+result_138->start = start_138;
+result_138->end = start_138 + 1;
+result_138->num_children = 0;
+result_138->id = 138;
+}
+}
+if (result_138 == NULL) {
+free_tree(result_136, IS_CACHED);
+goto exit_135;
+}
+current_position_135 = result_138->end;
+uint32_t start_139 = current_position_135;
 rnode_t* result_139 = NULL;
-uint8_t bytesbuf_139[] = {92, };
-uint8_t c_139;
-for (uint32_t i_139 = 0; i_139 < 1; ++i_139) {
-c_139 = bytesbuf_139[i_139];
-if (i_139 + start_139 < text_length
-    && c_139 == text[i_139 + start_139]) {
-if (i_139 == 1 - 1) {
+if (start_139 < text_length) {
+uint8_t c_139 = text[start_139];
+if (c_139 >= 0 && c_139 <= 255) {
 result_139 = malloc(sizeof(rnode_t));
 result_139->flags = 0;
-result_139->type = LITERAL_T;
+result_139->type = RANGE_T;
 result_139->start = start_139;
 result_139->end = start_139 + 1;
 result_139->num_children = 0;
 result_139->id = 139;
 }
+}
+if (result_139 == NULL) {
+free_tree(result_136, IS_CACHED);
+free_tree(result_138, IS_CACHED);
+goto exit_135;
+}
+current_position_135 = result_139->end;
+result_135 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_135->flags = 0;
+result_135->type = SEQUENCE_T;
+result_135->start = start_135;
+result_135->end = result_139->end;
+result_135->num_children = 3;
+result_135->children[0] = result_136;
+result_135->children[1] = result_138;
+result_135->children[2] = result_139;
+result_135->id = 135;
+exit_135:
+if (result_135 != NULL) {
+result_134 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_134->flags = 0;
+result_134->type = ALTERNATIVE_T;
+result_134->start = start_134;
+result_134->end = result_135->end;
+result_134->num_children = 1;
+result_134->children[0] = result_135;
+result_134->id = 134;
+goto exit_134;
+}
+uint32_t start_140 = start_134;
+rnode_t* result_140 = NULL;
+uint32_t current_position_140 = start_140;
+uint32_t start_141 = current_position_140;
+rnode_t* result_141 = NULL;
+uint32_t start_142 = start_141;
+rnode_t* result_142 = NULL;
+uint8_t bytesbuf_142[] = {34, };
+uint8_t c_142;
+for (uint32_t i_142 = 0; i_142 < 1; ++i_142) {
+c_142 = bytesbuf_142[i_142];
+if (i_142 + start_142 < text_length
+    && c_142 == text[i_142 + start_142]) {
+if (i_142 == 1 - 1) {
+result_142 = malloc(sizeof(rnode_t));
+result_142->flags = 0;
+result_142->type = LITERAL_T;
+result_142->start = start_142;
+result_142->end = start_142 + 1;
+result_142->num_children = 0;
+result_142->id = 142;
+}
 } else {
 break;
 }
 }
-if (result_139) {
-result_138 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_138->flags = 0;
-result_138->type = AND_T;
-result_138->start = start_138;
-result_138->end = start_138;
-result_138->num_children = 1;
-result_138->children[0] = result_139;
-result_138->id = 138;
-}
-if (result_138 == NULL) {
-goto exit_137;
-}
-current_position_137 = result_138->end;
-uint32_t start_140 = current_position_137;
-rnode_t* result_140 = NULL;
-if (start_140 < text_length) {
-uint8_t c_140 = text[start_140];
-if (c_140 >= 0 && c_140 <= 255) {
-result_140 = malloc(sizeof(rnode_t));
-result_140->flags = 0;
-result_140->type = RANGE_T;
-result_140->start = start_140;
-result_140->end = start_140 + 1;
-result_140->num_children = 0;
-result_140->id = 140;
-}
-}
-if (result_140 == NULL) {
-free_tree(result_138, IS_CACHED);
-goto exit_137;
-}
-current_position_137 = result_140->end;
-uint32_t start_141 = current_position_137;
-rnode_t* result_141 = NULL;
-if (start_141 < text_length) {
-uint8_t c_141 = text[start_141];
-if (c_141 >= 0 && c_141 <= 255) {
+if (!result_142) {
 result_141 = malloc(sizeof(rnode_t));
 result_141->flags = 0;
-result_141->type = RANGE_T;
+result_141->type = NOT_T;
 result_141->start = start_141;
-result_141->end = start_141 + 1;
+result_141->end = start_141;
 result_141->num_children = 0;
 result_141->id = 141;
-}
+} else {
+free_tree(result_142, IS_CACHED);
 }
 if (result_141 == NULL) {
-free_tree(result_138, IS_CACHED);
-free_tree(result_140, IS_CACHED);
-goto exit_137;
+goto exit_140;
 }
-current_position_137 = result_141->end;
-result_137 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_137->flags = 0;
-result_137->type = SEQUENCE_T;
-result_137->start = start_137;
-result_137->end = result_141->end;
-result_137->num_children = 3;
-result_137->children[0] = result_138;
-result_137->children[1] = result_140;
-result_137->children[2] = result_141;
-result_137->id = 137;
-exit_137:
-if (result_137 != NULL) {
-result_136 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_136->flags = 0;
-result_136->type = ALTERNATIVE_T;
-result_136->start = start_136;
-result_136->end = result_137->end;
-result_136->num_children = 1;
-result_136->children[0] = result_137;
-result_136->id = 136;
-goto exit_136;
-}
-uint32_t start_142 = start_136;
-rnode_t* result_142 = NULL;
-uint32_t current_position_142 = start_142;
-uint32_t start_143 = current_position_142;
+current_position_140 = result_141->end;
+uint32_t start_143 = current_position_140;
 rnode_t* result_143 = NULL;
-uint32_t start_144 = start_143;
+if (start_143 < text_length) {
+uint8_t c_143 = text[start_143];
+if (c_143 >= 0 && c_143 <= 255) {
+result_143 = malloc(sizeof(rnode_t));
+result_143->flags = 0;
+result_143->type = RANGE_T;
+result_143->start = start_143;
+result_143->end = start_143 + 1;
+result_143->num_children = 0;
+result_143->id = 143;
+}
+}
+if (result_143 == NULL) {
+free_tree(result_141, IS_CACHED);
+goto exit_140;
+}
+current_position_140 = result_143->end;
+result_140 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
+result_140->flags = 0;
+result_140->type = SEQUENCE_T;
+result_140->start = start_140;
+result_140->end = result_143->end;
+result_140->num_children = 2;
+result_140->children[0] = result_141;
+result_140->children[1] = result_143;
+result_140->id = 140;
+exit_140:
+if (result_140 != NULL) {
+result_134 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_134->flags = 0;
+result_134->type = ALTERNATIVE_T;
+result_134->start = start_134;
+result_134->end = result_140->end;
+result_134->num_children = 1;
+result_134->children[0] = result_140;
+result_134->id = 134;
+goto exit_134;
+}
+exit_134:
+if (result_134 != NULL) {
+    append_dyn_arr(list_133, result_134);
+    start_134 = result_134->end;
+    ++num_children_133;
+}
+} while (result_134 != NULL);
+result_133 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * num_children_133);
+result_133->flags = DO_CAPTURE | 0;
+result_133->type = STAR_T;
+result_133->start = start_133;
+result_133->num_children = num_children_133;
+if (num_children_133) {
+for (uint32_t i = 0; i < num_children_133; ++i) {
+result_133->children[i] = list_133->arr[i];
+}
+result_133->end = ((rnode_t*)list_133->arr[num_children_133 - 1])->end;
+} else {
+result_133->end = start_133;
+}
+result_133->id = 133;
+free_dyn_arr(list_133);
+if (result_133 == NULL) {
+free_tree(result_132, IS_CACHED);
+goto exit_131;
+}
+current_position_131 = result_133->end;
+uint32_t start_144 = current_position_131;
 rnode_t* result_144 = NULL;
-uint8_t bytesbuf_144[] = {93, };
+uint8_t bytesbuf_144[] = {34, };
 uint8_t c_144;
 for (uint32_t i_144 = 0; i_144 < 1; ++i_144) {
 c_144 = bytesbuf_144[i_144];
@@ -2916,91 +3038,33 @@ result_144->id = 144;
 break;
 }
 }
-if (!result_144) {
-result_143 = malloc(sizeof(rnode_t));
-result_143->flags = 0;
-result_143->type = NOT_T;
-result_143->start = start_143;
-result_143->end = start_143;
-result_143->num_children = 0;
-result_143->id = 143;
-} else {
-free_tree(result_144, IS_CACHED);
+if (result_144 == NULL) {
+free_tree(result_132, IS_CACHED);
+free_tree(result_133, IS_CACHED);
+goto exit_131;
 }
-if (result_143 == NULL) {
-goto exit_142;
+current_position_131 = result_144->end;
+result_131 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_131->flags = SEMANTIC_ACTION | 0;
+result_131->type = SEQUENCE_T;
+result_131->start = start_131;
+result_131->end = result_144->end;
+result_131->num_children = 3;
+result_131->children[0] = result_132;
+result_131->children[1] = result_133;
+result_131->children[2] = result_144;
+result_131->id = 131;
+exit_131:
+return result_131;
 }
-current_position_142 = result_143->end;
-uint32_t start_145 = current_position_142;
+rnode_t* eval_cclass(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_145 = pos;
 rnode_t* result_145 = NULL;
-if (start_145 < text_length) {
-uint8_t c_145 = text[start_145];
-if (c_145 >= 0 && c_145 <= 255) {
-result_145 = malloc(sizeof(rnode_t));
-result_145->flags = 0;
-result_145->type = RANGE_T;
-result_145->start = start_145;
-result_145->end = start_145 + 1;
-result_145->num_children = 0;
-result_145->id = 145;
-}
-}
-if (result_145 == NULL) {
-free_tree(result_143, IS_CACHED);
-goto exit_142;
-}
-current_position_142 = result_145->end;
-result_142 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
-result_142->flags = 0;
-result_142->type = SEQUENCE_T;
-result_142->start = start_142;
-result_142->end = result_145->end;
-result_142->num_children = 2;
-result_142->children[0] = result_143;
-result_142->children[1] = result_145;
-result_142->id = 142;
-exit_142:
-if (result_142 != NULL) {
-result_136 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_136->flags = 0;
-result_136->type = ALTERNATIVE_T;
-result_136->start = start_136;
-result_136->end = result_142->end;
-result_136->num_children = 1;
-result_136->children[0] = result_142;
-result_136->id = 136;
-goto exit_136;
-}
-exit_136:
-if (result_136 != NULL) {
-    append_dyn_arr(list_135, result_136);
-    start_136 = result_136->end;
-    ++num_children_135;
-}
-} while (result_136 != NULL);
-result_135 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * num_children_135);
-result_135->flags = DO_CAPTURE | 0;
-result_135->type = STAR_T;
-result_135->start = start_135;
-result_135->num_children = num_children_135;
-if (num_children_135) {
-for (uint32_t i = 0; i < num_children_135; ++i) {
-result_135->children[i] = list_135->arr[i];
-}
-result_135->end = ((rnode_t*)list_135->arr[num_children_135 - 1])->end;
-} else {
-result_135->end = start_135;
-}
-result_135->id = 135;
-free_dyn_arr(list_135);
-if (result_135 == NULL) {
-free_tree(result_134, IS_CACHED);
-goto exit_133;
-}
-current_position_133 = result_135->end;
-uint32_t start_146 = current_position_133;
+uint32_t current_position_145 = start_145;
+uint32_t start_146 = current_position_145;
 rnode_t* result_146 = NULL;
-uint8_t bytesbuf_146[] = {93, };
+uint8_t bytesbuf_146[] = {91, };
 uint8_t c_146;
 for (uint32_t i_146 = 0; i_146 < 1; ++i_146) {
 c_146 = bytesbuf_146[i_146];
@@ -3020,207 +3084,282 @@ break;
 }
 }
 if (result_146 == NULL) {
-free_tree(result_134, IS_CACHED);
-free_tree(result_135, IS_CACHED);
-goto exit_133;
+goto exit_145;
 }
-current_position_133 = result_146->end;
-result_133 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_133->flags = SEMANTIC_ACTION | 0;
-result_133->type = SEQUENCE_T;
-result_133->start = start_133;
-result_133->end = result_146->end;
-result_133->num_children = 3;
-result_133->children[0] = result_134;
-result_133->children[1] = result_135;
-result_133->children[2] = result_146;
-result_133->id = 133;
-exit_133:
-return result_133;
-}
-rnode_t* eval_dot(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_147 = pos;
+current_position_145 = result_146->end;
+uint32_t start_147 = current_position_145;
 rnode_t* result_147 = NULL;
-uint8_t bytesbuf_147[] = {46, };
-uint8_t c_147;
-for (uint32_t i_147 = 0; i_147 < 1; ++i_147) {
-c_147 = bytesbuf_147[i_147];
-if (i_147 + start_147 < text_length
-    && c_147 == text[i_147 + start_147]) {
-if (i_147 == 1 - 1) {
-result_147 = malloc(sizeof(rnode_t));
-result_147->flags = SEMANTIC_ACTION | 0;
-result_147->type = LITERAL_T;
-result_147->start = start_147;
-result_147->end = start_147 + 1;
-result_147->num_children = 0;
-result_147->id = 147;
-}
-} else {
-break;
-}
-}
-return result_147;
-}
-rnode_t* eval_code(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos) {
-uint32_t start_148 = pos;
+uint32_t start_148 = start_147;
 rnode_t* result_148 = NULL;
-uint32_t current_position_148 = start_148;
-uint32_t start_149 = current_position_148;
+uint32_t num_children_147 = 0;
+dyn_arr_t* list_147 = init_dyn_arr(16);
+do {
+result_148 = NULL;
+uint32_t start_149 = start_148;
 rnode_t* result_149 = NULL;
-uint8_t bytesbuf_149[] = {123, 123, };
-uint8_t c_149;
-for (uint32_t i_149 = 0; i_149 < 2; ++i_149) {
-c_149 = bytesbuf_149[i_149];
-if (i_149 + start_149 < text_length
-    && c_149 == text[i_149 + start_149]) {
-if (i_149 == 2 - 1) {
-result_149 = malloc(sizeof(rnode_t));
-result_149->flags = 0;
-result_149->type = LITERAL_T;
-result_149->start = start_149;
-result_149->end = start_149 + 2;
-result_149->num_children = 0;
-result_149->id = 149;
-}
-} else {
-break;
-}
-}
-if (result_149 == NULL) {
-goto exit_148;
-}
-current_position_148 = result_149->end;
-uint32_t start_150 = current_position_148;
+uint32_t current_position_149 = start_149;
+uint32_t start_150 = current_position_149;
 rnode_t* result_150 = NULL;
 uint32_t start_151 = start_150;
 rnode_t* result_151 = NULL;
-uint32_t num_children_150 = 0;
-dyn_arrt* list_150 = init_dyn_arr(16);
-do {
-result_151 = NULL;
-uint32_t start_152 = start_151;
-rnode_t* result_152 = NULL;
-uint32_t current_position_152 = start_152;
-uint32_t start_153 = current_position_152;
-rnode_t* result_153 = NULL;
-uint32_t start_154 = start_153;
-rnode_t* result_154 = NULL;
-uint8_t bytesbuf_154[] = {92, };
-uint8_t c_154;
-for (uint32_t i_154 = 0; i_154 < 1; ++i_154) {
-c_154 = bytesbuf_154[i_154];
-if (i_154 + start_154 < text_length
-    && c_154 == text[i_154 + start_154]) {
-if (i_154 == 1 - 1) {
-result_154 = malloc(sizeof(rnode_t));
-result_154->flags = 0;
-result_154->type = LITERAL_T;
-result_154->start = start_154;
-result_154->end = start_154 + 1;
-result_154->num_children = 0;
-result_154->id = 154;
+uint8_t bytesbuf_151[] = {92, };
+uint8_t c_151;
+for (uint32_t i_151 = 0; i_151 < 1; ++i_151) {
+c_151 = bytesbuf_151[i_151];
+if (i_151 + start_151 < text_length
+    && c_151 == text[i_151 + start_151]) {
+if (i_151 == 1 - 1) {
+result_151 = malloc(sizeof(rnode_t));
+result_151->flags = 0;
+result_151->type = LITERAL_T;
+result_151->start = start_151;
+result_151->end = start_151 + 1;
+result_151->num_children = 0;
+result_151->id = 151;
 }
 } else {
 break;
 }
 }
-if (result_154) {
-result_153 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+if (result_151) {
+result_150 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_150->flags = 0;
+result_150->type = AND_T;
+result_150->start = start_150;
+result_150->end = start_150;
+result_150->num_children = 1;
+result_150->children[0] = result_151;
+result_150->id = 150;
+}
+if (result_150 == NULL) {
+goto exit_149;
+}
+current_position_149 = result_150->end;
+uint32_t start_152 = current_position_149;
+rnode_t* result_152 = NULL;
+if (start_152 < text_length) {
+uint8_t c_152 = text[start_152];
+if (c_152 >= 0 && c_152 <= 255) {
+result_152 = malloc(sizeof(rnode_t));
+result_152->flags = 0;
+result_152->type = RANGE_T;
+result_152->start = start_152;
+result_152->end = start_152 + 1;
+result_152->num_children = 0;
+result_152->id = 152;
+}
+}
+if (result_152 == NULL) {
+free_tree(result_150, IS_CACHED);
+goto exit_149;
+}
+current_position_149 = result_152->end;
+uint32_t start_153 = current_position_149;
+rnode_t* result_153 = NULL;
+if (start_153 < text_length) {
+uint8_t c_153 = text[start_153];
+if (c_153 >= 0 && c_153 <= 255) {
+result_153 = malloc(sizeof(rnode_t));
 result_153->flags = 0;
-result_153->type = AND_T;
+result_153->type = RANGE_T;
 result_153->start = start_153;
-result_153->end = start_153;
-result_153->num_children = 1;
-result_153->children[0] = result_154;
+result_153->end = start_153 + 1;
+result_153->num_children = 0;
 result_153->id = 153;
 }
+}
 if (result_153 == NULL) {
-goto exit_152;
+free_tree(result_150, IS_CACHED);
+free_tree(result_152, IS_CACHED);
+goto exit_149;
 }
-current_position_152 = result_153->end;
-uint32_t start_155 = current_position_152;
+current_position_149 = result_153->end;
+result_149 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_149->flags = 0;
+result_149->type = SEQUENCE_T;
+result_149->start = start_149;
+result_149->end = result_153->end;
+result_149->num_children = 3;
+result_149->children[0] = result_150;
+result_149->children[1] = result_152;
+result_149->children[2] = result_153;
+result_149->id = 149;
+exit_149:
+if (result_149 != NULL) {
+result_148 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_148->flags = 0;
+result_148->type = ALTERNATIVE_T;
+result_148->start = start_148;
+result_148->end = result_149->end;
+result_148->num_children = 1;
+result_148->children[0] = result_149;
+result_148->id = 148;
+goto exit_148;
+}
+uint32_t start_154 = start_148;
+rnode_t* result_154 = NULL;
+uint32_t current_position_154 = start_154;
+uint32_t start_155 = current_position_154;
 rnode_t* result_155 = NULL;
-if (start_155 < text_length) {
-uint8_t c_155 = text[start_155];
-if (c_155 >= 0 && c_155 <= 255) {
-result_155 = malloc(sizeof(rnode_t));
-result_155->flags = 0;
-result_155->type = RANGE_T;
-result_155->start = start_155;
-result_155->end = start_155 + 1;
-result_155->num_children = 0;
-result_155->id = 155;
-}
-}
-if (result_155 == NULL) {
-free_tree(result_153, IS_CACHED);
-goto exit_152;
-}
-current_position_152 = result_155->end;
-uint32_t start_156 = current_position_152;
+uint32_t start_156 = start_155;
 rnode_t* result_156 = NULL;
-if (start_156 < text_length) {
-uint8_t c_156 = text[start_156];
-if (c_156 >= 0 && c_156 <= 255) {
+uint8_t bytesbuf_156[] = {93, };
+uint8_t c_156;
+for (uint32_t i_156 = 0; i_156 < 1; ++i_156) {
+c_156 = bytesbuf_156[i_156];
+if (i_156 + start_156 < text_length
+    && c_156 == text[i_156 + start_156]) {
+if (i_156 == 1 - 1) {
 result_156 = malloc(sizeof(rnode_t));
 result_156->flags = 0;
-result_156->type = RANGE_T;
+result_156->type = LITERAL_T;
 result_156->start = start_156;
 result_156->end = start_156 + 1;
 result_156->num_children = 0;
 result_156->id = 156;
 }
+} else {
+break;
 }
-if (result_156 == NULL) {
-free_tree(result_153, IS_CACHED);
-free_tree(result_155, IS_CACHED);
-goto exit_152;
 }
-current_position_152 = result_156->end;
-result_152 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_152->flags = 0;
-result_152->type = SEQUENCE_T;
-result_152->start = start_152;
-result_152->end = result_156->end;
-result_152->num_children = 3;
-result_152->children[0] = result_153;
-result_152->children[1] = result_155;
-result_152->children[2] = result_156;
-result_152->id = 152;
-exit_152:
-if (result_152 != NULL) {
-result_151 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_151->flags = 0;
-result_151->type = ALTERNATIVE_T;
-result_151->start = start_151;
-result_151->end = result_152->end;
-result_151->num_children = 1;
-result_151->children[0] = result_152;
-result_151->id = 151;
-goto exit_151;
+if (!result_156) {
+result_155 = malloc(sizeof(rnode_t));
+result_155->flags = 0;
+result_155->type = NOT_T;
+result_155->start = start_155;
+result_155->end = start_155;
+result_155->num_children = 0;
+result_155->id = 155;
+} else {
+free_tree(result_156, IS_CACHED);
 }
-uint32_t start_157 = start_151;
+if (result_155 == NULL) {
+goto exit_154;
+}
+current_position_154 = result_155->end;
+uint32_t start_157 = current_position_154;
 rnode_t* result_157 = NULL;
-uint32_t current_position_157 = start_157;
-uint32_t start_158 = current_position_157;
+if (start_157 < text_length) {
+uint8_t c_157 = text[start_157];
+if (c_157 >= 0 && c_157 <= 255) {
+result_157 = malloc(sizeof(rnode_t));
+result_157->flags = 0;
+result_157->type = RANGE_T;
+result_157->start = start_157;
+result_157->end = start_157 + 1;
+result_157->num_children = 0;
+result_157->id = 157;
+}
+}
+if (result_157 == NULL) {
+free_tree(result_155, IS_CACHED);
+goto exit_154;
+}
+current_position_154 = result_157->end;
+result_154 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
+result_154->flags = 0;
+result_154->type = SEQUENCE_T;
+result_154->start = start_154;
+result_154->end = result_157->end;
+result_154->num_children = 2;
+result_154->children[0] = result_155;
+result_154->children[1] = result_157;
+result_154->id = 154;
+exit_154:
+if (result_154 != NULL) {
+result_148 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_148->flags = 0;
+result_148->type = ALTERNATIVE_T;
+result_148->start = start_148;
+result_148->end = result_154->end;
+result_148->num_children = 1;
+result_148->children[0] = result_154;
+result_148->id = 148;
+goto exit_148;
+}
+exit_148:
+if (result_148 != NULL) {
+    append_dyn_arr(list_147, result_148);
+    start_148 = result_148->end;
+    ++num_children_147;
+}
+} while (result_148 != NULL);
+result_147 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * num_children_147);
+result_147->flags = DO_CAPTURE | 0;
+result_147->type = STAR_T;
+result_147->start = start_147;
+result_147->num_children = num_children_147;
+if (num_children_147) {
+for (uint32_t i = 0; i < num_children_147; ++i) {
+result_147->children[i] = list_147->arr[i];
+}
+result_147->end = ((rnode_t*)list_147->arr[num_children_147 - 1])->end;
+} else {
+result_147->end = start_147;
+}
+result_147->id = 147;
+free_dyn_arr(list_147);
+if (result_147 == NULL) {
+free_tree(result_146, IS_CACHED);
+goto exit_145;
+}
+current_position_145 = result_147->end;
+uint32_t start_158 = current_position_145;
 rnode_t* result_158 = NULL;
-uint32_t start_159 = start_158;
+uint8_t bytesbuf_158[] = {93, };
+uint8_t c_158;
+for (uint32_t i_158 = 0; i_158 < 1; ++i_158) {
+c_158 = bytesbuf_158[i_158];
+if (i_158 + start_158 < text_length
+    && c_158 == text[i_158 + start_158]) {
+if (i_158 == 1 - 1) {
+result_158 = malloc(sizeof(rnode_t));
+result_158->flags = 0;
+result_158->type = LITERAL_T;
+result_158->start = start_158;
+result_158->end = start_158 + 1;
+result_158->num_children = 0;
+result_158->id = 158;
+}
+} else {
+break;
+}
+}
+if (result_158 == NULL) {
+free_tree(result_146, IS_CACHED);
+free_tree(result_147, IS_CACHED);
+goto exit_145;
+}
+current_position_145 = result_158->end;
+result_145 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_145->flags = SEMANTIC_ACTION | 0;
+result_145->type = SEQUENCE_T;
+result_145->start = start_145;
+result_145->end = result_158->end;
+result_145->num_children = 3;
+result_145->children[0] = result_146;
+result_145->children[1] = result_147;
+result_145->children[2] = result_158;
+result_145->id = 145;
+exit_145:
+return result_145;
+}
+rnode_t* eval_dot(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_159 = pos;
 rnode_t* result_159 = NULL;
-uint8_t bytesbuf_159[] = {125, 125, };
+uint8_t bytesbuf_159[] = {46, };
 uint8_t c_159;
-for (uint32_t i_159 = 0; i_159 < 2; ++i_159) {
+for (uint32_t i_159 = 0; i_159 < 1; ++i_159) {
 c_159 = bytesbuf_159[i_159];
 if (i_159 + start_159 < text_length
     && c_159 == text[i_159 + start_159]) {
-if (i_159 == 2 - 1) {
+if (i_159 == 1 - 1) {
 result_159 = malloc(sizeof(rnode_t));
-result_159->flags = 0;
+result_159->flags = SEMANTIC_ACTION | 0;
 result_159->type = LITERAL_T;
 result_159->start = start_159;
-result_159->end = start_159 + 2;
+result_159->end = start_159 + 1;
 result_159->num_children = 0;
 result_159->id = 159;
 }
@@ -3228,127 +3367,223 @@ result_159->id = 159;
 break;
 }
 }
-if (!result_159) {
-result_158 = malloc(sizeof(rnode_t));
-result_158->flags = 0;
-result_158->type = NOT_T;
-result_158->start = start_158;
-result_158->end = start_158;
-result_158->num_children = 0;
-result_158->id = 158;
-} else {
-free_tree(result_159, IS_CACHED);
+return result_159;
 }
-if (result_158 == NULL) {
-goto exit_157;
-}
-current_position_157 = result_158->end;
-uint32_t start_160 = current_position_157;
+rnode_t* eval_code(memo_state_t* state, uint8_t* text,
+                 uint32_t text_length, uint32_t pos) {
+uint32_t start_160 = pos;
 rnode_t* result_160 = NULL;
-if (start_160 < text_length) {
-uint8_t c_160 = text[start_160];
-if (c_160 >= 0 && c_160 <= 255) {
-result_160 = malloc(sizeof(rnode_t));
-result_160->flags = 0;
-result_160->type = RANGE_T;
-result_160->start = start_160;
-result_160->end = start_160 + 1;
-result_160->num_children = 0;
-result_160->id = 160;
-}
-}
-if (result_160 == NULL) {
-free_tree(result_158, IS_CACHED);
-goto exit_157;
-}
-current_position_157 = result_160->end;
-result_157 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
-result_157->flags = 0;
-result_157->type = SEQUENCE_T;
-result_157->start = start_157;
-result_157->end = result_160->end;
-result_157->num_children = 2;
-result_157->children[0] = result_158;
-result_157->children[1] = result_160;
-result_157->id = 157;
-exit_157:
-if (result_157 != NULL) {
-result_151 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
-result_151->flags = 0;
-result_151->type = ALTERNATIVE_T;
-result_151->start = start_151;
-result_151->end = result_157->end;
-result_151->num_children = 1;
-result_151->children[0] = result_157;
-result_151->id = 151;
-goto exit_151;
-}
-exit_151:
-if (result_151 != NULL) {
-    append_dyn_arr(list_150, result_151);
-    start_151 = result_151->end;
-    ++num_children_150;
-}
-} while (result_151 != NULL);
-result_150 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * num_children_150);
-result_150->flags = 0;
-result_150->type = STAR_T;
-result_150->start = start_150;
-result_150->num_children = num_children_150;
-if (num_children_150) {
-for (uint32_t i = 0; i < num_children_150; ++i) {
-result_150->children[i] = list_150->arr[i];
-}
-result_150->end = ((rnode_t*)list_150->arr[num_children_150 - 1])->end;
-} else {
-result_150->end = start_150;
-}
-result_150->id = 150;
-free_dyn_arr(list_150);
-if (result_150 == NULL) {
-free_tree(result_149, IS_CACHED);
-goto exit_148;
-}
-current_position_148 = result_150->end;
-uint32_t start_161 = current_position_148;
+uint32_t start_161 = start_160;
 rnode_t* result_161 = NULL;
-uint8_t bytesbuf_161[] = {125, 125, };
-uint8_t c_161;
-for (uint32_t i_161 = 0; i_161 < 2; ++i_161) {
-c_161 = bytesbuf_161[i_161];
-if (i_161 + start_161 < text_length
-    && c_161 == text[i_161 + start_161]) {
-if (i_161 == 2 - 1) {
-result_161 = malloc(sizeof(rnode_t));
-result_161->flags = 0;
-result_161->type = LITERAL_T;
-result_161->start = start_161;
-result_161->end = start_161 + 2;
-result_161->num_children = 0;
-result_161->id = 161;
+uint32_t num_children_160 = 0;
+dyn_arr_t* list_160 = init_dyn_arr(16);
+do {
+result_161 = NULL;
+uint32_t start_162 = start_161;
+rnode_t* result_162 = NULL;
+uint32_t current_position_162 = start_162;
+uint32_t start_163 = current_position_162;
+rnode_t* result_163 = NULL;
+uint32_t start_164 = start_163;
+rnode_t* result_164 = NULL;
+uint8_t bytesbuf_164[] = {92, };
+uint8_t c_164;
+for (uint32_t i_164 = 0; i_164 < 1; ++i_164) {
+c_164 = bytesbuf_164[i_164];
+if (i_164 + start_164 < text_length
+    && c_164 == text[i_164 + start_164]) {
+if (i_164 == 1 - 1) {
+result_164 = malloc(sizeof(rnode_t));
+result_164->flags = 0;
+result_164->type = LITERAL_T;
+result_164->start = start_164;
+result_164->end = start_164 + 1;
+result_164->num_children = 0;
+result_164->id = 164;
 }
 } else {
 break;
 }
 }
-if (result_161 == NULL) {
-free_tree(result_149, IS_CACHED);
-free_tree(result_150, IS_CACHED);
-goto exit_148;
+if (result_164) {
+result_163 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_163->flags = 0;
+result_163->type = AND_T;
+result_163->start = start_163;
+result_163->end = start_163;
+result_163->num_children = 1;
+result_163->children[0] = result_164;
+result_163->id = 163;
 }
-current_position_148 = result_161->end;
-result_148 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
-result_148->flags = 0;
-result_148->type = SEQUENCE_T;
-result_148->start = start_148;
-result_148->end = result_161->end;
-result_148->num_children = 3;
-result_148->children[0] = result_149;
-result_148->children[1] = result_150;
-result_148->children[2] = result_161;
-result_148->id = 148;
-exit_148:
-return result_148;
+if (result_163 == NULL) {
+goto exit_162;
+}
+current_position_162 = result_163->end;
+uint32_t start_165 = current_position_162;
+rnode_t* result_165 = NULL;
+if (start_165 < text_length) {
+uint8_t c_165 = text[start_165];
+if (c_165 >= 0 && c_165 <= 255) {
+result_165 = malloc(sizeof(rnode_t));
+result_165->flags = 0;
+result_165->type = RANGE_T;
+result_165->start = start_165;
+result_165->end = start_165 + 1;
+result_165->num_children = 0;
+result_165->id = 165;
+}
+}
+if (result_165 == NULL) {
+free_tree(result_163, IS_CACHED);
+goto exit_162;
+}
+current_position_162 = result_165->end;
+uint32_t start_166 = current_position_162;
+rnode_t* result_166 = NULL;
+if (start_166 < text_length) {
+uint8_t c_166 = text[start_166];
+if (c_166 >= 0 && c_166 <= 255) {
+result_166 = malloc(sizeof(rnode_t));
+result_166->flags = 0;
+result_166->type = RANGE_T;
+result_166->start = start_166;
+result_166->end = start_166 + 1;
+result_166->num_children = 0;
+result_166->id = 166;
+}
+}
+if (result_166 == NULL) {
+free_tree(result_163, IS_CACHED);
+free_tree(result_165, IS_CACHED);
+goto exit_162;
+}
+current_position_162 = result_166->end;
+result_162 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 3);
+result_162->flags = 0;
+result_162->type = SEQUENCE_T;
+result_162->start = start_162;
+result_162->end = result_166->end;
+result_162->num_children = 3;
+result_162->children[0] = result_163;
+result_162->children[1] = result_165;
+result_162->children[2] = result_166;
+result_162->id = 162;
+exit_162:
+if (result_162 != NULL) {
+result_161 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_161->flags = 0;
+result_161->type = ALTERNATIVE_T;
+result_161->start = start_161;
+result_161->end = result_162->end;
+result_161->num_children = 1;
+result_161->children[0] = result_162;
+result_161->id = 161;
+goto exit_161;
+}
+uint32_t start_167 = start_161;
+rnode_t* result_167 = NULL;
+uint32_t current_position_167 = start_167;
+uint32_t start_168 = current_position_167;
+rnode_t* result_168 = NULL;
+uint32_t start_169 = start_168;
+rnode_t* result_169 = NULL;
+uint8_t bytesbuf_169[] = {125, 125, };
+uint8_t c_169;
+for (uint32_t i_169 = 0; i_169 < 2; ++i_169) {
+c_169 = bytesbuf_169[i_169];
+if (i_169 + start_169 < text_length
+    && c_169 == text[i_169 + start_169]) {
+if (i_169 == 2 - 1) {
+result_169 = malloc(sizeof(rnode_t));
+result_169->flags = 0;
+result_169->type = LITERAL_T;
+result_169->start = start_169;
+result_169->end = start_169 + 2;
+result_169->num_children = 0;
+result_169->id = 169;
+}
+} else {
+break;
+}
+}
+if (!result_169) {
+result_168 = malloc(sizeof(rnode_t));
+result_168->flags = 0;
+result_168->type = NOT_T;
+result_168->start = start_168;
+result_168->end = start_168;
+result_168->num_children = 0;
+result_168->id = 168;
+} else {
+free_tree(result_169, IS_CACHED);
+}
+if (result_168 == NULL) {
+goto exit_167;
+}
+current_position_167 = result_168->end;
+uint32_t start_170 = current_position_167;
+rnode_t* result_170 = NULL;
+if (start_170 < text_length) {
+uint8_t c_170 = text[start_170];
+if (c_170 >= 0 && c_170 <= 255) {
+result_170 = malloc(sizeof(rnode_t));
+result_170->flags = 0;
+result_170->type = RANGE_T;
+result_170->start = start_170;
+result_170->end = start_170 + 1;
+result_170->num_children = 0;
+result_170->id = 170;
+}
+}
+if (result_170 == NULL) {
+free_tree(result_168, IS_CACHED);
+goto exit_167;
+}
+current_position_167 = result_170->end;
+result_167 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * 2);
+result_167->flags = 0;
+result_167->type = SEQUENCE_T;
+result_167->start = start_167;
+result_167->end = result_170->end;
+result_167->num_children = 2;
+result_167->children[0] = result_168;
+result_167->children[1] = result_170;
+result_167->id = 167;
+exit_167:
+if (result_167 != NULL) {
+result_161 = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+result_161->flags = 0;
+result_161->type = ALTERNATIVE_T;
+result_161->start = start_161;
+result_161->end = result_167->end;
+result_161->num_children = 1;
+result_161->children[0] = result_167;
+result_161->id = 161;
+goto exit_161;
+}
+exit_161:
+if (result_161 != NULL) {
+    append_dyn_arr(list_160, result_161);
+    start_161 = result_161->end;
+    ++num_children_160;
+}
+} while (result_161 != NULL);
+result_160 = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * num_children_160);
+result_160->flags = 0;
+result_160->type = STAR_T;
+result_160->start = start_160;
+result_160->num_children = num_children_160;
+if (num_children_160) {
+for (uint32_t i = 0; i < num_children_160; ++i) {
+result_160->children[i] = list_160->arr[i];
+}
+result_160->end = ((rnode_t*)list_160->arr[num_children_160 - 1])->end;
+} else {
+result_160->end = start_160;
+}
+result_160->id = 160;
+free_dyn_arr(list_160);
+return result_160;
 }
 #define c(x) (((capture_t*)get_dyn_arr(context->capture, x))->str)
 #define s(x) (((capture_t*)get_dyn_arr(context->capture, x))->start)
@@ -3358,7 +3593,7 @@ void semantic_action_0(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** r = (ast_node_t**)(context->alias[4]->arr);
 uint32_t countr = context->alias[4]->len;
-{{ result = ast_grammar(r, countr); }}
+result = ast_grammar(r, countr); 
 context->result = result;
 return;
 }
@@ -3370,9 +3605,8 @@ void semantic_action_18(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** b = (ast_node_t**)(context->alias[24]->arr);
 uint32_t countb = context->alias[24]->len;
-{{
-  result = ast_rule(c(0), *b);
-}}
+result = ast_rule(c(0), *b);
+    
 context->result = result;
 return;
 }
@@ -3384,7 +3618,7 @@ void semantic_action_31(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[31]->arr);
 uint32_t counto = context->alias[31]->len;
-{{ result = *o; }}
+result = *o; 
 context->result = result;
 return;
 }
@@ -3398,9 +3632,8 @@ ast_node_t** first = (ast_node_t**)(context->alias[33]->arr);
 uint32_t countfirst = context->alias[33]->len;
 ast_node_t** rest = (ast_node_t**)(context->alias[39]->arr);
 uint32_t countrest = context->alias[39]->len;
-{{
-  result = ast_Alt(first, rest, countrest + 1);
-}}
+result = ast_Alt(first, rest, countrest + 1);
+    
 context->result = result;
 return;
 }
@@ -3415,9 +3648,8 @@ ast_node_t** first = (ast_node_t**)(context->alias[41]->arr);
 uint32_t countfirst = context->alias[41]->len;
 ast_node_t** rest = (ast_node_t**)(context->alias[45]->arr);
 uint32_t countrest = context->alias[45]->len;
-{{
-  result = ast_Seq(first, rest, countrest + 1);
-}}
+result = ast_Seq(first, rest, countrest + 1);
+    
 context->result = result;
 return;
 }
@@ -3430,29 +3662,26 @@ void semantic_action_47(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[48]->arr);
 uint32_t counto = context->alias[48]->len;
-{{
-  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
-}}
+if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+    
 context->result = result;
 return;
 }
-void semantic_action_53(context_t* context) {
+void semantic_action_57(context_t* context) {
 ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[54]->arr);
-uint32_t counto = context->alias[54]->len;
-{{
-  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
-}}
+ast_node_t** o = (ast_node_t**)(context->alias[58]->arr);
+uint32_t counto = context->alias[58]->len;
+if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+    
 context->result = result;
 return;
 }
-void semantic_action_59(context_t* context) {
+void semantic_action_67(context_t* context) {
 ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[60]->arr);
-uint32_t counto = context->alias[60]->len;
-{{
-  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
-}}
+ast_node_t** o = (ast_node_t**)(context->alias[68]->arr);
+uint32_t counto = context->alias[68]->len;
+if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+    
 context->result = result;
 return;
 }
@@ -3460,208 +3689,204 @@ void alias_allocs_47(context_t* context) {
 context->alias[48] = init_dyn_arr(16);
 return;
 }
-void alias_allocs_53(context_t* context) {
-context->alias[54] = init_dyn_arr(16);
+void alias_allocs_57(context_t* context) {
+context->alias[58] = init_dyn_arr(16);
 return;
 }
-void alias_allocs_59(context_t* context) {
-context->alias[60] = init_dyn_arr(16);
+void alias_allocs_67(context_t* context) {
+context->alias[68] = init_dyn_arr(16);
 return;
 }
-void semantic_action_66(context_t* context) {
+void semantic_action_78(context_t* context) {
 ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[69]->arr);
-uint32_t counto = context->alias[69]->len;
-{{ result = ast_And(*o); }}
+ast_node_t** o = (ast_node_t**)(context->alias[81]->arr);
+uint32_t counto = context->alias[81]->len;
+result = ast_And(*o); 
 context->result = result;
 return;
 }
-void semantic_action_70(context_t* context) {
+void semantic_action_82(context_t* context) {
 ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[73]->arr);
-uint32_t counto = context->alias[73]->len;
-{{ result = ast_Not(*o); }}
+ast_node_t** o = (ast_node_t**)(context->alias[85]->arr);
+uint32_t counto = context->alias[85]->len;
+result = ast_Not(*o); 
 context->result = result;
 return;
 }
-void alias_allocs_66(context_t* context) {
-context->alias[69] = init_dyn_arr(16);
+void alias_allocs_78(context_t* context) {
+context->alias[81] = init_dyn_arr(16);
 return;
 }
-void alias_allocs_70(context_t* context) {
-context->alias[73] = init_dyn_arr(16);
+void alias_allocs_82(context_t* context) {
+context->alias[85] = init_dyn_arr(16);
 return;
 }
-void semantic_action_77(context_t* context) {
+void semantic_action_89(context_t* context) {
 ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[78]->arr);
-uint32_t counto = context->alias[78]->len;
-{{ result = ast_Star(*o); }}
+ast_node_t** o = (ast_node_t**)(context->alias[90]->arr);
+uint32_t counto = context->alias[90]->len;
+result = ast_Star(*o); 
 context->result = result;
-return;
-}
-void semantic_action_81(context_t* context) {
-ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[82]->arr);
-uint32_t counto = context->alias[82]->len;
-{{ result = ast_Plus(*o); }}
-context->result = result;
-return;
-}
-void semantic_action_85(context_t* context) {
-ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[86]->arr);
-uint32_t counto = context->alias[86]->len;
-{{ result = ast_Option(*o); }}
-context->result = result;
-return;
-}
-void alias_allocs_77(context_t* context) {
-context->alias[78] = init_dyn_arr(16);
-return;
-}
-void alias_allocs_81(context_t* context) {
-context->alias[82] = init_dyn_arr(16);
-return;
-}
-void alias_allocs_85(context_t* context) {
-context->alias[86] = init_dyn_arr(16);
 return;
 }
 void semantic_action_93(context_t* context) {
 ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[96]->arr);
-uint32_t counto = context->alias[96]->len;
-{{ result = *o; }}
+ast_node_t** o = (ast_node_t**)(context->alias[94]->arr);
+uint32_t counto = context->alias[94]->len;
+result = ast_Plus(*o); 
 context->result = result;
 return;
 }
-void semantic_action_99(context_t* context) {
+void semantic_action_97(context_t* context) {
 ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[102]->arr);
-uint32_t counto = context->alias[102]->len;
-{{ result = ast_Capture(*o); }}
+ast_node_t** o = (ast_node_t**)(context->alias[98]->arr);
+uint32_t counto = context->alias[98]->len;
+result = ast_Option(*o); 
 context->result = result;
+return;
+}
+void alias_allocs_89(context_t* context) {
+context->alias[90] = init_dyn_arr(16);
+return;
+}
+void alias_allocs_93(context_t* context) {
+context->alias[94] = init_dyn_arr(16);
+return;
+}
+void alias_allocs_97(context_t* context) {
+context->alias[98] = init_dyn_arr(16);
 return;
 }
 void semantic_action_105(context_t* context) {
 ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[105]->arr);
-uint32_t counto = context->alias[105]->len;
-{{ result = *o; }}
+ast_node_t** o = (ast_node_t**)(context->alias[108]->arr);
+uint32_t counto = context->alias[108]->len;
+result = *o; 
 context->result = result;
 return;
 }
-void alias_allocs_93(context_t* context) {
-context->alias[96] = init_dyn_arr(16);
+void semantic_action_111(context_t* context) {
+ast_node_t* result = NULL;
+ast_node_t** o = (ast_node_t**)(context->alias[114]->arr);
+uint32_t counto = context->alias[114]->len;
+result = ast_Capture(*o); 
+context->result = result;
 return;
 }
-void alias_allocs_99(context_t* context) {
-context->alias[102] = init_dyn_arr(16);
+void semantic_action_117(context_t* context) {
+ast_node_t* result = NULL;
+ast_node_t** o = (ast_node_t**)(context->alias[117]->arr);
+uint32_t counto = context->alias[117]->len;
+result = *o; 
+context->result = result;
 return;
 }
 void alias_allocs_105(context_t* context) {
-context->alias[105] = init_dyn_arr(16);
-return;
-}
-void semantic_action_107(context_t* context) {
-ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[107]->arr);
-uint32_t counto = context->alias[107]->len;
-{{ result = *o; }}
-context->result = result;
-return;
-}
-void semantic_action_108(context_t* context) {
-ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[108]->arr);
-uint32_t counto = context->alias[108]->len;
-{{ result = *o; }}
-context->result = result;
-return;
-}
-void semantic_action_109(context_t* context) {
-ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[109]->arr);
-uint32_t counto = context->alias[109]->len;
-{{ result = *o; }}
-context->result = result;
-return;
-}
-void semantic_action_110(context_t* context) {
-ast_node_t* result = NULL;
-ast_node_t** o = (ast_node_t**)(context->alias[110]->arr);
-uint32_t counto = context->alias[110]->len;
-{{ result = *o; }}
-context->result = result;
-return;
-}
-void alias_allocs_107(context_t* context) {
-context->alias[107] = init_dyn_arr(16);
-return;
-}
-void alias_allocs_108(context_t* context) {
 context->alias[108] = init_dyn_arr(16);
 return;
 }
-void alias_allocs_109(context_t* context) {
-context->alias[109] = init_dyn_arr(16);
+void alias_allocs_111(context_t* context) {
+context->alias[114] = init_dyn_arr(16);
 return;
 }
-void alias_allocs_110(context_t* context) {
-context->alias[110] = init_dyn_arr(16);
-return;
-}
-void semantic_action_112(context_t* context) {
-ast_node_t* result = NULL;
-{{
-  result = ast_AliasedNontm(c(1), c(0));
-}}
-context->result = result;
-return;
-}
-void semantic_action_118(context_t* context) {
-ast_node_t* result = NULL;
-{{
-  result = ast_Nontm(c(0));
-}}
-context->result = result;
-return;
-}
-void alias_allocs_112(context_t* context) {
-return;
-}
-void alias_allocs_118(context_t* context) {
+void alias_allocs_117(context_t* context) {
+context->alias[117] = init_dyn_arr(16);
 return;
 }
 void semantic_action_119(context_t* context) {
 ast_node_t* result = NULL;
-{{
-  result = ast_Literal(c(0));
-}}
+ast_node_t** o = (ast_node_t**)(context->alias[119]->arr);
+uint32_t counto = context->alias[119]->len;
+result = *o; 
+context->result = result;
+return;
+}
+void semantic_action_120(context_t* context) {
+ast_node_t* result = NULL;
+ast_node_t** o = (ast_node_t**)(context->alias[120]->arr);
+uint32_t counto = context->alias[120]->len;
+result = *o; 
+context->result = result;
+return;
+}
+void semantic_action_121(context_t* context) {
+ast_node_t* result = NULL;
+ast_node_t** o = (ast_node_t**)(context->alias[121]->arr);
+uint32_t counto = context->alias[121]->len;
+result = *o; 
+context->result = result;
+return;
+}
+void semantic_action_122(context_t* context) {
+ast_node_t* result = NULL;
+ast_node_t** o = (ast_node_t**)(context->alias[122]->arr);
+uint32_t counto = context->alias[122]->len;
+result = *o; 
 context->result = result;
 return;
 }
 void alias_allocs_119(context_t* context) {
+context->alias[119] = init_dyn_arr(16);
 return;
 }
-void semantic_action_133(context_t* context) {
+void alias_allocs_120(context_t* context) {
+context->alias[120] = init_dyn_arr(16);
+return;
+}
+void alias_allocs_121(context_t* context) {
+context->alias[121] = init_dyn_arr(16);
+return;
+}
+void alias_allocs_122(context_t* context) {
+context->alias[122] = init_dyn_arr(16);
+return;
+}
+void semantic_action_124(context_t* context) {
 ast_node_t* result = NULL;
-{{
-  result = ast_CClass(c(0));
-}}
+result = ast_AliasedNontm(c(1), c(0));
+    
 context->result = result;
 return;
 }
-void alias_allocs_133(context_t* context) {
-return;
-}
-void semantic_action_147(context_t* context) {
+void semantic_action_130(context_t* context) {
 ast_node_t* result = NULL;
-{{ result = ast_dot(); }}
+result = ast_Nontm(c(0));
+    
 context->result = result;
 return;
 }
-void alias_allocs_147(context_t* context) {
+void alias_allocs_124(context_t* context) {
+return;
+}
+void alias_allocs_130(context_t* context) {
+return;
+}
+void semantic_action_131(context_t* context) {
+ast_node_t* result = NULL;
+result = ast_Literal(c(0));
+    
+context->result = result;
+return;
+}
+void alias_allocs_131(context_t* context) {
+return;
+}
+void semantic_action_145(context_t* context) {
+ast_node_t* result = NULL;
+result = ast_CClass(c(0));
+    
+context->result = result;
+return;
+}
+void alias_allocs_145(context_t* context) {
+return;
+}
+void semantic_action_159(context_t* context) {
+ast_node_t* result = NULL;
+result = ast_dot(); 
+context->result = result;
+return;
+}
+void alias_allocs_159(context_t* context) {
 return;
 }

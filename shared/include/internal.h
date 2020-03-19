@@ -20,7 +20,7 @@ typedef struct {
     uint32_t cap;
     uint32_t len;
     void** arr;
-} dyn_arrt;
+} dyn_arr_t;
 
 typedef enum {
     IN_PROGRESS = 0x1,
@@ -34,7 +34,7 @@ typedef struct cached_rnode_t_ {
 } cached_rnode_t;
 
 typedef struct {
-    dyn_arrt* call_dyn_arr;
+    dyn_arr_t* call_dyn_arr;
     cached_rnode_t* cache_head;
     cached_rnode_t** cache_arr;
 } memo_state_t;
@@ -51,16 +51,16 @@ typedef struct {
 } capture_t;
 
 typedef struct {
-    dyn_arrt* capture; // capture->arr[index] -> capture_t*
-    dyn_arrt** alias; // alias[which]->arr[index] -> void*
+    dyn_arr_t* capture; // capture->arr[index] -> capture_t*
+    dyn_arr_t** alias; // alias[which]->arr[index] -> void*
     void* result;
 } context_t;
 
-dyn_arrt* init_dyn_arr(uint32_t cap);
-void free_dyn_arr(dyn_arrt* list);
-void append_dyn_arr(dyn_arrt* list, void* element);
-void* pop_dyn_arr(dyn_arrt* list);
-void* get_dyn_arr(dyn_arrt* list, uint32_t index);
+dyn_arr_t* init_dyn_arr(uint32_t cap);
+void free_dyn_arr(dyn_arr_t* list);
+void append_dyn_arr(dyn_arr_t* list, void* element);
+void* pop_dyn_arr(dyn_arr_t* list);
+void* get_dyn_arr(dyn_arr_t* list, uint32_t index);
 
 void free_tree(rnode_t* node, pnode_flag_t exclude);
 void finalize_tree(rnode_t* node);

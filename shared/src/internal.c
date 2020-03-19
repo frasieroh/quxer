@@ -7,23 +7,23 @@
 
 #include "internal.h"
 
-dyn_arrt* init_dyn_arr(uint32_t cap)
+dyn_arr_t* init_dyn_arr(uint32_t cap)
 {
-    dyn_arrt* list = malloc(sizeof(dyn_arrt));
+    dyn_arr_t* list = malloc(sizeof(dyn_arr_t));
     list->arr = malloc(sizeof(void*) * cap);
     list->cap = cap;
     list->len = 0;
     return list;
 }
 
-void free_dyn_arr(dyn_arrt* list)
+void free_dyn_arr(dyn_arr_t* list)
 {
     free(list->arr);
     free(list);
     return;
 }
 
-void append_dyn_arr(dyn_arrt* list, void* element)
+void append_dyn_arr(dyn_arr_t* list, void* element)
 {
     if (list->len >= list->cap) {
         list->cap *= 2;
@@ -33,12 +33,12 @@ void append_dyn_arr(dyn_arrt* list, void* element)
     return;
 }
 
-void* pop_dyn_arr(dyn_arrt* list)
+void* pop_dyn_arr(dyn_arr_t* list)
 {
     return list->arr[--(list->len)];
 }
 
-void* get_dyn_arr(dyn_arrt* list, uint32_t index)
+void* get_dyn_arr(dyn_arr_t* list, uint32_t index)
 {
     return list->arr[index];
 }
@@ -275,7 +275,7 @@ context_t* init_context()
 {
     context_t* context = malloc(sizeof(context_t));
     context->capture = init_dyn_arr(16);
-    context->alias = malloc(sizeof(dyn_arrt*) * num_nodes);
+    context->alias = malloc(sizeof(dyn_arr_t*) * num_nodes);
     context->result = NULL;
     return context;
 }

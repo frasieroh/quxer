@@ -11,7 +11,7 @@ void write_plus(FILE* file, writer_config_t* config, pnode_t* node)
 1       uint32_t start_<child_id> = start_<id>;
 2       rnode_t* result_<child_id> = NULL;
 3       uint32_t num_children_<id> = 0;
-4       dyn_arrt* list_<id> = init_dyn_arr(16);
+4       dyn_arr_t* list_<id> = init_dyn_arr(16);
         do {
 5           result_<child_id> = NULL;
             ... child parser ...
@@ -44,7 +44,7 @@ void write_plus(FILE* file, writer_config_t* config, pnode_t* node)
 /*1*/   "uint32_t start_%u = start_%u;\n"
 /*2*/   "rnode_t* result_%u = NULL;\n"
 /*3*/   "uint32_t num_children_%u = 0;\n"
-/*4*/   "dyn_arrt* list_%u = init_dyn_arr(16);\n"
+/*4*/   "dyn_arr_t* list_%u = init_dyn_arr(16);\n"
         "do {\n"
 /*5*/   "result_%u = NULL;\n",
 /*1*/   child_id, id,

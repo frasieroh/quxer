@@ -67,7 +67,7 @@ ast_node_t* ast_Seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
     for (uint32_t i = 1; i < num; ++i) {
         ast_buf[i] = rest[i-1];
     }
-    dyn_arrt* list = init_dyn_arr(16);
+    dyn_arr_t* list = init_dyn_arr(16);
     for (uint32_t i = 0; i < num; ++i) {
         ast_node_t* ast_node = ast_buf[i];
         pnode_t* node = ast_node->data.pnode;
@@ -184,7 +184,7 @@ ast_node_t* ast_Literal(uint8_t* str)
 ast_node_t* ast_CClass(uint8_t* str)
 {
     uint32_t len = strlen((char*)str);
-    dyn_arrt* list = init_dyn_arr(16);
+    dyn_arr_t* list = init_dyn_arr(16);
     for (uint32_t i = 0; i < len; ++i) {
         uint8_t c1 = 0;
         uint8_t ret = parse_escape_sequence(str, len, i, &c1);
