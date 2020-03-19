@@ -67,11 +67,11 @@ ast_node_t* ast_Seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
     for (uint32_t i = 1; i < num; ++i) {
         ast_buf[i] = rest[i-1];
     }
-    stack_t* list = init_stack(64);
+    dyn_arrt* list = init_dyn_arr(16);
     for (uint32_t i = 0; i < num; ++i) {
         ast_node_t* ast_node = ast_buf[i];
         pnode_t* node = ast_node->data.pnode;
-        append_stack(list, node);
+        append_dyn_arr(list, node);
         if (ast_node->code) {
             pnode_t* fragment;
             uint32_t list_len = list->len;
@@ -79,13 +79,13 @@ ast_node_t* ast_Seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
                 fragment = Action(
                         Seq(list_len, (pnode_t**)list->arr), ast_node->code);
             } else {
-                fragment = Action(get_stack(list, 0), ast_node->code);
+                fragment = Action(get_dyn_arr(list, 0), ast_node->code);
             }
 
             for (uint32_t j = 0; j < list_len; ++j) {
-                pop_stack(list);
+                pop_dyn_arr(list);
             }
-            append_stack(list, fragment);
+            append_dyn_arr(list, fragment);
         }
     }
     pnode_t* result_pnode;
@@ -93,12 +93,12 @@ ast_node_t* ast_Seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
         uint32_t list_len = list->len;
         result_pnode = Seq(list_len, (pnode_t**)list->arr);
         for (uint32_t j = 0; j < list_len; ++j) {
-            pop_stack(list);
+            pop_dyn_arr(list);
         }
     } else {
-        result_pnode = pop_stack(list);
+        result_pnode = pop_dyn_arr(list);
     }
-    free_stack(list);
+    free_dyn_arr(list);
     ast_node_t* ast_node = allocate_ast_node(num);
     ast_node->type = PNODE_T;
     ast_node->data.pnode = result_pnode;
@@ -184,7 +184,7 @@ ast_node_t* ast_Literal(uint8_t* str)
 ast_node_t* ast_CClass(uint8_t* str)
 {
     uint32_t len = strlen((char*)str);
-    stack_t* list = init_stack(16);
+    dyn_arrt* list = init_dyn_arr(16);
     for (uint32_t i = 0; i < len; ++i) {
         uint8_t c1 = 0;
         uint8_t ret = parse_escape_sequence(str, len, i, &c1);
@@ -212,19 +212,19 @@ ast_node_t* ast_CClass(uint8_t* str)
                 }
             }
             if (c1 < c2) {
-                append_stack(list, Range(c1, c2));
+                append_dyn_arr(list, Range(c1, c2));
             } else {
-                append_stack(list, Range(c2, c1));
+                append_dyn_arr(list, Range(c2, c1));
             }
             i = i + 2; // consumed 2 additional characters
         } else {
-            append_stack(list, LiteralBytes(&c1, 1));
+            append_dyn_arr(list, LiteralBytes(&c1, 1));
         }
     }
     ast_node_t* ast_node = allocate_ast_node(0);
     ast_node->type = PNODE_T;
     ast_node->data.pnode = Alt(list->len, (pnode_t**)(list->arr));
-    free_stack(list);
+    free_dyn_arr(list);
     return ast_node;
 }
 

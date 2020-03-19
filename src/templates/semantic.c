@@ -13,11 +13,11 @@ void write_helper_macros(FILE* file, writer_config_t* config)
 {
     fprintf(file,
         "#define c(x) "
-            "(((capture_t*)get_stack(context->capture, x))->str)\n"
+            "(((capture_t*)get_dyn_arr(context->capture, x))->str)\n"
         "#define s(x) "
-            "(((capture_t*)get_stack(context->capture, x))->start)\n"
+            "(((capture_t*)get_dyn_arr(context->capture, x))->start)\n"
         "#define e(x) "
-            "(((capture_t*)get_stack(context->capture, x))->end)\n"
+            "(((capture_t*)get_dyn_arr(context->capture, x))->end)\n"
         "#define ccount (context->capture->len)\n");
     return;
 }
@@ -153,7 +153,7 @@ void write_alias_allocs(FILE* file, writer_config_t* config,
 /*
     ... for each semantic action under the root pnode_t node:
 1   void alias_allocs_<id>(context_t* context) {
-2       context->alias[<id1>] = init_stack(16);
+2       context->alias[<id1>] = init_dyn_arr(16);
         return;
     }
 */
@@ -185,7 +185,7 @@ void write_alias_allocs_bindings(FILE* file, writer_config_t* config,
 {
     if (node->flags & ALIAS) {
         fprintf(file,
-            "context->alias[%u] = init_stack(16);\n",
+            "context->alias[%u] = init_dyn_arr(16);\n",
             node->id);
     }
     switch (node->type) {
