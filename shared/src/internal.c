@@ -276,9 +276,6 @@ context_t* init_context()
     context_t* context = malloc(sizeof(context_t));
     context->capture = init_stack(64);
     context->alias = malloc(sizeof(stack_t*) * num_nodes);
-    for (uint32_t i = 0; i < num_nodes; ++i) {
-        context->alias[i] = init_stack(64);
-    }
     context->result = NULL;
     return context;
 }
@@ -290,7 +287,8 @@ void free_context(context_t* context)
     }
     free_stack(context->capture);
     for (uint32_t i = 0; i < num_nodes; ++i) {
-        free_stack(context->alias[i]);
+        // TODO: stop leaking memory here
+        // free_stack(context->alias[i]);
     }
     free(context->alias);
     free(context);
@@ -309,6 +307,9 @@ void* generate_semantic_result(uint8_t* text, rnode_t* root)
 void generate_semantic_result_recursive(
         context_t* context, uint8_t* text, rnode_t* node)
 {
+    if (node->flags & SEMANTIC_ACTION) {
+        alias_allocs_map[node->id](context);
+    }
     if (node->type == NONTERMINAL_T) {
         context_t* inner_context = init_context();
         generate_semantic_result_recursive(

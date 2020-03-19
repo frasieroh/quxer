@@ -120,6 +120,7 @@ static void write_header(FILE* file, writer_config_t* config,
     }
     for (uint32_t i = 0; i < grammar->num_rules; ++i) {
         declare_semantic_actions(file, config, grammar->rules[i]->root);
+        declare_alias_allocs(file, config, grammar->rules[i]->root);
     }
 }
 
@@ -138,6 +139,7 @@ static void write_source(FILE* file, writer_config_t* config,
     write_helper_macros(file, config);
     for (uint32_t i = 0; i < grammar->num_rules; ++i) {
         write_semantic_actions(file, config, grammar->rules[i]->root);
+        write_alias_allocs(file, config, grammar->rules[i]->root);
     }
 }
 

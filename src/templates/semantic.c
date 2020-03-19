@@ -6,6 +6,9 @@
 static void write_alias_bindings(FILE* file, writer_config_t* config,
         pnode_t* node);
 
+static void write_alias_allocs_bindings(FILE* file, writer_config_t* config,
+        pnode_t* node);
+
 void write_helper_macros(FILE* file, writer_config_t* config)
 {
     fprintf(file,
@@ -51,6 +54,32 @@ void declare_semantic_actions(FILE* file, writer_config_t* config,
     }
     return;
 }
+
+void declare_alias_allocs(FILE* file, writer_config_t* config,
+        pnode_t* node)
+/*
+    ... for each semantic action under the root pnode_t node:
+1   void alias_allocs_<id>(context_t* context);
+*/
+{
+    if (node->flags & SEMANTIC_ACTION) {
+        fprintf(file,
+/*1*/       "void alias_allocs_%u(context_t* context);\n",
+/*1*/       node->id);
+    }
+    switch (node->type) {
+        case LITERAL_T:
+        case NONTERMINAL_T:
+        case RANGE_T:
+            break;
+        default:
+            for (uint32_t i = 0; i < node->num_data; ++i) {
+                declare_alias_allocs(file, config, node->data.node[i]);
+            }
+    }
+    return;
+}
+
 void write_semantic_actions(FILE* file, writer_config_t* config,
         pnode_t* node)
 /*
@@ -119,5 +148,57 @@ void write_alias_bindings(FILE* file, writer_config_t* config, pnode_t* node)
     return;
 }
 
+void write_alias_allocs(FILE* file, writer_config_t* config,
+        pnode_t* node)
+/*
+    ... for each semantic action under the root pnode_t node:
+1   void alias_allocs_<id>(context_t* context) {
+2       context->alias[<id1>] = init_stack(16);
+        return;
+    }
+*/
+{
+    if (node->flags & SEMANTIC_ACTION) {
+        fprintf(file,
+/*1*/       "void alias_allocs_%u(context_t* context) {\n",
+/*1*/       node->id);
+/*2*/   write_alias_allocs_bindings(file, config, node);
+        fprintf(file,
+            "return;\n"
+            "}\n");
+    }
+    switch (node->type) {
+        case LITERAL_T:
+        case NONTERMINAL_T:
+        case RANGE_T:
+            break;
+        default:
+            for (uint32_t i = 0; i < node->num_data; ++i) {
+                write_alias_allocs(file, config, node->data.node[i]);
+            }
+    }
+    return;
+}
+
+void write_alias_allocs_bindings(FILE* file, writer_config_t* config,
+        pnode_t* node)
+{
+    if (node->flags & ALIAS) {
+        fprintf(file,
+            "context->alias[%u] = init_stack(16);\n",
+            node->id);
+    }
+    switch (node->type) {
+        case LITERAL_T:
+        case NONTERMINAL_T:
+        case RANGE_T:
+            break;
+        default:
+            for (uint32_t i = 0; i < node->num_data; ++i) {
+                write_alias_allocs_bindings(file, config, node->data.node[i]);
+            }
+    }
+    return;
+}
 #endif
 

@@ -81,6 +81,9 @@ extern evalfcn_t eval_map[];
 typedef void (*actionfcn_t)(context_t*);
 extern actionfcn_t semantic_action_map[];
 
+typedef void (*aliasallocsfcn_t)(context_t*);
+extern aliasallocsfcn_t alias_allocs_map[];
+
 imported_file_t* import_file(char* filename);
 void free_file(imported_file_t* imported_file);
 void* parse_file(char* filename);
