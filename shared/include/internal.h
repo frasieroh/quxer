@@ -74,15 +74,25 @@ extern uint32_t num_rules;
 extern uint32_t num_nodes;
 
 rnode_t* call_eval(uint32_t, memo_state_t*, uint8_t*, uint32_t, uint32_t);
-rnode_t* grow_lr(uint32_t, memo_state_t*, uint8_t*, uint32_t, uint32_t);
+// rnode_t* grow_lr(uint32_t, memo_state_t*, uint8_t*, uint32_t, uint32_t);
 typedef rnode_t* (*evalfcn_t)(memo_state_t*, uint8_t*, uint32_t, uint32_t);
 extern evalfcn_t eval_map[];
 
 typedef void (*actionfcn_t)(context_t*);
-extern actionfcn_t semantic_action_map[];
+// extern actionfcn_t semantic_action_map[];
 
 typedef void (*aliasallocsfcn_t)(context_t*);
-extern aliasallocsfcn_t alias_allocs_map[];
+// extern aliasallocsfcn_t alias_allocs_map[];
+
+typedef void (*aliasfreesfcn_t)(context_t*);
+
+typedef struct {
+    actionfcn_t action;
+    aliasallocsfcn_t alias_allocs;
+    aliasfreesfcn_t alias_frees;
+} node_jump_map_member_t;
+
+extern node_jump_map_member_t node_jump_map[];
 
 imported_file_t* import_file(char* filename);
 void free_file(imported_file_t* imported_file);

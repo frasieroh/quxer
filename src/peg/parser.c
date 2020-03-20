@@ -28,9 +28,34 @@
 evalfcn_t eval_map[] = {eval_grammar, eval_ws, eval_wsp, eval_rule, eval_name, eval_body, eval_alt, eval_seq, eval_operator, eval_prefix, eval_and, eval_not, eval_postfix, eval_star, eval_plus, eval_option, eval_group, eval_final, eval_nonterminal, eval_literal, eval_cclass, eval_dot, eval_code, };
 char* name_map[] = {"grammar", "ws", "wsp", "rule", "name", "body", "alt", "seq", "operator", "prefix", "and", "not", "postfix", "star", "plus", "option", "group", "final", "nonterminal", "literal", "cclass", "dot", "code", };
 uint32_t num_rules = 23;
-actionfcn_t semantic_action_map[171] = {[0] = semantic_action_0, [18] = semantic_action_18, [31] = semantic_action_31, [32] = semantic_action_32, [40] = semantic_action_40, [47] = semantic_action_47, [57] = semantic_action_57, [67] = semantic_action_67, [78] = semantic_action_78, [82] = semantic_action_82, [89] = semantic_action_89, [93] = semantic_action_93, [97] = semantic_action_97, [105] = semantic_action_105, [111] = semantic_action_111, [117] = semantic_action_117, [119] = semantic_action_119, [120] = semantic_action_120, [121] = semantic_action_121, [122] = semantic_action_122, [124] = semantic_action_124, [130] = semantic_action_130, [131] = semantic_action_131, [145] = semantic_action_145, [159] = semantic_action_159, };
 uint32_t num_nodes = 171;
-aliasallocsfcn_t alias_allocs_map[171] = {[0] = alias_allocs_0, [18] = alias_allocs_18, [31] = alias_allocs_31, [32] = alias_allocs_32, [40] = alias_allocs_40, [47] = alias_allocs_47, [57] = alias_allocs_57, [67] = alias_allocs_67, [78] = alias_allocs_78, [82] = alias_allocs_82, [89] = alias_allocs_89, [93] = alias_allocs_93, [97] = alias_allocs_97, [105] = alias_allocs_105, [111] = alias_allocs_111, [117] = alias_allocs_117, [119] = alias_allocs_119, [120] = alias_allocs_120, [121] = alias_allocs_121, [122] = alias_allocs_122, [124] = alias_allocs_124, [130] = alias_allocs_130, [131] = alias_allocs_131, [145] = alias_allocs_145, [159] = alias_allocs_159, };
+node_jump_map_member_t node_jump_map[171] = {
+[0] = {semantic_action_0, alias_allocs_0, alias_frees_0},
+[18] = {semantic_action_18, alias_allocs_18, alias_frees_18},
+[31] = {semantic_action_31, alias_allocs_31, alias_frees_31},
+[32] = {semantic_action_32, alias_allocs_32, alias_frees_32},
+[40] = {semantic_action_40, alias_allocs_40, alias_frees_40},
+[47] = {semantic_action_47, alias_allocs_47, alias_frees_47},
+[57] = {semantic_action_57, alias_allocs_57, alias_frees_57},
+[67] = {semantic_action_67, alias_allocs_67, alias_frees_67},
+[78] = {semantic_action_78, alias_allocs_78, alias_frees_78},
+[82] = {semantic_action_82, alias_allocs_82, alias_frees_82},
+[89] = {semantic_action_89, alias_allocs_89, alias_frees_89},
+[93] = {semantic_action_93, alias_allocs_93, alias_frees_93},
+[97] = {semantic_action_97, alias_allocs_97, alias_frees_97},
+[105] = {semantic_action_105, alias_allocs_105, alias_frees_105},
+[111] = {semantic_action_111, alias_allocs_111, alias_frees_111},
+[117] = {semantic_action_117, alias_allocs_117, alias_frees_117},
+[119] = {semantic_action_119, alias_allocs_119, alias_frees_119},
+[120] = {semantic_action_120, alias_allocs_120, alias_frees_120},
+[121] = {semantic_action_121, alias_allocs_121, alias_frees_121},
+[122] = {semantic_action_122, alias_allocs_122, alias_frees_122},
+[124] = {semantic_action_124, alias_allocs_124, alias_frees_124},
+[130] = {semantic_action_130, alias_allocs_130, alias_frees_130},
+[131] = {semantic_action_131, alias_allocs_131, alias_frees_131},
+[145] = {semantic_action_145, alias_allocs_145, alias_frees_145},
+[159] = {semantic_action_159, alias_allocs_159, alias_frees_159},
+};
 rnode_t* eval_grammar(memo_state_t* state, uint8_t* text,
                  uint32_t text_length, uint32_t pos) {
 uint32_t start_0 = pos;
@@ -3601,6 +3626,10 @@ void alias_allocs_0(context_t* context) {
 context->alias[4] = init_dyn_arr(16);
 return;
 }
+void alias_frees_0(context_t* context) {
+free_dyn_arr(context->alias[4]);
+return;
+}
 void semantic_action_18(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** b = (ast_node_t**)(context->alias[24]->arr);
@@ -3614,6 +3643,10 @@ void alias_allocs_18(context_t* context) {
 context->alias[24] = init_dyn_arr(16);
 return;
 }
+void alias_frees_18(context_t* context) {
+free_dyn_arr(context->alias[24]);
+return;
+}
 void semantic_action_31(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[31]->arr);
@@ -3624,6 +3657,10 @@ return;
 }
 void alias_allocs_31(context_t* context) {
 context->alias[31] = init_dyn_arr(16);
+return;
+}
+void alias_frees_31(context_t* context) {
+free_dyn_arr(context->alias[31]);
 return;
 }
 void semantic_action_32(context_t* context) {
@@ -3642,6 +3679,11 @@ context->alias[33] = init_dyn_arr(16);
 context->alias[39] = init_dyn_arr(16);
 return;
 }
+void alias_frees_32(context_t* context) {
+free_dyn_arr(context->alias[33]);
+free_dyn_arr(context->alias[39]);
+return;
+}
 void semantic_action_40(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** first = (ast_node_t**)(context->alias[41]->arr);
@@ -3658,6 +3700,11 @@ context->alias[41] = init_dyn_arr(16);
 context->alias[45] = init_dyn_arr(16);
 return;
 }
+void alias_frees_40(context_t* context) {
+free_dyn_arr(context->alias[41]);
+free_dyn_arr(context->alias[45]);
+return;
+}
 void semantic_action_47(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[48]->arr);
@@ -3665,6 +3712,14 @@ uint32_t counto = context->alias[48]->len;
 if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
     
 context->result = result;
+return;
+}
+void alias_allocs_47(context_t* context) {
+context->alias[48] = init_dyn_arr(16);
+return;
+}
+void alias_frees_47(context_t* context) {
+free_dyn_arr(context->alias[48]);
 return;
 }
 void semantic_action_57(context_t* context) {
@@ -3676,6 +3731,14 @@ if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
 context->result = result;
 return;
 }
+void alias_allocs_57(context_t* context) {
+context->alias[58] = init_dyn_arr(16);
+return;
+}
+void alias_frees_57(context_t* context) {
+free_dyn_arr(context->alias[58]);
+return;
+}
 void semantic_action_67(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[68]->arr);
@@ -3685,16 +3748,12 @@ if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
 context->result = result;
 return;
 }
-void alias_allocs_47(context_t* context) {
-context->alias[48] = init_dyn_arr(16);
-return;
-}
-void alias_allocs_57(context_t* context) {
-context->alias[58] = init_dyn_arr(16);
-return;
-}
 void alias_allocs_67(context_t* context) {
 context->alias[68] = init_dyn_arr(16);
+return;
+}
+void alias_frees_67(context_t* context) {
+free_dyn_arr(context->alias[68]);
 return;
 }
 void semantic_action_78(context_t* context) {
@@ -3705,6 +3764,14 @@ result = ast_And(*o);
 context->result = result;
 return;
 }
+void alias_allocs_78(context_t* context) {
+context->alias[81] = init_dyn_arr(16);
+return;
+}
+void alias_frees_78(context_t* context) {
+free_dyn_arr(context->alias[81]);
+return;
+}
 void semantic_action_82(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[85]->arr);
@@ -3713,12 +3780,12 @@ result = ast_Not(*o);
 context->result = result;
 return;
 }
-void alias_allocs_78(context_t* context) {
-context->alias[81] = init_dyn_arr(16);
-return;
-}
 void alias_allocs_82(context_t* context) {
 context->alias[85] = init_dyn_arr(16);
+return;
+}
+void alias_frees_82(context_t* context) {
+free_dyn_arr(context->alias[85]);
 return;
 }
 void semantic_action_89(context_t* context) {
@@ -3729,12 +3796,28 @@ result = ast_Star(*o);
 context->result = result;
 return;
 }
+void alias_allocs_89(context_t* context) {
+context->alias[90] = init_dyn_arr(16);
+return;
+}
+void alias_frees_89(context_t* context) {
+free_dyn_arr(context->alias[90]);
+return;
+}
 void semantic_action_93(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[94]->arr);
 uint32_t counto = context->alias[94]->len;
 result = ast_Plus(*o); 
 context->result = result;
+return;
+}
+void alias_allocs_93(context_t* context) {
+context->alias[94] = init_dyn_arr(16);
+return;
+}
+void alias_frees_93(context_t* context) {
+free_dyn_arr(context->alias[94]);
 return;
 }
 void semantic_action_97(context_t* context) {
@@ -3745,16 +3828,12 @@ result = ast_Option(*o);
 context->result = result;
 return;
 }
-void alias_allocs_89(context_t* context) {
-context->alias[90] = init_dyn_arr(16);
-return;
-}
-void alias_allocs_93(context_t* context) {
-context->alias[94] = init_dyn_arr(16);
-return;
-}
 void alias_allocs_97(context_t* context) {
 context->alias[98] = init_dyn_arr(16);
+return;
+}
+void alias_frees_97(context_t* context) {
+free_dyn_arr(context->alias[98]);
 return;
 }
 void semantic_action_105(context_t* context) {
@@ -3765,12 +3844,28 @@ result = *o;
 context->result = result;
 return;
 }
+void alias_allocs_105(context_t* context) {
+context->alias[108] = init_dyn_arr(16);
+return;
+}
+void alias_frees_105(context_t* context) {
+free_dyn_arr(context->alias[108]);
+return;
+}
 void semantic_action_111(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[114]->arr);
 uint32_t counto = context->alias[114]->len;
 result = ast_Capture(*o); 
 context->result = result;
+return;
+}
+void alias_allocs_111(context_t* context) {
+context->alias[114] = init_dyn_arr(16);
+return;
+}
+void alias_frees_111(context_t* context) {
+free_dyn_arr(context->alias[114]);
 return;
 }
 void semantic_action_117(context_t* context) {
@@ -3781,16 +3876,12 @@ result = *o;
 context->result = result;
 return;
 }
-void alias_allocs_105(context_t* context) {
-context->alias[108] = init_dyn_arr(16);
-return;
-}
-void alias_allocs_111(context_t* context) {
-context->alias[114] = init_dyn_arr(16);
-return;
-}
 void alias_allocs_117(context_t* context) {
 context->alias[117] = init_dyn_arr(16);
+return;
+}
+void alias_frees_117(context_t* context) {
+free_dyn_arr(context->alias[117]);
 return;
 }
 void semantic_action_119(context_t* context) {
@@ -3801,12 +3892,28 @@ result = *o;
 context->result = result;
 return;
 }
+void alias_allocs_119(context_t* context) {
+context->alias[119] = init_dyn_arr(16);
+return;
+}
+void alias_frees_119(context_t* context) {
+free_dyn_arr(context->alias[119]);
+return;
+}
 void semantic_action_120(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[120]->arr);
 uint32_t counto = context->alias[120]->len;
 result = *o; 
 context->result = result;
+return;
+}
+void alias_allocs_120(context_t* context) {
+context->alias[120] = init_dyn_arr(16);
+return;
+}
+void alias_frees_120(context_t* context) {
+free_dyn_arr(context->alias[120]);
 return;
 }
 void semantic_action_121(context_t* context) {
@@ -3817,6 +3924,14 @@ result = *o;
 context->result = result;
 return;
 }
+void alias_allocs_121(context_t* context) {
+context->alias[121] = init_dyn_arr(16);
+return;
+}
+void alias_frees_121(context_t* context) {
+free_dyn_arr(context->alias[121]);
+return;
+}
 void semantic_action_122(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[122]->arr);
@@ -3825,20 +3940,12 @@ result = *o;
 context->result = result;
 return;
 }
-void alias_allocs_119(context_t* context) {
-context->alias[119] = init_dyn_arr(16);
-return;
-}
-void alias_allocs_120(context_t* context) {
-context->alias[120] = init_dyn_arr(16);
-return;
-}
-void alias_allocs_121(context_t* context) {
-context->alias[121] = init_dyn_arr(16);
-return;
-}
 void alias_allocs_122(context_t* context) {
 context->alias[122] = init_dyn_arr(16);
+return;
+}
+void alias_frees_122(context_t* context) {
+free_dyn_arr(context->alias[122]);
 return;
 }
 void semantic_action_124(context_t* context) {
@@ -3848,6 +3955,12 @@ result = ast_AliasedNontm(c(1), c(0));
 context->result = result;
 return;
 }
+void alias_allocs_124(context_t* context) {
+return;
+}
+void alias_frees_124(context_t* context) {
+return;
+}
 void semantic_action_130(context_t* context) {
 ast_node_t* result = NULL;
 result = ast_Nontm(c(0));
@@ -3855,10 +3968,10 @@ result = ast_Nontm(c(0));
 context->result = result;
 return;
 }
-void alias_allocs_124(context_t* context) {
+void alias_allocs_130(context_t* context) {
 return;
 }
-void alias_allocs_130(context_t* context) {
+void alias_frees_130(context_t* context) {
 return;
 }
 void semantic_action_131(context_t* context) {
@@ -3871,6 +3984,9 @@ return;
 void alias_allocs_131(context_t* context) {
 return;
 }
+void alias_frees_131(context_t* context) {
+return;
+}
 void semantic_action_145(context_t* context) {
 ast_node_t* result = NULL;
 result = ast_CClass(c(0));
@@ -3881,6 +3997,9 @@ return;
 void alias_allocs_145(context_t* context) {
 return;
 }
+void alias_frees_145(context_t* context) {
+return;
+}
 void semantic_action_159(context_t* context) {
 ast_node_t* result = NULL;
 result = ast_dot(); 
@@ -3888,5 +4007,8 @@ context->result = result;
 return;
 }
 void alias_allocs_159(context_t* context) {
+return;
+}
+void alias_frees_159(context_t* context) {
 return;
 }

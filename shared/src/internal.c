@@ -111,11 +111,6 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
         if (result) {
             (*cached_rnode)->result->flags |= IS_CACHED;
         }
-        /*
-        if ((*cached_rnode)->flags & LR_DETECTED) {
-            return grow_lr(id, state, text, text_length, pos);
-        }
-        */
 #ifdef PRINT_TRACE
         if (result) {
             printf("caching rule %s, pos %d -> %d\n",
@@ -133,9 +128,6 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
             printf("Indirect left recursion: rule %s\n", name_map[id]);
             exit(EXIT_FAILURE);
         } else {
-            // direct left recursion
-            // (*cached_rnode)->flags |= LR_DETECTED;
-            // return NULL;
             printf("Direct left recursion: rule %s\n", name_map[id]);
             exit(EXIT_FAILURE);
         }
@@ -151,41 +143,6 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
 #endif
     return (*cached_rnode)->result;
 }
-
-/*
-rnode_t* grow_lr(uint32_t id, memo_state_t* state, uint8_t* text,
-        uint32_t text_length, uint32_t pos)
-{
-#ifdef PRINT_TRACE
-    printf("evaluating left-recursive rule %s, pos %d\n", name_map[id], pos);
-#endif
-    cached_rnode_t** cached_rnode =
-            &(state->cache_arr[id * (text_length + 1) + pos]);
-    rnode_t* result;
-    while (1) {
-        append_dyn_arr(state->call_dyn_arr, &id);
-        result = eval_map[id](state, text, text_length, pos);
-        pop_dyn_arr(state->call_dyn_arr);
-        if (!result || result->end <= pos) {
-            break;
-        }
-        (*cached_rnode)->result->flags ^= IS_CACHED;
-        free_tree((*cached_rnode)->result, IS_CACHED);
-        (*cached_rnode)->result = result;
-        (*cached_rnode)->result->flags |= IS_CACHED;
-    }
-#ifdef PRINT_TRACE
-        if (result) {
-            printf("caching left-recursive rule %s, pos %d -> %d\n",
-                name_map[id], pos, result->end);
-        } else {
-            printf("caching left-recursive rule %s, pos %d -> fail\n",
-                name_map[id], pos);
-        }
-#endif
-    return result;
-}
-*/
 
 imported_file_t* import_file(char* filename)
 {
@@ -286,10 +243,6 @@ void free_context(context_t* context)
         free_capture(get_dyn_arr(context->capture, i));
     }
     free_dyn_arr(context->capture);
-    for (uint32_t i = 0; i < num_nodes; ++i) {
-        // TODO: stop leaking memory here
-        // free_dyn_arr(context->alias[i]);
-    }
     free(context->alias);
     free(context);
     return;
@@ -308,7 +261,7 @@ void generate_semantic_result_recursive(
         context_t* context, uint8_t* text, rnode_t* node)
 {
     if (node->flags & SEMANTIC_ACTION) {
-        alias_allocs_map[node->id](context);
+        (node_jump_map[node->id].alias_allocs)(context);
     }
     if (node->type == NONTERMINAL_T) {
         context_t* inner_context = init_context();
@@ -331,7 +284,8 @@ void generate_semantic_result_recursive(
                 init_capture(text, node->start, node->end));
     }
     if (node->flags & SEMANTIC_ACTION) {
-        semantic_action_map[node->id](context);
+        (node_jump_map[node->id].action)(context);
+        (node_jump_map[node->id].alias_frees)(context);
     }
     return;
 }

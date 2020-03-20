@@ -8,19 +8,9 @@
 
 void write_helper_macros(FILE* file, writer_config_t* config);
 
-void write_num_nodes(FILE* file, writer_config_t* config, grammar_t* grammar);
+void declare_jump_map_fcns(FILE* file, writer_config_t* config, pnode_t* node);
 
-void declare_semantic_actions(FILE* file, writer_config_t* config,
-        pnode_t* node);
-
-void declare_alias_allocs(FILE* file, writer_config_t* config,
-        pnode_t* node);
-
-void write_semantic_actions(FILE* file, writer_config_t* config,
-        pnode_t* node);
-
-void write_alias_allocs(FILE* file, writer_config_t* config,
-        pnode_t* node);
+void write_jump_map_fcns(FILE* file, writer_config_t* config, pnode_t* node);
 
 #endif
 
