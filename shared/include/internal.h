@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "ptype.h"
+#include "dyn_arr.h"
 
 typedef struct rnode_t_ {
     ptype_t type;
@@ -15,12 +16,6 @@ typedef struct rnode_t_ {
     uint32_t num_children;
     struct rnode_t_* children[0];
 } rnode_t;
-
-typedef struct {
-    uint32_t cap;
-    uint32_t len;
-    void** arr;
-} dyn_arr_t;
 
 typedef enum {
     IN_PROGRESS = 0x1,
@@ -55,12 +50,6 @@ typedef struct {
     dyn_arr_t** alias; // alias[which]->arr[index] -> void*
     void* result;
 } context_t;
-
-dyn_arr_t* init_dyn_arr(uint32_t cap);
-void free_dyn_arr(dyn_arr_t* list);
-void append_dyn_arr(dyn_arr_t* list, void* element);
-void* pop_dyn_arr(dyn_arr_t* list);
-void* get_dyn_arr(dyn_arr_t* list, uint32_t index);
 
 void free_tree(rnode_t* node, pnode_flag_t exclude);
 void finalize_tree(rnode_t* node);
