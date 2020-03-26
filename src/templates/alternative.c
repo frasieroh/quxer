@@ -8,12 +8,14 @@
 
 void write_alternative(FILE* file, writer_config_t* config, pnode_t* node)
     /*
+0       arena_idx_t prealloc_idx_<id> = arena_prealloc(state->arena);
         // for every child:
 1       uint32_t start_<child_id> = start_<id>;
 2       rnode_t* result_<child_id> = NULL;
         ... child parser ...
 3       if (result_<child_id> != NULL) {
-4           result_<id> = malloc(sizeof(rnode_t) + sizeof(rnode_t*));
+4           result_<id> = arena_malloc(state->arena, prealloc_idx_<id>,
+                    sizeof(rnode_t) + sizeof(rnode_t*));
 5           result_<id>->flags = <flags_str>;
 6           result_<id>->type = ALTERNATIVE_T;
 7           result_<id>->start = start_<id>;
@@ -23,13 +25,17 @@ void write_alternative(FILE* file, writer_config_t* config, pnode_t* node)
 11          result_<id>->id = <id>;
 12          goto exit_<id>;
         }
+13      arena_reset_sp(state->arena, prealloc_idx_<id>);
         // after
-13      exit_<id>:
+14      exit_<id>:
     */
 {
     uint32_t id = node->id;
     pnode_t* child_node;
     uint32_t child_id;
+    fprintf(file,
+/*0*/   "arena_idx_t prealloc_idx_%u = arena_prealloc(state->arena);\n",
+/*0*/   id);
     for (uint32_t i = 0; i < node->num_data; ++i) {
         child_node = node->data.node[i];
         child_id = child_node->id;
@@ -42,7 +48,8 @@ void write_alternative(FILE* file, writer_config_t* config, pnode_t* node)
         char* flags_str = generate_flags_str(node);
         fprintf(file,
 /*3*/       "if (result_%u != NULL) {\n"
-/*4*/       "result_%u = malloc(sizeof(rnode_t) + sizeof(rnode_t*));\n"
+/*4*/       "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+                    "sizeof(rnode_t) + sizeof(rnode_t*));\n"
 /*5*/       "result_%u->flags = %s"
 /*6*/       "result_%u->type = ALTERNATIVE_T;\n"
 /*7*/       "result_%u->start = start_%u;\n"
@@ -53,7 +60,7 @@ void write_alternative(FILE* file, writer_config_t* config, pnode_t* node)
 /*12*/      "goto exit_%u;\n"
             "}\n",
 /*3*/       child_id,
-/*4*/       id,
+/*4*/       id, id,
 /*5*/       id, flags_str,
 /*6*/       id,
 /*7*/       id, id,
@@ -65,8 +72,10 @@ void write_alternative(FILE* file, writer_config_t* config, pnode_t* node)
         free(flags_str);
     }
     fprintf(file,
-/*13*/  "exit_%u:\n",
-/*13*/  id);
+/*13*/  "arena_reset_sp(state->arena, prealloc_idx_%u);\n"
+/*14*/  "exit_%u:\n",
+/*13*/  id,
+/*14*/  id);
     return;
 }
 

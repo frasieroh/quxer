@@ -7,23 +7,24 @@
 #include "templates/sequence.h"
 #include "templates/templates.h"
 
-static char* generate_free_trees_string(pnode_t* node, uint32_t how_many);
+// static char* generate_free_trees_string(pnode_t* node, uint32_t how_many);
 static char* generate_set_children_string(pnode_t* node);
 
 void write_sequence(FILE* file, writer_config_t* config, pnode_t* node)
     /*
+0       arena_idx_t prealloc_idx_<id> = arena_prealloc(state->arena);
 1       uint32_t current_position_<id> = start_<id>;
         // for every child:
 2       uint32_t start_<child_id> = current_position_<id>;
 3       rnode_t* result_<child_id> = NULL;
         ... child parser ...
 4       if (result_<child_id> == NULL) {
-s           ... free all previous rnode_ts ...
 5           goto exit_<id>;
         }
 6       current_working_<id> = result_<child_id>->end;
         // then (all children have succeeded):
-7       result_<id> = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * <node->num_data>);
+7       result_<id> = arena_malloc(state->arena, prealloc_idx_<id>,
+                sizeof(rnode_t) + sizeof(rnode_t*) * <node->num_data>);
 8       result_<id>->flags = <flags_str>
 9       result_<id>->type = SEQUENCE_T;
 10      result_<id>->start = start_<id>;
@@ -40,7 +41,9 @@ s2      ...
     pnode_t* child_node;
     uint32_t child_id;
     fprintf(file,
+/*0*/    "arena_idx_t prealloc_idx_%u = arena_prealloc(state->arena);\n"
 /*1*/    "uint32_t current_position_%u = start_%u;\n",
+/*0*/    id,
 /*1*/    id, id);
     for (uint32_t i = 0; i < node->num_data; ++i) {
         child_node = node->data.node[i];
@@ -52,18 +55,12 @@ s2      ...
 /*2*/       child_id, id,
 /*3*/       child_id);
         write_template(file, config, child_node);
-        // heap allocated
-        char* free_trees_string = generate_free_trees_string(node, i);
         fprintf(file,
 /*4*/       "if (result_%u == NULL) {\n"
-/*s*/       "%s"
 /*5*/       "goto exit_%u;\n"
             "}\n",
 /*4*/       child_id,
-/*s*/       free_trees_string,
 /*5*/       id);
-        // heap allocated
-        free(free_trees_string);
         fprintf(file,
 /*6*/       "current_position_%u = result_%u->end;\n",
 /*6*/       id, child_id);
@@ -72,7 +69,8 @@ s2      ...
     char* flags_str = generate_flags_str(node);
     uint32_t last_child_id = node->data.node[node->num_data - 1]->id;
     fprintf(file,
-/*7*/   "result_%u = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * %u);\n"
+/*7*/   "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+                "sizeof(rnode_t) + sizeof(rnode_t*) * %u);\n"
 /*8*/   "result_%u->flags = %s"
 /*9*/   "result_%u->type = SEQUENCE_T;\n"
 /*10*/  "result_%u->start = start_%u;\n"
@@ -81,7 +79,7 @@ s2      ...
 /*s2*/  "%s"
 /*13*/  "result_%u->id = %u;\n"
 /*14*/  "exit_%u:\n",
-/*7*/   id, node->num_data,
+/*7*/   id, id, node->num_data,
 /*8*/   id, flags_str,
 /*9*/   id,
 /*10*/  id, id,
@@ -95,18 +93,18 @@ s2      ...
     return;
 }
 
-char* generate_free_trees_string(pnode_t* node, uint32_t how_many)
-{
-    char buf[128];
-    char* result = calloc(sizeof(char), 1); 
-    uint32_t child_id;
-    for (uint32_t i = 0; i < how_many; ++i) {
-        child_id = node->data.node[i]->id;
-        sprintf(buf, "free_tree(result_%u, IS_CACHED);\n", child_id);
-        append_str(buf, &result);
-    }
-    return result;
-}
+// char* generate_free_trees_string(pnode_t* node, uint32_t how_many)
+// {
+//     char buf[128];
+//     char* result = calloc(sizeof(char), 1); 
+//     uint32_t child_id;
+//     for (uint32_t i = 0; i < how_many; ++i) {
+//         child_id = node->data.node[i]->id;
+//         sprintf(buf, "free_tree(result_%u, IS_CACHED);\n", child_id);
+//         append_str(buf, &result);
+//     }
+//     return result;
+// }
 
 char* generate_set_children_string(pnode_t* node)
 {

@@ -7,49 +7,51 @@
 
 #include "internal.h"
 
-void free_tree(rnode_t* node, pnode_flag_t exclude)
-{
-    if (!(node->flags & exclude)) {
-        for (uint32_t i = 0; i < node->num_children; ++i) {
-            free_tree(node->children[i], exclude);
-        }
-        free(node);
-    }
-}
-
-void finalize_tree(rnode_t* node)
-{
-    for (uint32_t i = 0; i < node->num_children; ++i) {
-        finalize_tree(node->children[i]);
-    }
-    node->flags |= IS_FINAL;
-}
+// void free_tree(rnode_t* node, pnode_flag_t exclude)
+// {
+//     if (!(node->flags & exclude)) {
+//         for (uint32_t i = 0; i < node->num_children; ++i) {
+//             free_tree(node->children[i], exclude);
+//         }
+//         free(node);
+//     }
+// }
+// 
+// void finalize_tree(rnode_t* node)
+// {
+//     for (uint32_t i = 0; i < node->num_children; ++i) {
+//         finalize_tree(node->children[i]);
+//     }
+//     node->flags |= IS_FINAL;
+// }
 
 memo_state_t* init_memo_state(imported_file_t* imported_file,
         uint32_t num_rules)
 {
     memo_state_t* state = malloc(sizeof(memo_state_t));
     state->call_dyn_arr = init_dyn_arr(16);
-    state->cache_head = NULL;
-    state->cache_arr = calloc(sizeof(cached_rnode_t*),
-            (imported_file->text_len + 1) * num_rules);
+    // state->cache_head = NULL;
+    state->cache_arr = calloc(sizeof(arena_prealloc_t*),
+             (imported_file->text_len + 1) * num_rules);
+    state->arena = init_arena(1024);
     return state;
 }
 
 void free_memo_state(memo_state_t* state)
 {
-    cached_rnode_t* curr = NULL;
-    cached_rnode_t* next = state->cache_head;
-    while (next != NULL) {
-        curr = next;
-        next = next->next;
-        if (curr->result && !(curr->result->flags & IS_FINAL)) {
-            free_tree(curr->result, IS_FINAL);
-        }
-        free(curr);
-    }
+    // cached_rnode_t* curr = NULL;
+    // cached_rnode_t* next = state->cache_head;
+    // while (next != NULL) {
+    //     curr = next;
+    //     next = next->next;
+    //     if (curr->result && !(curr->result->flags & IS_FINAL)) {
+    //         free_tree(curr->result, IS_FINAL);
+    //     }
+    //     free(curr);
+    // }
     free_dyn_arr(state->call_dyn_arr);
     free(state->cache_arr);
+    free_arena(state->arena);
     free(state);
     return;
 }
@@ -60,20 +62,26 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
 #ifdef PRINT_TRACE
     printf("evaluating rule %s, pos %d\n", name_map[id], pos);
 #endif
-    cached_rnode_t** cached_rnode =
+    // cached_rnode_t** cached_rnode =
+    //         &(state->cache_arr[id * (text_length + 1) + pos]);
+    arena_prealloc_t** cached_prealloc =
             &(state->cache_arr[id * (text_length + 1) + pos]);
-    if (!(*cached_rnode)) {
-        (*cached_rnode) = malloc(sizeof(cached_rnode_t));
-        (*cached_rnode)->flags |= IN_PROGRESS;
-        (*cached_rnode)->next = state->cache_head;
-        state->cache_head = *cached_rnode;
+    if (!(*cached_prealloc)) {
+        // (*cached_rnode) = malloc(sizeof(cached_rnode_t));
+        // (*cached_rnode)->flags |= IN_PROGRESS;
+        // (*cached_rnode)->next = state->cache_head;
+        // state->cache_head = *cached_rnode;
         append_dyn_arr(state->call_dyn_arr, &id);
-        rnode_t* result = eval_map[id](state, text, text_length, pos);
+        arena_idx_t idx = eval_map[id](state, text, text_length, pos);
+        arena_prealloc_t* result_prealloc = arena_get_prealloc(state->arena,
+                idx);
+        rnode_t* result = result_prealloc->alloc;
         pop_dyn_arr(state->call_dyn_arr);
-        (*cached_rnode)->result = result;
-        (*cached_rnode)->flags ^= IN_PROGRESS;
+        //(*cached_rnode)->result = result;
+        (*cached_prealloc) = result_prealloc;
+        //(*cached_rnode)->flags ^= IN_PROGRESS;
         if (result) {
-            (*cached_rnode)->result->flags |= IS_CACHED;
+            arena_elem_set_flags(state->arena, idx, IS_CACHED);
         }
 #ifdef PRINT_TRACE
         if (result) {
@@ -85,27 +93,27 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
         }
 #endif
         return result;
-    } else if ((*cached_rnode)->flags & IN_PROGRESS) {
-        uint32_t top_id = *((uint32_t*)get_dyn_arr(
-                state->call_dyn_arr, state->call_dyn_arr->len - 1));
-        if (top_id != id) {
-            printf("Indirect left recursion: rule %s\n", name_map[id]);
-            exit(EXIT_FAILURE);
-        } else {
-            printf("Direct left recursion: rule %s\n", name_map[id]);
-            exit(EXIT_FAILURE);
-        }
-    }
+    } // else if ((*cached_rnode)->flags & IN_PROGRESS) {
+   //      uint32_t top_id = *((uint32_t*)get_dyn_arr(
+   //              state->call_dyn_arr, state->call_dyn_arr->len - 1));
+   //      if (top_id != id) {
+   //          printf("Indirect left recursion: rule %s\n", name_map[id]);
+   //          exit(EXIT_FAILURE);
+   //      } else {
+   //          printf("Direct left recursion: rule %s\n", name_map[id]);
+   //          exit(EXIT_FAILURE);
+   //      }
+   //  }
 #ifdef PRINT_TRACE
-    if ((*cached_rnode)->result) {
-        printf("recalling rule %s, pos %d -> %d\n",
-            name_map[id], pos, (*cached_rnode)->result->end);
-    } else {
-        printf("recalling rule %s, pos %d -> fail\n",
-            name_map[id], pos);
-    }
+   //  if ((*cached_rnode)->result) {
+   //      printf("recalling rule %s, pos %d -> %d\n",
+   //          name_map[id], pos, (*cached_rnode)->result->end);
+   //  } else {
+   //      printf("recalling rule %s, pos %d -> fail\n",
+   //          name_map[id], pos);
+   //  }
 #endif
-    return (*cached_rnode)->result;
+    return (rnode_t*)((*cached_prealloc)->alloc);
 }
 
 imported_file_t* import_file(char* filename)
@@ -160,14 +168,15 @@ void* parse_file(char* filename)
             imported_file->text_len, 0);
     if (result) {
         printf("Parse succeeded\n");
-        finalize_tree(result);
-        free_memo_state(state);
+        // finalize_tree(result);
+        // free_memo_state(state);
         semantic_result = generate_semantic_result(imported_file->text, result);
-        free_tree(result, 0);
+        //free_tree(result, 0);
     } else {
         printf("Parse failed\n");
-        free_memo_state(state);
+        //free_memo_state(state);
     }
+    free_memo_state(state);
     free_file(imported_file);
     return semantic_result;
 }

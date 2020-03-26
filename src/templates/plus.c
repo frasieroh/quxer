@@ -8,45 +8,51 @@
 
 void write_plus(FILE* file, writer_config_t* config, pnode_t* node)
     /*
-1       uint32_t start_<child_id> = start_<id>;
-2       rnode_t* result_<child_id> = NULL;
-3       uint32_t num_children_<id> = 0;
-4       dyn_arr_t* list_<id> = init_dyn_arr(16);
-        do {
-5           result_<child_id> = NULL;
-            ... child parser ...
-6           if (result_<child_id> != NULL) {
-7               append_dyn_arr(list_<id>, result_<child id>);
-8               start_<child_id> = result_<child_id>->end;
-9               ++num_children_<id>;
-            }
-10      } while (result_<child_id> != NULL);
-11      if (num_children_<id>) {
-12          result_<id> = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * num_children_<id>);
-13          result_<id>->flags = <flags_str>
-14          result_<id>->type = PLUS_T:
-15          result_<id>->start = start_<id>;
-16          result_<id>->num_children = num_children_<id>;
-17          for (uint32 i = 0; i < num_children_<id>; ++i) {
-18              result_<id>->children[i] = list_<id>->arr[i];
-            }
-19          result_<id>->end =
-                    ((rnode_t*)list_<id>->arr[num_children_<id> - 1])->end;
-20          result_<id>->id = <id>
+0   arena_idx_t prealloc_idx_<id> = arena_prealloc(state->arena);
+1   uint32_t start_<child_id> = start_<id>;
+2   rnode_t* result_<child_id> = NULL;
+3   uint32_t num_children_<id> = 0;
+4   dyn_arr_t* list_<id> = init_dyn_arr(16);
+    do {
+5       result_<child_id> = NULL;
+        ... child parser ...
+6       if (result_<child_id> != NULL) {
+7           append_dyn_arr(list_<id>, result_<child id>);
+8           start_<child_id> = result_<child_id>->end;
+9           ++num_children_<id>;
         }
-21      free_dyn_arr(list_<id>);
+10  } while (result_<child_id> != NULL);
+11  if (num_children_<id>) {
+12      result_<id> = arena_malloc(state->arena, prealloc_idx_<id>,
+                sizeof(rnode_t) + sizeof(rnode_t*) * num_children_<id>);
+13      result_<id>->flags = <flags_str>
+14      result_<id>->type = PLUS_T:
+15      result_<id>->start = start_<id>;
+16      result_<id>->num_children = num_children_<id>;
+17      for (uint32 i = 0; i < num_children_<id>; ++i) {
+18          result_<id>->children[i] = list_<id>->arr[i];
+        }
+19      result_<id>->end =
+                ((rnode_t*)list_<id>->arr[num_children_<id> - 1])->end;
+20      result_<id>->id = <id>
+    } else {
+21      arena_reset_sp(state->arena, prealloc_idx_<id>);
+    }
+22  free_dyn_arr(list_<id>);
     */
 {
     uint32_t id = node->id;
     pnode_t* child_node = node->data.node[0];
     uint32_t child_id = child_node->id;
     fprintf(file,
+/*0*/   "arena_idx_t prealloc_idx_%u = arena_prealloc(state->arena);\n"
 /*1*/   "uint32_t start_%u = start_%u;\n"
 /*2*/   "rnode_t* result_%u = NULL;\n"
 /*3*/   "uint32_t num_children_%u = 0;\n"
 /*4*/   "dyn_arr_t* list_%u = init_dyn_arr(16);\n"
         "do {\n"
 /*5*/   "result_%u = NULL;\n",
+/*0*/   id,
 /*1*/   child_id, id,
 /*2*/   child_id,
 /*3*/   id,
@@ -68,7 +74,8 @@ void write_plus(FILE* file, writer_config_t* config, pnode_t* node)
     char* flags_str = generate_flags_str(node);
     fprintf(file,
 /*11*/  "if (num_children_%u) {\n"
-/*12*/  "result_%u = malloc(sizeof(rnode_t) + sizeof(rnode_t*) * num_children_%u);\n"
+/*12*/  "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+                "sizeof(rnode_t) + sizeof(rnode_t*) * num_children_%u);\n"
 /*13*/  "result_%u->flags = %s"
 /*14*/  "result_%u->type = PLUS_T;\n"
 /*15*/  "result_%u->start = start_%u;\n"
@@ -78,10 +85,12 @@ void write_plus(FILE* file, writer_config_t* config, pnode_t* node)
         "}\n"
 /*19*/  "result_%u->end = ((rnode_t*)list_%u->arr[num_children_%u - 1])->end;\n"
 /*20*/  "result_%u->id = %u;\n"
+        "} else {\n"
+/*21*/  "arena_reset_sp(state->arena, prealloc_idx_%u);\n"
         "}\n"
-/*21*/  "free_dyn_arr(list_%u);\n",
+/*22*/  "free_dyn_arr(list_%u);\n",
 /*11*/  id,
-/*12*/  id, id,
+/*12*/  id, id, id,
 /*13*/  id, flags_str,
 /*14*/  id,
 /*15*/  id, id,
@@ -90,7 +99,8 @@ void write_plus(FILE* file, writer_config_t* config, pnode_t* node)
 /*18*/  id, id,
 /*19*/  id, id, id,
 /*20*/  id, id,
-/*21*/  id);
+/*21*/  id, 
+/*22*/  id);
     free(flags_str);
     return;
 }

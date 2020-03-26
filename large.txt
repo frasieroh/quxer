@@ -1,0 +1,4992 @@
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+
+~grammar     = (ws r : rule)+ ws !. {{ result = ast_grammar(r, countr); }}
+
+~ws          = (" " / "\n" / "\t")*
+
+~wsp         = (" " / "\n" / "\t")+
+
+~rule        = "~" <name> ws "=" ws b : body {{
+  result = ast_rule(c(0), *b);
+}}
+
+~name        = [A-Za-z0-9_]+
+
+~body        = o : alt {{ result = *o; }}
+
+~alt         = first : seq (ws "/" ws rest : seq)* {{
+  result = ast_Alt(first, rest, countrest + 1);
+}}
+
+~seq         = first : operator (wsp rest : operator)* {{
+  result = ast_Seq(first, rest, countrest + 1);
+}}
+
+~operator    = o : prefix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : postfix (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+             / o : group (ws <code>)? {{
+  if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
+}}
+
+~prefix      = and ws o : group {{ result = ast_And(*o); }}
+             / not ws o : group {{ result = ast_Not(*o); }}
+
+~and         = "&"
+
+~not         = "!"
+
+~postfix     = o : group ws star {{ result = ast_Star(*o); }}
+             / o : group ws plus {{ result = ast_Plus(*o); }}
+             / o : group ws option {{ result = ast_Option(*o); }}
+
+~star        = "*"
+
+~plus        = "+"
+
+~option      = "?"
+
+~group       = "(" ws o : body ws ")" {{ result = *o; }}
+             / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+             / o : final {{ result = *o; }}
+
+
+~final       = o : nonterminal {{ result = *o; }}
+             / o : literal {{ result = *o; }}
+             / o : cclass {{ result = *o; }}
+             / o : dot {{ result = *o; }}
+
+~nonterminal = <name> ws ":" ws <name> {{
+  result = ast_AliasedNontm(c(1), c(0));
+}}
+             / <name> {{
+  result = ast_Nontm(c(0));
+}}
+
+~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
+  result = ast_Literal(c(0));
+}}
+
+~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
+  result = ast_CClass(c(0));
+}}
+
+~dot         = "." {{ result = ast_dot(); }}
+
+~code        = "{{" (&"\\" . . / !"}}" .)* "}}"
+

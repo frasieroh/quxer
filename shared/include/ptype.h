@@ -15,8 +15,8 @@ typedef enum {
 } ptype_t;
 
 typedef enum {
-    IS_CACHED = 0x1,
-    IS_FINAL = 0x2,
+//    IS_CACHED = 0x1,
+//    IS_FINAL = 0x2,
     DO_CAPTURE = 0x4,
     SEMANTIC_ACTION = 0x8,
     ALIAS = 0x10
