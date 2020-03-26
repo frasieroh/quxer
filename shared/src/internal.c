@@ -164,13 +164,11 @@ void* parse_file(char* filename)
             imported_file->text_len, 0);
     if (result) {
         printf("Parse succeeded\n");
-        // finalize_tree(result);
-        // free_memo_state(state);
+#ifndef BENCHMARK
         semantic_result = generate_semantic_result(imported_file->text, result);
-        //free_tree(result, 0);
+#endif
     } else {
         printf("Parse failed\n");
-        //free_memo_state(state);
     }
     free_memo_state(state);
     free_file(imported_file);

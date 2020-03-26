@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(quxer)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g --std=c99 -Wall -Wno-unused-variable")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O2 --std=c99 -Wall -Wno-unused-variable")
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
@@ -21,6 +21,7 @@ if ("${CMAKE_C_FLAGS}" MATCHES "-DBOOTSTRAP")
         "${PROJECT_SOURCE_DIR}/src/peg/parser.c"
         "${PROJECT_SOURCE_DIR}/src/peg/ast.c"
         "${PROJECT_SOURCE_DIR}/shared/src/internal.c"
+        "${PROJECT_SOURCE_DIR}/shared/src/arena.c"
     )
 endif()
 

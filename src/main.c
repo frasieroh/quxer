@@ -5,11 +5,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "internal.h"
 #include "utils/grammar.h"
 #include "utils/writer.h"
 
 #ifndef BOOTSTRAP
+#include "internal.h"
 #include "peg/ast.h"
 #else
 #include "peg/pegspec.h"
@@ -46,6 +46,7 @@ int main(int argc, char** argv)
         }
     }
     ast_node_t* result = parse_file(infile);
+#ifndef BENCHMARK
     if (result) {
         grammar_t* grammar = result->data.grammar;
         free_ast(result);
@@ -60,6 +61,7 @@ int main(int argc, char** argv)
         fprintf(stderr, "Failed to parse %s\n", infile);
         exit(EXIT_FAILURE);
     }
+#endif
     exit(EXIT_SUCCESS);
 #else
     printf("Generating parser.c from metagrammar\n");
