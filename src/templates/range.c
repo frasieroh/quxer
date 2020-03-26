@@ -8,11 +8,11 @@
 
 void write_range(FILE* file, writer_config_t* config, pnode_t* node)
 /*
-0   arena_idx_t prealloc_idx_<id> = arena_prealloc(state->arena);
+0   void* prealloc_idx_<id> = arena_prealloc(state->arena);
 1   if (start_<id> < text_length) {
 2       uint8_t c_<id> = text[start_<id>];
 3       if (c_<id> >= <low> && c_<id> <= <high>) {
-4           result_<id> = arena_malloc(state->arena, prealloc_idx_<id>,
+4           result_<id> = arena_malloc(state->arena,
                     sizeof(rnode_t));
 5           result_<id>->flags = <flags_str>
 6           result_<id>->type = RANGE_T;
@@ -31,11 +31,11 @@ void write_range(FILE* file, writer_config_t* config, pnode_t* node)
     range_t* range = node->data.range[0];
     char* flags_str = generate_flags_str(node);
     fprintf(file,
-/*0*/   "arena_idx_t prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
 /*1*/   "if (start_%u < text_length) {\n"
 /*2*/   "uint8_t c_%u = text[start_%u];\n"
 /*3*/   "if (c_%u >= %u && c_%u <= %u) {\n"
-/*4*/   "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+/*4*/   "result_%u = arena_malloc(state->arena, "
                 "sizeof(rnode_t));\n"
 /*5*/   "result_%u->flags = %s"
 /*6*/   "result_%u->type = RANGE_T;\n"
@@ -52,7 +52,7 @@ void write_range(FILE* file, writer_config_t* config, pnode_t* node)
 /*1*/   id,
 /*2*/   id, id,
 /*3*/   id, range->low, id, range->high,
-/*4*/   id, id,
+/*4*/   id,
 /*5*/   id, flags_str,
 /*6*/   id,
 /*7*/   id, id,

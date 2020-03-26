@@ -18,21 +18,20 @@ typedef struct rnode_t_ {
     struct rnode_t_* children[0];
 } rnode_t;
 
-// typedef enum {
-//     IN_PROGRESS = 0x1,
-//     LR_DETECTED = 0x2,
-// } cache_flag_t;
-// 
-// typedef struct cached_rnode_t_ {
-//     rnode_t* result;
-//     cache_flag_t flags;
-//     struct cached_rnode_t_* next;
-// } cached_rnode_t;
+typedef enum {
+    IN_PROGRESS = 0x1,
+    IS_VALID = 0x2
+} cache_flag_t;
+
+typedef struct {
+    cache_flag_t flags;
+    rnode_t* result;
+} cached_rnode_t;
 
 typedef struct {
     dyn_arr_t* call_dyn_arr;
 //     cached_rnode_t* cache_head;
-    arena_prealloc_t** cache_arr;
+    cached_rnode_t* cache_arr;
     arena_t* arena;
 } memo_state_t;
 
@@ -53,6 +52,11 @@ typedef struct {
     void* result;
 } context_t;
 
+typedef struct {
+    void* prealloc;
+    void* alloc;
+} eval_return_t;
+
 // void free_tree(rnode_t* node, pnode_flag_t exclude);
 // void finalize_tree(rnode_t* node);
 
@@ -66,7 +70,8 @@ extern uint32_t num_nodes;
 
 rnode_t* call_eval(uint32_t, memo_state_t*, uint8_t*, uint32_t, uint32_t);
 // rnode_t* grow_lr(uint32_t, memo_state_t*, uint8_t*, uint32_t, uint32_t);
-typedef arena_idx_t (*evalfcn_t)(memo_state_t*, uint8_t*, uint32_t, uint32_t);
+typedef void (*evalfcn_t)(memo_state_t*, uint8_t*, uint32_t, uint32_t,
+        eval_return_t*);
 extern evalfcn_t eval_map[];
 
 typedef void (*actionfcn_t)(context_t*);

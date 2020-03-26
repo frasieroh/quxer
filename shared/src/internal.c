@@ -31,7 +31,7 @@ memo_state_t* init_memo_state(imported_file_t* imported_file,
     memo_state_t* state = malloc(sizeof(memo_state_t));
     state->call_dyn_arr = init_dyn_arr(16);
     // state->cache_head = NULL;
-    state->cache_arr = calloc(sizeof(arena_prealloc_t*),
+    state->cache_arr = calloc(sizeof(cached_rnode_t),
              (imported_file->text_len + 1) * num_rules);
     state->arena = init_arena(1024);
     return state;
@@ -60,60 +60,56 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
         uint32_t text_length, uint32_t pos)
 {
 #ifdef PRINT_TRACE
-    printf("evaluating rule %s, pos %d\n", name_map[id], pos);
+    printf("Cvaluating rule %s, pos %d\n", name_map[id], pos);
 #endif
     // cached_rnode_t** cached_rnode =
     //         &(state->cache_arr[id * (text_length + 1) + pos]);
-    arena_prealloc_t** cached_prealloc =
+    cached_rnode_t* cached_rnode = 
             &(state->cache_arr[id * (text_length + 1) + pos]);
-    if (!(*cached_prealloc)) {
-        // (*cached_rnode) = malloc(sizeof(cached_rnode_t));
-        // (*cached_rnode)->flags |= IN_PROGRESS;
-        // (*cached_rnode)->next = state->cache_head;
-        // state->cache_head = *cached_rnode;
+    if (!(cached_rnode->flags & IS_VALID)) {
+        cached_rnode->flags |= IN_PROGRESS;
         append_dyn_arr(state->call_dyn_arr, &id);
-        arena_idx_t idx = eval_map[id](state, text, text_length, pos);
-        arena_prealloc_t* result_prealloc = arena_get_prealloc(state->arena,
-                idx);
-        rnode_t* result = result_prealloc->alloc;
+        eval_return_t ret;
+        eval_map[id](state, text, text_length, pos, &ret);
         pop_dyn_arr(state->call_dyn_arr);
-        //(*cached_rnode)->result = result;
-        (*cached_prealloc) = result_prealloc;
-        //(*cached_rnode)->flags ^= IN_PROGRESS;
-        if (result) {
-            arena_elem_set_flags(state->arena, idx, IS_CACHED);
-        }
+        rnode_t* result = ret.alloc;
+        cached_rnode->result = result;
+        cached_rnode->flags ^= IN_PROGRESS;
 #ifdef PRINT_TRACE
         if (result) {
-            printf("caching rule %s, pos %d -> %d\n",
+            printf("Caching rule %s, pos %d -> %d\n",
                 name_map[id], pos, result->end);
         } else {
-            printf("caching rule %s, pos %d -> fail\n",
+            printf("Caching rule %s, pos %d -> fail\n",
                 name_map[id], pos);
         }
 #endif
+        if (result) {
+            arena_set_cached(state->arena, ret.prealloc, result);
+        }
+        cached_rnode->flags |= IS_VALID;
         return result;
-    } // else if ((*cached_rnode)->flags & IN_PROGRESS) {
-   //      uint32_t top_id = *((uint32_t*)get_dyn_arr(
-   //              state->call_dyn_arr, state->call_dyn_arr->len - 1));
-   //      if (top_id != id) {
-   //          printf("Indirect left recursion: rule %s\n", name_map[id]);
-   //          exit(EXIT_FAILURE);
-   //      } else {
-   //          printf("Direct left recursion: rule %s\n", name_map[id]);
-   //          exit(EXIT_FAILURE);
-   //      }
-   //  }
+    } else if (cached_rnode->flags & IN_PROGRESS) {
+         uint32_t top_id = *((uint32_t*)get_dyn_arr(
+                 state->call_dyn_arr, state->call_dyn_arr->len - 1));
+         if (top_id != id) {
+             printf("Indirect left recursion: rule %s\n", name_map[id]);
+             exit(EXIT_FAILURE);
+         } else {
+             printf("Direct left recursion: rule %s\n", name_map[id]);
+             exit(EXIT_FAILURE);
+         }
+     }
 #ifdef PRINT_TRACE
-   //  if ((*cached_rnode)->result) {
-   //      printf("recalling rule %s, pos %d -> %d\n",
-   //          name_map[id], pos, (*cached_rnode)->result->end);
-   //  } else {
-   //      printf("recalling rule %s, pos %d -> fail\n",
-   //          name_map[id], pos);
-   //  }
+     if (cached_rnode->result) {
+         printf("Recalling rule %s, pos %d -> %d\n",
+             name_map[id], pos, cached_rnode->result->end);
+     } else {
+         printf("Recalling rule %s, pos %d -> fail\n",
+             name_map[id], pos);
+     }
 #endif
-    return (rnode_t*)((*cached_prealloc)->alloc);
+    return cached_rnode->result;
 }
 
 imported_file_t* import_file(char* filename)

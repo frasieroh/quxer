@@ -8,12 +8,12 @@
 
 void write_and(FILE* file, writer_config_t* config, pnode_t* node)
     /*
-0       arena_idx_t prealloc_idx_<id> = arena_prealloc(state->arena);
+0       void* prealloc_idx_<id> = arena_prealloc(state->arena);
 1       uint32_t start_<child_id> = start_<id>;
 2       rnode_t* result_<child_id> = NULL;
         ... child parser ...
 3       if (result_<child_id>) {
-4           result_<id> = arena_malloc(state->arena, arena_prealloc_<id>,
+4           result_<id> = arena_malloc(state->arena, 
                     sizeof(rnode_t) + sizeof(rnode_t*))
 5           result_<id>->flags = <flags_str>
 6           result_<id>->type = AND_T;
@@ -31,7 +31,7 @@ void write_and(FILE* file, writer_config_t* config, pnode_t* node)
     pnode_t* child_node = node->data.node[0];
     uint32_t child_id = child_node->id;
     fprintf(file,
-/*0*/   "arena_idx_t prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
 /*1*/   "uint32_t start_%u = start_%u;\n"
 /*2*/   "rnode_t* result_%u = NULL;\n",
 /*0*/   id,
@@ -41,7 +41,7 @@ void write_and(FILE* file, writer_config_t* config, pnode_t* node)
     char* flags_str = generate_flags_str(node);
     fprintf(file,
 /*3*/   "if (result_%u) {\n"
-/*4*/   "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+/*4*/   "result_%u = arena_malloc(state->arena, "
                 "sizeof(rnode_t) + sizeof(rnode_t*));\n"
 /*5*/   "result_%u->flags = %s"
 /*6*/   "result_%u->type = AND_T;\n"
@@ -54,7 +54,7 @@ void write_and(FILE* file, writer_config_t* config, pnode_t* node)
 /*12*/  "arena_reset_sp(state->arena, prealloc_idx_%u);\n"
         "}\n",
 /*3*/   child_id,
-/*4*/   id, id,
+/*4*/   id, 
 /*5*/   id, flags_str,
 /*6*/   id,
 /*7*/   id, id,

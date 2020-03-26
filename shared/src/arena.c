@@ -6,12 +6,11 @@
 
 #include "arena.h"
 
-void* arena_malloc_int(arena_t* arena, size_t size, arena_idx_t* loc);
-
 region_t* init_region(size_t cap)
 {
     region_t* region = malloc(sizeof(region_t));
-    region->arr = calloc(cap, sizeof(arena_prealloc_t));
+    region->arr = calloc(cap, sizeof(arena_boundary_t));
+    region->arr[0].next = &(region->arr[cap - 1]);
     region->cap = cap;
     return region;
 }
@@ -26,10 +25,10 @@ void free_region(region_t* region)
 arena_t* init_arena(size_t cap)
 {
     arena_t* arena = malloc(sizeof(arena_t));
-    arena->top.offset = 0;
-    arena->top.region = 0;
     arena->regions = init_dyn_arr(16);
-    append_dyn_arr(arena->regions, init_region(cap));
+    region_t* initial_region = init_region(cap);
+    append_dyn_arr(arena->regions, initial_region);
+    arena->top = initial_region->arr;
     return arena;
 }
 
@@ -44,113 +43,68 @@ void free_arena(arena_t* arena)
     return;
 }
 
-arena_idx_t arena_prealloc(arena_t* arena)
+void* arena_prealloc(arena_t* arena)
 {
-    arena_idx_t ret;
-    arena_prealloc_t* prealloc = 
-            arena_malloc_int(arena, sizeof(arena_prealloc_t), &ret);
-    prealloc->flags = 0;
-    return ret;
+    return arena->top;
 }
 
-arena_prealloc_t* arena_get_prealloc(arena_t* arena, arena_idx_t handle)
+void arena_set_cached(arena_t* arena, void* prealloc, void* alloc) 
 {
-    region_t* region = get_dyn_arr(arena->regions, handle.region);
-    return &(region->arr[handle.offset]);
-}
-
-void arena_elem_set_flags(arena_t* arena, arena_idx_t handle,
-        arena_elem_flags_t flags)
-{
-    arena_prealloc_t* prealloc = arena_get_prealloc(arena, handle);
-    prealloc->flags |= flags;
+    arena_boundary_t* prealloc_boundary = (arena_boundary_t*)prealloc;
+    arena_boundary_t* after_alloc_boundary = 
+        ((arena_boundary_t*)alloc - 1)->next;
+    prealloc_boundary->next = after_alloc_boundary;
+    prealloc_boundary->flags |= FROZEN;
     return;
 }
 
-void arena_elem_unset_flags(arena_t* arena, arena_idx_t handle,
-        arena_elem_flags_t flags)
+void* arena_malloc(arena_t* arena, size_t bytes)
 {
-    arena_prealloc_t* prealloc = arena_get_prealloc(arena, handle);
-    if (prealloc->flags & flags) {
-        prealloc->flags ^= flags;
-    }
-    return;
-}
-
-void* arena_malloc(arena_t* arena, arena_idx_t handle, size_t bytes)
-{
-    void* ptr = arena_malloc_int(arena, bytes, NULL);
-    arena_prealloc_t* prealloc = arena_get_prealloc(arena, handle);
-    prealloc->skip_idx.offset = arena->top.offset;
-    prealloc->skip_idx.region = arena->top.region;
-    prealloc->flags |= IS_VALID;
-    prealloc->alloc = ptr;
-    return ptr;
-}
-
-void arena_reset_sp(arena_t* arena, arena_idx_t handle)
-{
-    arena->top.offset = handle.offset;
-    arena->top.region = handle.region;
-    return;
-}
-
-void* arena_malloc_int(arena_t* arena, size_t bytes, arena_idx_t* loc)
-{
-    uint32_t offset_idx = arena->top.offset;
-    uint32_t region_idx = arena->top.region;
-    printf("offset: %u\n", offset_idx);
-    printf("region: %u\n", region_idx);
-    uint32_t num_cells =
-            (bytes + sizeof(arena_prealloc_t) - 1) / sizeof(arena_prealloc_t);
-    printf("num cells: %u\n", num_cells);
-    region_t* region;
-    uint8_t searching = 1;
-    while (searching) {
-        printf("region (inner): %u\n", region_idx);
-        printf("offset (inner): %u\n", offset_idx);
-        if (region_idx == arena->regions->len) {
-            region = get_dyn_arr(arena->regions, arena->regions->len-1);
-            uint32_t cap = region->cap * 2;
-            append_dyn_arr(arena->regions, init_region(cap));
-        }
-        region = get_dyn_arr(arena->regions, region_idx);
-        if (offset_idx + num_cells > region->cap) {
-            ++region_idx;
-            offset_idx = 0;
+    arena_boundary_t* base = arena->top;
+    arena_boundary_t* current = base;
+    uint32_t num_cells = 1 + // allocate an extra cell for the end boundary
+            (bytes + sizeof(arena_boundary_t) - 1) / sizeof(arena_boundary_t);
+    uint32_t allocatable = 0;
+    while (allocatable < num_cells) {
+        if (current->next == NULL) {
+            region_t* last_region = get_dyn_arr(
+                    arena->regions, arena->regions->len - 1);
+            uint32_t cap = last_region->cap * 2;
+            region_t* new_region = init_region(cap);
+            append_dyn_arr(arena->regions, new_region);
+            current->next = new_region->arr;
+            current->flags |= FROZEN;
+            base = current->next;
+            current = base;
+            allocatable = 0;
             continue;
         }
-        arena_prealloc_t prealloc;
-        for (uint32_t i = 0;
-                i < num_cells && i + offset_idx < region->cap; ++i) {
-            prealloc = region->arr[offset_idx + i];
-            if (prealloc.flags & IS_CACHED) {
-                printf("skip idx: %u\n", prealloc.skip_idx.offset);
-                offset_idx = prealloc.skip_idx.offset;
-                region_idx = prealloc.skip_idx.region;
-                break;
-            } else {
-                i = prealloc.skip_idx.offset - offset_idx;
-            }
-            if (i >= num_cells - 1) {
-                searching = 0;
-            }
+        if (!(current->flags & FROZEN)) {
+            allocatable += (uint32_t)(current->next - current)
+                / sizeof(arena_boundary_t); 
+        } else {
+            base = current->next;
+            current = base;
+            allocatable = 0;
+            continue;
         }
+        current = current->next;
     }
-    void* ptr = (void*)(&(region->arr[offset_idx]));
-    if (loc != NULL) {
-        loc->offset = offset_idx;
-        loc->region = region_idx;
+    arena_boundary_t* next_cell = base + num_cells;
+    if (next_cell != current) {
+        next_cell->next = current;
+        next_cell->flags = 0;
     }
-    if (offset_idx + num_cells == region->cap) {
-        ++region_idx;
-        offset_idx = 0;
-    } else {
-        offset_idx += num_cells;
-    }
-    arena->top.offset = offset_idx;
-    arena->top.region = region_idx;
-    return ptr;
+    base->next = next_cell;
+    base->flags = 0;
+    arena->top = next_cell;
+    return base + 1;
+}
+
+void arena_reset_sp(arena_t* arena, void* prealloc)
+{
+    arena->top = prealloc;
+    return;
 }
 
 #endif

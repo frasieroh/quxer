@@ -8,18 +8,18 @@
 
 void write_optional(FILE* file, writer_config_t* config, pnode_t* node)
 /*
-0   arena_idx_t prealloc_idx_<id> = arena_prealloc(state->arena);
+0   void* prealloc_idx_<id> = arena_prealloc(state->arena);
 1   uint32_t start_<child_id> = start_<id>;
 2   rnode_t* result_<child_id> = NULL;
     ... child parser ...
 3   if (result_<child_id>) {
-4       result_<id> = arena_malloc(state->arena, prealloc_idx_<id>,
+4       result_<id> = arena_malloc(state->arena, 
                 sizeof(rnode_t) + sizeof(rnode_t*));
 5       result_<id>->end = result_<child_id>->end;
 6       result_<id>->num_children = 1;
 7       result_<id>->children[0] = result_<child_id>
     } else {
-8       result_<id> = arena_malloc(state->arena, prealloc_idx_<id>,
+8       result_<id> = arena_malloc(state->arena,
                 sizeof(rnode_t));
 9       result_<id>->end = start_<id>;
 10      result_<id>->num_children = 0;
@@ -34,7 +34,7 @@ void write_optional(FILE* file, writer_config_t* config, pnode_t* node)
     pnode_t* child_node = node->data.node[0];
     uint32_t child_id = child_node->id;
     fprintf(file,
-/*0*/   "arena_idx_t prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
 /*1*/   "uint32_t start_%u = start_%u;\n"
 /*2*/   "rnode_t* result_%u = NULL;\n",
 /*0*/   id,
@@ -44,13 +44,13 @@ void write_optional(FILE* file, writer_config_t* config, pnode_t* node)
     char* flags_str = generate_flags_str(node);
     fprintf(file,
 /*3*/   "if (result_%u) {\n"
-/*4*/   "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+/*4*/   "result_%u = arena_malloc(state->arena, "
                 "sizeof(rnode_t) + sizeof(rnode_t*));\n"
 /*5*/   "result_%u->end = result_%u->end;\n"
 /*6*/   "result_%u->num_children = 1;\n"
 /*7*/   "result_%u->children[0] = result_%u;\n"
         "} else {\n"
-/*8*/   "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+/*8*/   "result_%u = arena_malloc(state->arena, "
                 "sizeof(rnode_t));\n"
 /*9*/   "result_%u->end = start_%u;\n"
 /*10*/  "result_%u->num_children = 0;\n"
@@ -60,11 +60,11 @@ void write_optional(FILE* file, writer_config_t* config, pnode_t* node)
 /*13*/  "result_%u->start = start_%u;\n"
 /*14*/  "result_%u->id = %u;\n",
 /*3*/   child_id,
-/*4*/   id, id,
+/*4*/   id,
 /*5*/   id, child_id,
 /*6*/   id,
 /*7*/   id, child_id,
-/*8*/   id, id,
+/*8*/   id,
 /*9*/   id, id,
 /*10*/  id,
 /*11*/  id,

@@ -10,10 +10,6 @@
 static char* generate_nt_defs(grammar_t* grammar);
 static char* generate_eval_map_str(grammar_t* grammar);
 static char* generate_name_map_str(grammar_t* grammar);
-//static char* generate_action_map_str(grammar_t* grammar);
-//static char* generate_action_map_str_recursive(pnode_t* node);
-//static char* generate_alias_allocs_map_str(grammar_t* grammar);
-//static char* generate_alias_allocs_map_str_recursive(pnode_t* node);
 static char* generate_node_jump_map_str(grammar_t* grammar);
 static char* generate_node_jump_map_str_recursive(pnode_t* node);
 

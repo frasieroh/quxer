@@ -1,51 +1,28 @@
 #include <inttypes.h>
 #include "internal.h"
-arena_idx_t eval_grammar(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_ws(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_wsp(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_rule(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_name(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_body(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_alt(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_seq(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_operator(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_prefix(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_and(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_not(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_postfix(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_star(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_plus(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_option(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_group(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_final(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_nonterminal(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_literal(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_cclass(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_code(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
-arena_idx_t eval_dot(memo_state_t* state, uint8_t* text,
-                 uint32_t text_length, uint32_t pos);
+void eval_grammar(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_ws(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_wsp(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_rule(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_name(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_body(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_alt(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_seq(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_operator(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_prefix(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_and(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_not(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_postfix(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_star(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_plus(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_option(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_group(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_final(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_nonterminal(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_literal(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_cclass(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_code(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
+void eval_dot(memo_state_t* state, uint8_t* text, uint32_t text_length, uint32_t pos, eval_return_t* ret);
 void semantic_action_0(context_t* context);
 void alias_allocs_0(context_t* context);
 void alias_frees_0(context_t* context);

@@ -8,7 +8,7 @@
 
 void write_star(FILE* file, writer_config_t* config, pnode_t* node)
     /*
-0       arena_idx_t prealloc_idx_<id> = arena_prealloc(state->arena);
+0       void* prealloc_idx_<id> = arena_prealloc(state->arena);
 1       uint32_t start_<child_id> = start_<id>;
 2       rnode_t* result_<child_id> = NULL;
 3       uint32_t num_children_<id> = 0;
@@ -22,7 +22,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 9               ++num_children_<id>;
             }
 10      } while (result_<child_id> != NULL);
-11      result_<id> = arena_malloc(state->arena, prealloc_idx_<id>,
+11      result_<id> = arena_malloc(state->arena,
                 sizeof(rnode_t) + sizeof(rnode_t*) * num_children_<id>);
 12      result_<id>->flags = <flags_str>
 13      result_<id>->type = STAR_T:
@@ -45,7 +45,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
     pnode_t* child_node = node->data.node[0];
     uint32_t child_id = child_node->id;
     fprintf(file,
-/*0*/   "arena_idx_t prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
 /*1*/   "uint32_t start_%u = start_%u;\n"
 /*2*/   "rnode_t* result_%u = NULL;\n"
 /*3*/   "uint32_t num_children_%u = 0;\n"
@@ -73,7 +73,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 /*10*/  child_id);
     char* flags_str = generate_flags_str(node);
     fprintf(file,
-/*11*/  "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+/*11*/  "result_%u = arena_malloc(state->arena, "
                 "sizeof(rnode_t) + sizeof(rnode_t*) * num_children_%u);\n"
 /*12*/  "result_%u->flags = %s"
 /*13*/  "result_%u->type = STAR_T;\n"
@@ -89,7 +89,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
         "}\n"
 /*21*/  "result_%u->id = %u;\n"
 /*22*/  "free_dyn_arr(list_%u);\n",
-/*11*/  id, id, id,
+/*11*/  id, id,
 /*12*/  id, flags_str,
 /*13*/  id,
 /*14*/  id, id,

@@ -8,10 +8,10 @@
 
 void write_nonterminal(FILE* file, writer_config_t* config, pnode_t* node)
 /*
-0   arena_idx_t prealloc_idx_<id> = arena_prealloc(state->arena);
+0   void* prealloc_idx_<id> = arena_prealloc(state->arena);
 1   rnode_t* result_<id>_nt = call_eval(EVAL_%s, state, text, text_length, start_%u);
 2   if (result_<id>_nt) {
-3       result_<id> = arena_malloc(state->arena, prealloc_idx_<id>,
+3       result_<id> = arena_malloc(state->arena, 
                 sizeof(rnode_t) + sizeof(rnode_t*));
 4       result_<id>->flags = <flags_str>
 5       result_<id>->type = NONTERMINAL_T;
@@ -29,11 +29,11 @@ void write_nonterminal(FILE* file, writer_config_t* config, pnode_t* node)
     char* name = node->data.string[0];
     char* flags_str = generate_flags_str(node);
     fprintf(file,
-/*0*/   "arena_idx_t prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
 /*1*/   "rnode_t* result_%u_nt = call_eval(EVAL_%s, state, text, text_length,"
                 " start_%u);\n"
 /*2*/   "if (result_%u_nt) {\n"
-/*3*/   "result_%u = arena_malloc(state->arena, prealloc_idx_%u, "
+/*3*/   "result_%u = arena_malloc(state->arena, "
                 "sizeof(rnode_t) + sizeof(rnode_t*));\n"
 /*4*/   "result_%u->flags = %s"
 /*5*/   "result_%u->type = NONTERMINAL_T;\n"
@@ -48,7 +48,7 @@ void write_nonterminal(FILE* file, writer_config_t* config, pnode_t* node)
 /*0*/   id,
 /*1*/   id, name, id,
 /*2*/   id,
-/*3*/   id, id,
+/*3*/   id,
 /*4*/   id, flags_str,
 /*5*/   id,
 /*6*/   id, id,
