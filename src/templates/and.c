@@ -8,7 +8,8 @@
 
 void write_and(FILE* file, writer_config_t* config, pnode_t* node)
     /*
-0       void* prealloc_idx_<id> = arena_prealloc(state->arena);
+0       arena_ptrs_t prealloc_idx_<id> = *arena_prealloc(
+                state->arena, &prealloc_idx_<id>);
 1       uint32_t start_<child_id> = start_<id>;
 2       rnode_t* result_<child_id> = NULL;
         ... child parser ...
@@ -23,7 +24,7 @@ void write_and(FILE* file, writer_config_t* config, pnode_t* node)
 10          result_<id>->children[0] = result_<child_id>;
 11          result_<id>->id = <id>;
         } else {
-12          arena_reset_sp(state->arena, prealloc_idx_<id>);
+12          arena_reset_sp(state->arena, &prealloc_idx_<id>);
         }
     */
 {
@@ -31,10 +32,11 @@ void write_and(FILE* file, writer_config_t* config, pnode_t* node)
     pnode_t* child_node = node->data.node[0];
     uint32_t child_id = child_node->id;
     fprintf(file,
-/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "arena_ptrs_t prealloc_idx_%u = *arena_prealloc("
+                "state->arena, &prealloc_idx_%u);\n"
 /*1*/   "uint32_t start_%u = start_%u;\n"
 /*2*/   "rnode_t* result_%u = NULL;\n",
-/*0*/   id,
+/*0*/   id, id,
 /*1*/   child_id, id,
 /*2*/   child_id);
     write_template(file, config, child_node);
@@ -51,7 +53,7 @@ void write_and(FILE* file, writer_config_t* config, pnode_t* node)
 /*10*/  "result_%u->children[0] = result_%u;\n"
 /*11*/  "result_%u->id = %u;\n"
         "} else {\n"
-/*12*/  "arena_reset_sp(state->arena, prealloc_idx_%u);\n"
+/*12*/  "arena_reset_sp(state->arena, &prealloc_idx_%u);\n"
         "}\n",
 /*3*/   child_id,
 /*4*/   id, 

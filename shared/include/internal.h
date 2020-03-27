@@ -53,8 +53,8 @@ typedef struct {
 } context_t;
 
 typedef struct {
-    void* prealloc;
-    void* alloc;
+    arena_ptrs_t prealloc;
+    rnode_t* result;
 } eval_return_t;
 
 // void free_tree(rnode_t* node, pnode_flag_t exclude);

@@ -8,7 +8,8 @@
 
 void write_nonterminal(FILE* file, writer_config_t* config, pnode_t* node)
 /*
-0   void* prealloc_idx_<id> = arena_prealloc(state->arena);
+0   arena_ptrs_t prealloc_idx_<id> = *arena_prealloc(
+            state->arena, &prealloc_idx_<id>);
 1   rnode_t* result_<id>_nt = call_eval(EVAL_%s, state, text, text_length, start_%u);
 2   if (result_<id>_nt) {
 3       result_<id> = arena_malloc(state->arena, 
@@ -21,7 +22,7 @@ void write_nonterminal(FILE* file, writer_config_t* config, pnode_t* node)
 9       result_<id>->children[0] = result_<id>_nt;
 10      result_<id>->id = <id>;
     } else {
-11      arena_reset_sp(state->arena, prealloc_idx_<id>);
+11      arena_reset_sp(state->arena, &prealloc_idx_<id>);
     }
 */
 {
@@ -29,7 +30,8 @@ void write_nonterminal(FILE* file, writer_config_t* config, pnode_t* node)
     char* name = node->data.string[0];
     char* flags_str = generate_flags_str(node);
     fprintf(file,
-/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "arena_ptrs_t prealloc_idx_%u = *arena_prealloc("
+                "state->arena, &prealloc_idx_%u);\n"
 /*1*/   "rnode_t* result_%u_nt = call_eval(EVAL_%s, state, text, text_length,"
                 " start_%u);\n"
 /*2*/   "if (result_%u_nt) {\n"
@@ -43,9 +45,9 @@ void write_nonterminal(FILE* file, writer_config_t* config, pnode_t* node)
 /*9*/   "result_%u->children[0] = result_%u_nt;\n"
 /*10*/  "result_%u->id = %u;\n"
         "} else {\n"
-/*11*/  "arena_reset_sp(state->arena, prealloc_idx_%u);\n"
+/*11*/  "arena_reset_sp(state->arena, &prealloc_idx_%u);\n"
         "}\n",
-/*0*/   id,
+/*0*/   id, id,
 /*1*/   id, name, id,
 /*2*/   id,
 /*3*/   id,

@@ -8,7 +8,8 @@
 
 void write_range(FILE* file, writer_config_t* config, pnode_t* node)
 /*
-0   void* prealloc_idx_<id> = arena_prealloc(state->arena);
+0   arena_ptrs_t prealloc_idx_<id> = *arena_prealloc(
+            state->arena, &prealloc_idx_<id>);
 1   if (start_<id> < text_length) {
 2       uint8_t c_<id> = text[start_<id>];
 3       if (c_<id> >= <low> && c_<id> <= <high>) {
@@ -23,7 +24,7 @@ void write_range(FILE* file, writer_config_t* config, pnode_t* node)
         }
     }
 11  if (!result_<id>) {
-12      arena_reset_sp(state->arena, prealloc_idx_<id>);
+12      arena_reset_sp(state->arena, &prealloc_idx_<id>);
     }
 */
 {
@@ -31,7 +32,8 @@ void write_range(FILE* file, writer_config_t* config, pnode_t* node)
     range_t* range = node->data.range[0];
     char* flags_str = generate_flags_str(node);
     fprintf(file,
-/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "arena_ptrs_t prealloc_idx_%u = *arena_prealloc("
+                "state->arena, &prealloc_idx_%u);\n"
 /*1*/   "if (start_%u < text_length) {\n"
 /*2*/   "uint8_t c_%u = text[start_%u];\n"
 /*3*/   "if (c_%u >= %u && c_%u <= %u) {\n"
@@ -46,9 +48,9 @@ void write_range(FILE* file, writer_config_t* config, pnode_t* node)
         "}\n"
         "}\n"
 /*11*/  "if (!result_%u) {\n"
-/*12*/  "arena_reset_sp(state->arena, prealloc_idx_%u);\n"
+/*12*/  "arena_reset_sp(state->arena, &prealloc_idx_%u);\n"
         "}\n",
-/*0*/   id,
+/*0*/   id, id,
 /*1*/   id,
 /*2*/   id, id,
 /*3*/   id, range->low, id, range->high,

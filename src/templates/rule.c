@@ -26,7 +26,7 @@ void write_rule(FILE* file, writer_config_t* config, rule_t* rule)
 3       rnode_t* result_<root_id> = NULL;
         // child parser
 4       ret->prealloc = prealloc_idx_<root_id>;
-5       ret->alloc = result_<root_id>;
+5       ret->result = result_<root_id>;
         return;
     }
 */
@@ -44,7 +44,7 @@ void write_rule(FILE* file, writer_config_t* config, rule_t* rule)
     write_template(file, config, rule->root);
     fprintf(file,
 /*4*/   "ret->prealloc = prealloc_idx_%u;\n"
-/*5*/   "ret->alloc = result_%u;\n"
+/*5*/   "ret->result = result_%u;\n"
         "return;\n"
         "}\n",
 /*4*/    root_id,

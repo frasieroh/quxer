@@ -11,7 +11,8 @@ static char* generate_bytesbuf_string(pnode_t* node);
 
 void write_literal(FILE* file, writer_config_t* config, pnode_t* node)
     /*
-0       void* prealloc_idx_<id> = arena_prealloc(state->arena);
+0       arena_ptrs_t prealloc_idx_<id> = *arena_prealloc(
+                state->arena, &prealloc_idx_<id>);
 1       uint8_t bytesbuf_<id>[] = {...}; // charbuf string
 2       uint8_t c_<id>;
 3       for (uint32_t i_<id> = 0; i_<id> < <len>; ++i_<id>) {
@@ -29,7 +30,7 @@ void write_literal(FILE* file, writer_config_t* config, pnode_t* node)
 14                  result_<id>->id = <id>;
                 }
             } else {
-15              arena_reset_sp(state->arena, prealloc_idx_<id>);
+15              arena_reset_sp(state->arena, &prealloc_idx_<id>);
                 break;
             }
         }
@@ -40,7 +41,8 @@ void write_literal(FILE* file, writer_config_t* config, pnode_t* node)
     char* bytesbuf_str = generate_bytesbuf_string(node);
     char* flags_str = generate_flags_str(node);
     fprintf(file,
-/*0*/   "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/   "arena_ptrs_t prealloc_idx_%u = *arena_prealloc("
+                "state->arena, &prealloc_idx_%u);\n"
 /*1*/   "%s"
 /*2*/   "uint8_t c_%u;\n"
 /*3*/   "for (uint32_t i_%u = 0; i_%u < %u; ++i_%u) {\n"
@@ -58,11 +60,11 @@ void write_literal(FILE* file, writer_config_t* config, pnode_t* node)
 /*14*/  "result_%u->id = %u;\n"
         "}\n"
         "} else {\n"
-/*15*/  "arena_reset_sp(state->arena, prealloc_idx_%u);\n"
+/*15*/  "arena_reset_sp(state->arena, &prealloc_idx_%u);\n"
         "break;\n"
         "}\n"
         "}\n",
-/*0*/   id,
+/*0*/   id, id,
 /*1*/   bytesbuf_str,
 /*2*/   id,
 /*3*/   id, id, bytes->len, id,

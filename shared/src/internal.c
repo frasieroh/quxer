@@ -65,14 +65,14 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
     // cached_rnode_t** cached_rnode =
     //         &(state->cache_arr[id * (text_length + 1) + pos]);
     cached_rnode_t* cached_rnode = 
-            &(state->cache_arr[id * (text_length + 1) + pos]);
+            &(state->cache_arr[pos * (num_rules - 1) + id]);
     if (!(cached_rnode->flags & IS_VALID)) {
         cached_rnode->flags |= IN_PROGRESS;
         append_dyn_arr(state->call_dyn_arr, &id);
         eval_return_t ret;
         eval_map[id](state, text, text_length, pos, &ret);
         pop_dyn_arr(state->call_dyn_arr);
-        rnode_t* result = ret.alloc;
+        rnode_t* result = ret.result;
         cached_rnode->result = result;
         cached_rnode->flags ^= IN_PROGRESS;
 #ifdef PRINT_TRACE
@@ -85,7 +85,7 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
         }
 #endif
         if (result) {
-            arena_set_cached(state->arena, ret.prealloc, result);
+            arena_set_cached(state->arena, &ret.prealloc);
         }
         cached_rnode->flags |= IS_VALID;
         return result;

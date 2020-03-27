@@ -12,14 +12,15 @@ static char* generate_set_children_string(pnode_t* node);
 
 void write_sequence(FILE* file, writer_config_t* config, pnode_t* node)
     /*
-0       void* prealloc_idx_<id> = arena_prealloc(state->arena);
+0       arena_ptrs_t prealloc_idx_<id> = *arena_prealloc(
+                state->arena, &prealloc_idx_<id>);
 1       uint32_t current_position_<id> = start_<id>;
         // for every child:
 2       uint32_t start_<child_id> = current_position_<id>;
 3       rnode_t* result_<child_id> = NULL;
         ... child parser ...
 4       if (result_<child_id> == NULL) {
-A           arena_reset_sp(state->arena, prealloc_idx_<id>);
+A           arena_reset_sp(state->arena, &prealloc_idx_<id>);
 5           goto exit_<id>;
         }
 6       current_working_<id> = result_<child_id>->end;
@@ -42,9 +43,10 @@ s2      ...
     pnode_t* child_node;
     uint32_t child_id;
     fprintf(file,
-/*0*/    "void* prealloc_idx_%u = arena_prealloc(state->arena);\n"
+/*0*/    "arena_ptrs_t prealloc_idx_%u = *arena_prealloc("
+                "state->arena, &prealloc_idx_%u);\n"
 /*1*/    "uint32_t current_position_%u = start_%u;\n",
-/*0*/    id,
+/*0*/    id, id,
 /*1*/    id, id);
     for (uint32_t i = 0; i < node->num_data; ++i) {
         child_node = node->data.node[i];
@@ -58,7 +60,7 @@ s2      ...
         write_template(file, config, child_node);
         fprintf(file,
 /*4*/       "if (result_%u == NULL) {\n"
-/*A*/       "arena_reset_sp(state->arena, prealloc_idx_%u);\n"
+/*A*/       "arena_reset_sp(state->arena, &prealloc_idx_%u);\n"
 /*5*/       "goto exit_%u;\n"
             "}\n",
 /*4*/       child_id,
