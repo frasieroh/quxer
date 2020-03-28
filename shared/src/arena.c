@@ -197,15 +197,20 @@ void* arena_malloc_fixed(dyn_arr_t* regions, alloc_boundary_t** top,
     alloc_boundary_t* base = *top;
     ++num_cells; // allocate an extra cell for the end boundary
     while (1) {
-        if (base->flags & FROZEN) {
-            if (base->next == NULL) {
+        if (base->next == NULL) {
+            if (base->flags & FROZEN) {
                 region_t* last_region = get_dyn_arr(regions, regions->len - 1);
                 // don't duplicate the end boundary
                 uint32_t cap = last_region->cap * 2 - 1;
                 region_t* new_region = init_region(cap);
                 append_dyn_arr(regions, new_region);
                 base->next = new_region->arr;
+            } else {
+                break;
             }
+            base = base->next;
+            continue;
+        } else if (base->flags & FROZEN) {
             base = base->next;
             continue;
         }
