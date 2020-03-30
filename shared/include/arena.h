@@ -10,6 +10,12 @@ typedef enum {
     FROZEN = 0x1,
 } arena_elem_flags_t;
 
+typedef struct fixed_boundary_t_ {
+    arena_elem_flags_t flags;
+    void* fixed;
+    struct fixed_boundary_t_* next;
+} fixed_boundary_t;
+
 typedef struct alloc_boundary_t_{
     arena_elem_flags_t flags;
     struct alloc_boundary_t_* next;
@@ -17,40 +23,24 @@ typedef struct alloc_boundary_t_{
 
 typedef struct {
     uint32_t cap;
-    alloc_boundary_t* arr;
+    union {
+        void* fixed;
+        fixed_boundary_t* fixed_backing;
+        alloc_boundary_t* dynamic;
+    } data;
 } region_t;
 
 typedef struct {
-    alloc_boundary_t* small;
-    alloc_boundary_t* med;
-    alloc_boundary_t* large;
-    alloc_boundary_t* huge;
+    fixed_boundary_t* fixed;
     alloc_boundary_t* dynamic;
 } arena_ptrs_t;
 
 typedef struct {
-    uint32_t small;
-    uint32_t med;
-    uint32_t large;
-    uint32_t huge;
-} arena_thsholds_t;
-
-typedef struct {
-    dyn_arr_t* small;
-    dyn_arr_t* med;
-    dyn_arr_t* large;
-    dyn_arr_t* huge;
-    dyn_arr_t* dynamic;
-} arena_regions_t;
-
-typedef struct {
     arena_ptrs_t ptrs;
-    arena_thsholds_t thsholds;
-    arena_regions_t regions;
+    dyn_arr_t* fixed;
+    dyn_arr_t* fixed_backing;
+    dyn_arr_t* dynamic;
 } arena_t;
-
-region_t* init_region(size_t cap);
-void free_region(region_t* region);
 
 arena_t* init_arena(size_t cap);
 void free_arena(arena_t* arena);
