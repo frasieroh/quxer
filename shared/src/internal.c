@@ -7,42 +7,6 @@
 
 #include "internal.h"
 
-dyn_arr_t* init_dyn_arr(uint32_t cap)
-{
-    dyn_arr_t* list = malloc(sizeof(dyn_arr_t));
-    list->arr = malloc(sizeof(void*) * cap);
-    list->cap = cap;
-    list->len = 0;
-    return list;
-}
-
-void free_dyn_arr(dyn_arr_t* list)
-{
-    free(list->arr);
-    free(list);
-    return;
-}
-
-void append_dyn_arr(dyn_arr_t* list, void* element)
-{
-    if (list->len >= list->cap) {
-        list->cap *= 2;
-        list->arr = realloc(list->arr, sizeof(void*) * list->cap);
-    }
-    list->arr[list->len++] = element;
-    return;
-}
-
-void* pop_dyn_arr(dyn_arr_t* list)
-{
-    return list->arr[--(list->len)];
-}
-
-void* get_dyn_arr(dyn_arr_t* list, uint32_t index)
-{
-    return list->arr[index];
-}
-
 void free_tree(rnode_t* node, pnode_flag_t exclude)
 {
     if (!(node->flags & exclude)) {
@@ -53,13 +17,13 @@ void free_tree(rnode_t* node, pnode_flag_t exclude)
     }
 }
 
-void finalize_tree(rnode_t* node)
-{
-    for (uint32_t i = 0; i < node->num_children; ++i) {
-        finalize_tree(node->children[i]);
-    }
-    node->flags |= IS_FINAL;
-}
+//void finalize_tree(rnode_t* node)
+//{
+//    for (uint32_t i = 0; i < node->num_children; ++i) {
+//        finalize_tree(node->children[i]);
+//    }
+//    node->flags |= IS_FINAL;
+//}
 
 memo_state_t* init_memo_state(imported_file_t* imported_file,
         uint32_t num_rules)
@@ -67,8 +31,8 @@ memo_state_t* init_memo_state(imported_file_t* imported_file,
     memo_state_t* state = malloc(sizeof(memo_state_t));
     state->call_dyn_arr = init_dyn_arr(16);
     state->cache_head = NULL;
-    state->cache_arr = calloc(sizeof(cached_rnode_t*),
-            (imported_file->text_len + 1) * num_rules);
+    state->cache_arr = calloc((imported_file->text_len + 1) * num_rules,
+            sizeof(cached_rnode_t));
     return state;
 }
 
@@ -76,13 +40,25 @@ void free_memo_state(memo_state_t* state)
 {
     cached_rnode_t* curr = NULL;
     cached_rnode_t* next = state->cache_head;
+    // free children of cached nodes
     while (next != NULL) {
         curr = next;
         next = next->next;
-        if (curr->result && !(curr->result->flags & IS_FINAL)) {
-            free_tree(curr->result, IS_FINAL);
+        if (curr->result) {
+            for (uint32_t i = 0; i < curr->result->num_children; ++i) {
+                free_tree(curr->result->children[i], IS_CACHED);
+            }
         }
-        free(curr);
+    }
+    // free cached nodes
+    curr = NULL;
+    next = state->cache_head;
+    while (next != NULL) {
+        curr = next;
+        next = next->next;
+        if (curr->result) {
+            free(curr->result);
+        }
     }
     free_dyn_arr(state->call_dyn_arr);
     free(state->cache_arr);
@@ -96,21 +72,17 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
 #ifdef PRINT_TRACE
     printf("evaluating rule %s, pos %d\n", name_map[id], pos);
 #endif
-    cached_rnode_t** cached_rnode =
-            &(state->cache_arr[id * (text_length + 1) + pos]);
-    if (!(*cached_rnode)) {
-        (*cached_rnode) = malloc(sizeof(cached_rnode_t));
-        (*cached_rnode)->flags |= IN_PROGRESS;
-        (*cached_rnode)->next = state->cache_head;
-        state->cache_head = *cached_rnode;
+    cached_rnode_t* cached_rnode =
+            &(state->cache_arr[pos * (num_rules - 1) + id]);
+    if (!(cached_rnode->flags & IS_VALID)) {
+        cached_rnode->flags |= IN_PROGRESS;
+        cached_rnode->next = state->cache_head;
+        state->cache_head = cached_rnode;
         append_dyn_arr(state->call_dyn_arr, &id);
         rnode_t* result = eval_map[id](state, text, text_length, pos);
         pop_dyn_arr(state->call_dyn_arr);
-        (*cached_rnode)->result = result;
-        (*cached_rnode)->flags ^= IN_PROGRESS;
-        if (result) {
-            (*cached_rnode)->result->flags |= IS_CACHED;
-        }
+        cached_rnode->result = result;
+        cached_rnode->flags ^= IN_PROGRESS;
 #ifdef PRINT_TRACE
         if (result) {
             printf("caching rule %s, pos %d -> %d\n",
@@ -120,8 +92,12 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
                 name_map[id], pos);
         }
 #endif
+        if (result) {
+            cached_rnode->result->flags |= IS_CACHED;
+        }
+        cached_rnode->flags |= IS_VALID;
         return result;
-    } else if ((*cached_rnode)->flags & IN_PROGRESS) {
+    } else if (cached_rnode->flags & IN_PROGRESS) {
         uint32_t top_id = *((uint32_t*)get_dyn_arr(
                 state->call_dyn_arr, state->call_dyn_arr->len - 1));
         if (top_id != id) {
@@ -133,15 +109,15 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
         }
     }
 #ifdef PRINT_TRACE
-    if ((*cached_rnode)->result) {
+    if (cached_rnode->result) {
         printf("recalling rule %s, pos %d -> %d\n",
-            name_map[id], pos, (*cached_rnode)->result->end);
+            name_map[id], pos, cached_rnode->result->end);
     } else {
         printf("recalling rule %s, pos %d -> fail\n",
             name_map[id], pos);
     }
 #endif
-    return (*cached_rnode)->result;
+    return cached_rnode->result;
 }
 
 imported_file_t* import_file(char* filename)
@@ -199,10 +175,10 @@ void* parse_file(char* filename)
 #ifdef BENCHMARK
         exit(EXIT_SUCCESS);
 #endif
-        finalize_tree(result);
-        free_memo_state(state);
+//      finalize_tree(result);
         semantic_result = generate_semantic_result(imported_file->text, result);
-        free_tree(result, 0);
+        free_memo_state(state);
+//      free_tree(result, 0);
     } else {
         printf("Parse failed\n");
 #ifdef BENCHMARK

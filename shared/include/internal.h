@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "ptype.h"
+#include "dyn_arr.h"
 
 typedef struct rnode_t_ {
     ptype_t type;
@@ -16,15 +17,9 @@ typedef struct rnode_t_ {
     struct rnode_t_* children[0];
 } rnode_t;
 
-typedef struct {
-    uint32_t cap;
-    uint32_t len;
-    void** arr;
-} dyn_arr_t;
-
 typedef enum {
     IN_PROGRESS = 0x1,
-    LR_DETECTED = 0x2,
+    IS_VALID = 0x2
 } cache_flag_t;
 
 typedef struct cached_rnode_t_ {
@@ -36,7 +31,7 @@ typedef struct cached_rnode_t_ {
 typedef struct {
     dyn_arr_t* call_dyn_arr;
     cached_rnode_t* cache_head;
-    cached_rnode_t** cache_arr;
+    cached_rnode_t* cache_arr;
 } memo_state_t;
 
 typedef struct {
@@ -63,7 +58,7 @@ void* pop_dyn_arr(dyn_arr_t* list);
 void* get_dyn_arr(dyn_arr_t* list, uint32_t index);
 
 void free_tree(rnode_t* node, pnode_flag_t exclude);
-void finalize_tree(rnode_t* node);
+//void finalize_tree(rnode_t* node);
 
 memo_state_t* init_memo_state(
     imported_file_t* imported_file, uint32_t num_rules);
