@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(quxer)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g --std=c99 -Wall -Wno-unused-variable")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 --std=c99 -Wall -Wno-unused-variable")
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include

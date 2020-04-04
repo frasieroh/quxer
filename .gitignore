@@ -57,3 +57,6 @@ build
 
 # Swap files
 [._]*.sw[a-z]
+
+# Worktrees
+arena
