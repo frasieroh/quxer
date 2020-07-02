@@ -38,11 +38,11 @@ grammar_t* init_metagrammar()
     ~body        = o : alt {{ result = *o; }}
     
     ~alt         = first : seq (ws "/" ws rest : seq)* {{
-      result = ast_Alt(first, rest, countrest + 1);
+      result = ast_alt(first, rest, countrest + 1);
     }}
 
     ~seq         = first : operator (wsp rest : operator)* {{
-      result = ast_Seq(first, rest, countrest + 1);
+      result = ast_seq(first, rest, countrest + 1);
     }}
 
     ~operator    = o : prefix (ws <code>)? {{
@@ -55,16 +55,16 @@ grammar_t* init_metagrammar()
       if (ccount) { result = ast_with_code(c(0), *o); } else { result = *o; }
     }}
 
-    ~prefix      = and ws o : group {{ result = ast_And(*o); }}
-                 / not ws o : group {{ result = ast_Not(*o); }}
+    ~prefix      = and ws o : group {{ result = ast_and(*o); }}
+                 / not ws o : group {{ result = ast_not(*o); }}
     
     ~and         = "&"
     
     ~not         = "!"
     
-    ~postfix     = o : group ws star {{ result = ast_Star(*o); }}
-                 / o : group ws plus {{ result = ast_Plus(*o); }}
-                 / o : group ws option {{ result = ast_Option(*o); }}
+    ~postfix     = o : group ws star {{ result = ast_star(*o); }}
+                 / o : group ws plus {{ result = ast_plus(*o); }}
+                 / o : group ws option {{ result = ast_option(*o); }}
     
     ~star        = "*"
     
@@ -73,7 +73,7 @@ grammar_t* init_metagrammar()
     ~option      = "?"
     
     ~group       = "(" ws o : body ws ")" {{ result = *o; }}
-                 / "<" ws o : body ws ">" {{ result = ast_Capture(*o); }}
+                 / "<" ws o : body ws ">" {{ result = ast_capture(*o); }}
                  / o : final {{ result = *o; }}
     
     ~final       = o : nonterminal {{ result = *o; }}
@@ -82,14 +82,14 @@ grammar_t* init_metagrammar()
                  / o : dot {{ result = *o; }}
     
     ~nonterminal = <name> ws ":" ws <name> {{
-      result = ast_AliasedNontm(c(1), c(0));
+      result = ast_aliased_nontm(c(1), c(0));
     }}
                  / <name> {{
-      result = ast_Nontm(c(0));
+      result = ast_nontm(c(0));
     }}
     
     ~literal     = "\"" <(&"\\" . . / !"\"" .)*> "\"" {{
-      result = ast_Literal(c(0));
+      result = ast_literal(c(0));
     }}
     
     ~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
@@ -103,295 +103,295 @@ grammar_t* init_metagrammar()
 {
         pnode_t* buf[16];
         // ~grammar
-        pnode_t* temp1 = Seq(2, pack_pnodes(buf, 2,
-            Nontm("ws"),
-            AliasedNontm("rule", "r")
+        pnode_t* temp1 = seq(2, pack_pnodes(buf, 2,
+            nontm("ws"),
+            aliased_nontm("rule", "r")
  		));
         rule_t* rule_grammar = init_rule("grammar",
-            Action(Seq(3, pack_pnodes(buf, 3,
-                    Plus(temp1),
-                    Nontm("ws"),
-                    Not(Range(0, 255)))),
+            action(seq(3, pack_pnodes(buf, 3,
+                    plus(temp1),
+                    nontm("ws"),
+                    not(range(0, 255)))),
                 "result = ast_grammar(r, countr);")
         );
         // ~ws
         rule_t* rule_ws = init_rule("ws",
-            Star(Alt(3, pack_pnodes(buf, 3,
-                    Literal(" "),
-                    Literal("\n"),
-                    Literal("\t"))))
+            star(alt(3, pack_pnodes(buf, 3,
+                    literal(" "),
+                    literal("\n"),
+                    literal("\t"))))
         );
         // ~wsp
         rule_t* rule_wsp = init_rule("wsp",
-            Plus(Alt(3, pack_pnodes(buf, 3,
-                    Literal(" "),
-                    Literal("\n"),
-                    Literal("\t"))
+            plus(alt(3, pack_pnodes(buf, 3,
+                    literal(" "),
+                    literal("\n"),
+                    literal("\t"))
         )));
         // ~rule
         rule_t* rule_rule = init_rule("rule",
-            Action(Seq(6, pack_pnodes(buf, 6,
-                    Literal("~"),
-                    Capture(Nontm("name")),
-                    Nontm("ws"),
-                    Literal("="),
-                    Nontm("ws"),
-                    AliasedNontm("body", "b"))),
+            action(seq(6, pack_pnodes(buf, 6,
+                    literal("~"),
+                    capture(nontm("name")),
+                    nontm("ws"),
+                    literal("="),
+                    nontm("ws"),
+                    aliased_nontm("body", "b"))),
                 "result = ast_rule(c(0), *b);")
         );
         // ~name
         rule_t* rule_name = init_rule("name",
-			Plus(Alt(4, pack_pnodes(buf, 4,
-                    Range('A', 'Z'),
-                    Range('a', 'z'),
-                    Range('0', '9'),
-                    Literal("_"))))
+			plus(alt(4, pack_pnodes(buf, 4,
+                    range('A', 'Z'),
+                    range('a', 'z'),
+                    range('0', '9'),
+                    literal("_"))))
         );
         // ~body
         rule_t* rule_body = init_rule("body",
-            Action(
-                AliasedNontm("alt", "o"),
+            action(
+                aliased_nontm("alt", "o"),
                 "result = *o;")
         );
         // ~alt
-		temp1 = Seq(4, pack_pnodes(buf, 4,
-			Nontm("ws"),
-			Literal("/"),
-            Nontm("ws"),
-			AliasedNontm("seq", "rest")
+		temp1 = seq(4, pack_pnodes(buf, 4,
+			nontm("ws"),
+			literal("/"),
+            nontm("ws"),
+			aliased_nontm("seq", "rest")
         ));
         rule_t* rule_alt = init_rule("alt",
-            Action(Seq(2, pack_pnodes(buf, 2,
-                    AliasedNontm("seq", "first"),
-                    Star(temp1))),
-                "result = ast_Alt(first, rest, countrest + 1);")
+            action(seq(2, pack_pnodes(buf, 2,
+                    aliased_nontm("seq", "first"),
+                    star(temp1))),
+                "result = ast_alt(first, rest, countrest + 1);")
 		);
 		// ~seq
-		temp1 = Seq(2, pack_pnodes(buf, 2,
-            Nontm("wsp"),
-			AliasedNontm("operator", "rest")
+		temp1 = seq(2, pack_pnodes(buf, 2,
+            nontm("wsp"),
+			aliased_nontm("operator", "rest")
         ));
         rule_t* rule_seq = init_rule("seq",
-            Action(Seq(2, pack_pnodes(buf, 2,
-                    AliasedNontm("operator", "first"),
-                    Star(temp1))),
-                "result = ast_Seq(first, rest, countrest + 1);")
+            action(seq(2, pack_pnodes(buf, 2,
+                    aliased_nontm("operator", "first"),
+                    star(temp1))),
+                "result = ast_seq(first, rest, countrest + 1);")
 		);
 		// ~operator
-        temp1 = Option(Seq(2, pack_pnodes(buf, 2,
-                Nontm("ws"),
-                Capture(Nontm("code"))
+        temp1 = option(seq(2, pack_pnodes(buf, 2,
+                nontm("ws"),
+                capture(nontm("code"))
         )));
-        temp1 = Action(Seq(2, pack_pnodes(buf, 2,
-                AliasedNontm("prefix","o"),
-                Option(temp1))),
+        temp1 = action(seq(2, pack_pnodes(buf, 2,
+                aliased_nontm("prefix","o"),
+                option(temp1))),
             "if(ccount){result = ast_with_code(c(0), *o);}else{result = *o;}"
         );
-        pnode_t* temp2 = Option(Seq(2, pack_pnodes(buf, 2,
-                Nontm("ws"),
-                Capture(Nontm("code"))
+        pnode_t* temp2 = option(seq(2, pack_pnodes(buf, 2,
+                nontm("ws"),
+                capture(nontm("code"))
         )));
-        temp2 = Action(Seq(2, pack_pnodes(buf, 2,
-                AliasedNontm("postfix","o"),
-                Option(temp2))),
+        temp2 = action(seq(2, pack_pnodes(buf, 2,
+                aliased_nontm("postfix","o"),
+                option(temp2))),
             "if(ccount){result = ast_with_code(c(0), *o);}else{result = *o;}"
         );
-        pnode_t* temp3 = Option(Seq(2, pack_pnodes(buf, 2,
-                Nontm("ws"),
-                Capture(Nontm("code"))
+        pnode_t* temp3 = option(seq(2, pack_pnodes(buf, 2,
+                nontm("ws"),
+                capture(nontm("code"))
         )));
-        temp3 = Action(Seq(2, pack_pnodes(buf, 2,
-                AliasedNontm("group","o"),
-                Option(temp3))),
+        temp3 = action(seq(2, pack_pnodes(buf, 2,
+                aliased_nontm("group","o"),
+                option(temp3))),
             "if(ccount){result = ast_with_code(c(0), *o);}else{result = *o;}"
         );
         rule_t* rule_operator = init_rule("operator",
-            Alt(3, pack_pnodes(buf, 3,
+            alt(3, pack_pnodes(buf, 3,
                 temp1,
                 temp2,
                 temp3))
         );
 		// ~prefix
-		temp1 = Action(Seq(3, pack_pnodes(buf, 3,
-                Nontm("and"),
-                Nontm("ws"),
-                AliasedNontm("group", "o"))),
-            "result = ast_And(*o);"
+		temp1 = action(seq(3, pack_pnodes(buf, 3,
+                nontm("and"),
+                nontm("ws"),
+                aliased_nontm("group", "o"))),
+            "result = ast_and(*o);"
 		);
-		temp2 = Action(Seq(3, pack_pnodes(buf, 3,
-                Nontm("not"),
-                Nontm("ws"),
-                AliasedNontm("group", "o"))),
-            "result = ast_Not(*o);"
+		temp2 = action(seq(3, pack_pnodes(buf, 3,
+                nontm("not"),
+                nontm("ws"),
+                aliased_nontm("group", "o"))),
+            "result = ast_not(*o);"
 		);
 		rule_t* rule_prefix = init_rule("prefix",
-			Alt(2, pack_pnodes(buf, 2,
+			alt(2, pack_pnodes(buf, 2,
 				temp1,
 				temp2))
 		);
 		// ~and
 		rule_t* rule_and = init_rule("and",
-			Literal("&")
+			literal("&")
 		);
 		// ~not
 		rule_t* rule_not = init_rule("not",
-			Literal("!")
+			literal("!")
 		);
 		// ~postfix
-		temp1 = Action(Seq(3, pack_pnodes(buf, 3,
-                AliasedNontm("group", "o"),
-                Nontm("ws"),
-                Nontm("star"))),
-            "result = ast_Star(*o);"
+		temp1 = action(seq(3, pack_pnodes(buf, 3,
+                aliased_nontm("group", "o"),
+                nontm("ws"),
+                nontm("star"))),
+            "result = ast_star(*o);"
 		);
-		temp2 = Action(Seq(3, pack_pnodes(buf, 3,
-                AliasedNontm("group", "o"),
-                Nontm("ws"),
-                Nontm("plus"))),
-            "result = ast_Plus(*o);"
+		temp2 = action(seq(3, pack_pnodes(buf, 3,
+                aliased_nontm("group", "o"),
+                nontm("ws"),
+                nontm("plus"))),
+            "result = ast_plus(*o);"
 		);
-		temp3 = Action(Seq(3, pack_pnodes(buf, 3,
-                AliasedNontm("group", "o"),
-                Nontm("ws"),
-                Nontm("option"))),
-            "result = ast_Option(*o);"
+		temp3 = action(seq(3, pack_pnodes(buf, 3,
+                aliased_nontm("group", "o"),
+                nontm("ws"),
+                nontm("option"))),
+            "result = ast_option(*o);"
 		);
 		rule_t* rule_postfix = init_rule("postfix",
-			Alt(3, pack_pnodes(buf, 3,
+			alt(3, pack_pnodes(buf, 3,
 				temp1,
 				temp2,
 				temp3))
 		);
 		// ~star
 		rule_t* rule_star = init_rule("star",
-			Literal("*")
+			literal("*")
 		);
 		// ~plus
 		rule_t* rule_plus = init_rule("plus",
-			Literal("+")
+			literal("+")
 		);
 		// ~option
 		rule_t* rule_option = init_rule("option",
-			Literal("?")
+			literal("?")
 		);
 		// ~group
-		temp1 = Action(Seq(5, pack_pnodes(buf, 5,
-                Literal("("),
-                Nontm("ws"),
-                AliasedNontm("body", "o"),
-                Nontm("ws"),
-                Literal(")"))),
+		temp1 = action(seq(5, pack_pnodes(buf, 5,
+                literal("("),
+                nontm("ws"),
+                aliased_nontm("body", "o"),
+                nontm("ws"),
+                literal(")"))),
             "result = *o;"
 		);
-		temp2 = Action(Seq(5, pack_pnodes(buf, 5,
-                Literal("<"),
-                Nontm("ws"),
-                AliasedNontm("body", "o"),
-                Nontm("ws"),
-                Literal(">"))),
-            "result = ast_Capture(*o);"
+		temp2 = action(seq(5, pack_pnodes(buf, 5,
+                literal("<"),
+                nontm("ws"),
+                aliased_nontm("body", "o"),
+                nontm("ws"),
+                literal(">"))),
+            "result = ast_capture(*o);"
 		);
 		rule_t* rule_group = init_rule("group",
-			Alt(3, pack_pnodes(buf, 3,
+			alt(3, pack_pnodes(buf, 3,
 				temp1,
                 temp2,
-				Action(
-                    AliasedNontm("final", "o"),
+				action(
+                    aliased_nontm("final", "o"),
                     "result = *o;")))
 		);
 		// ~final
 		rule_t* rule_final = init_rule("final",
-			Alt(4, pack_pnodes(buf, 4,
-				Action(AliasedNontm("nonterminal", "o"), "result = *o;"),
-                Action(AliasedNontm("literal", "o"), "result = *o;"),
-                Action(AliasedNontm("cclass", "o"), "result = *o;"),
-                Action(AliasedNontm("dot", "o"), "result = *o;")))
+			alt(4, pack_pnodes(buf, 4,
+				action(aliased_nontm("nonterminal", "o"), "result = *o;"),
+                action(aliased_nontm("literal", "o"), "result = *o;"),
+                action(aliased_nontm("cclass", "o"), "result = *o;"),
+                action(aliased_nontm("dot", "o"), "result = *o;")))
 		);
         // ~nonterminal
-        temp1 = Action(Seq(5, pack_pnodes(buf, 5,
-                Capture(Nontm("name")),
-                Nontm("ws"),
-                Literal(":"),
-                Nontm("ws"),
-                Capture(Nontm("name")))),
-            "result = ast_AliasedNontm(c(1), c(0));"
+        temp1 = action(seq(5, pack_pnodes(buf, 5,
+                capture(nontm("name")),
+                nontm("ws"),
+                literal(":"),
+                nontm("ws"),
+                capture(nontm("name")))),
+            "result = ast_aliased_nontm(c(1), c(0));"
         );
         rule_t* rule_nonterminal = init_rule("nonterminal",
-            Alt(2, pack_pnodes(buf, 2,
+            alt(2, pack_pnodes(buf, 2,
                 temp1,
-                Action(
-                    Capture(Nontm("name")),
-                    "result = ast_Nontm(c(0));")))
+                action(
+                    capture(nontm("name")),
+                    "result = ast_nontm(c(0));")))
         );
 		// ~literal
-		temp1 = Seq(3, pack_pnodes(buf, 3,
-			And(Literal("\\")),
-			Range(0, 255),
-			Range(0, 255)
+		temp1 = seq(3, pack_pnodes(buf, 3,
+			and(literal("\\")),
+			range(0, 255),
+			range(0, 255)
 		));
-		temp2 = Seq(2, pack_pnodes(buf, 2,
-			Not(Literal("\"")),
-			Range(0, 255)
+		temp2 = seq(2, pack_pnodes(buf, 2,
+			not(literal("\"")),
+			range(0, 255)
 		));
-		temp3 = Star(
-			Alt(2, pack_pnodes(buf, 2,
+		temp3 = star(
+			alt(2, pack_pnodes(buf, 2,
 				temp1,
 				temp2))
 		);
 		rule_t* rule_literal = init_rule("literal",
-			Action(Seq(3, pack_pnodes(buf, 3,
-                    Literal("\""),
-                    Capture(temp3),
-                    Literal("\""))),
-                "result = ast_Literal(c(0));")
+			action(seq(3, pack_pnodes(buf, 3,
+                    literal("\""),
+                    capture(temp3),
+                    literal("\""))),
+                "result = ast_literal(c(0));")
 		);
 		// ~cclass
-		temp1 = Seq(3, pack_pnodes(buf, 3,
-			And(Literal("\\")),
-			Range(0, 255),
-			Range(0, 255)
+		temp1 = seq(3, pack_pnodes(buf, 3,
+			and(literal("\\")),
+			range(0, 255),
+			range(0, 255)
 		));
-		temp2 = Seq(2, pack_pnodes(buf, 2,
-			Not(Literal("]")),
-			Range(0, 255)
+		temp2 = seq(2, pack_pnodes(buf, 2,
+			not(literal("]")),
+			range(0, 255)
 		));
-		temp3 = Star(
-			Alt(2, pack_pnodes(buf, 2,
+		temp3 = star(
+			alt(2, pack_pnodes(buf, 2,
 				temp1,
 				temp2))
 		);
 		rule_t* rule_cclass = init_rule("cclass",
-			Action(Seq(3, pack_pnodes(buf, 3,
-                    Literal("["),
-                    Capture(temp3),
-                    Literal("]"))),
+			action(seq(3, pack_pnodes(buf, 3,
+                    literal("["),
+                    capture(temp3),
+                    literal("]"))),
                 "result = ast_CClass(c(0));")
 		);
         // ~dot
 		rule_t* rule_dot = init_rule("dot",
-			Action(Literal("."),
+			action(literal("."),
             "result = ast_dot();")
 		);
 		// ~code
-		temp1 = Seq(3, pack_pnodes(buf, 3,
-			And(Literal("\\")),
-			Range(0, 255),
-			Range(0, 255)
+		temp1 = seq(3, pack_pnodes(buf, 3,
+			and(literal("\\")),
+			range(0, 255),
+			range(0, 255)
 		));
-		temp2 = Seq(2, pack_pnodes(buf, 2,
-			Not(Literal("}}")),
-			Range(0, 255)
+		temp2 = seq(2, pack_pnodes(buf, 2,
+			not(literal("}}")),
+			range(0, 255)
 		));
-		temp3 = Star(
-			Alt(2, pack_pnodes(buf, 2,
+		temp3 = star(
+			alt(2, pack_pnodes(buf, 2,
 				temp1,
 				temp2))
 		);
 		rule_t* rule_code = init_rule("code",
-			Seq(3, pack_pnodes(buf, 3,
-				Literal("{{"),
-				Capture(temp3),
-				Literal("}}")))
+			seq(3, pack_pnodes(buf, 3,
+				literal("{{"),
+				capture(temp3),
+				literal("}}")))
 		);
 		rule_t* rules[23] = {
 			rule_grammar,

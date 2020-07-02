@@ -4044,7 +4044,7 @@ uint32_t countfirst = context->alias[33]->len;
 ast_node_t** rest = (ast_node_t**)(context->alias[39]->arr);
 uint32_t countrest = context->alias[39]->len;
 {{
-      result = ast_Alt(first, rest, countrest + 1);
+      result = ast_alt(first, rest, countrest + 1);
     }}
 context->result = result;
 return;
@@ -4066,7 +4066,7 @@ uint32_t countfirst = context->alias[41]->len;
 ast_node_t** rest = (ast_node_t**)(context->alias[45]->arr);
 uint32_t countrest = context->alias[45]->len;
 {{
-      result = ast_Seq(first, rest, countrest + 1);
+      result = ast_seq(first, rest, countrest + 1);
     }}
 context->result = result;
 return;
@@ -4139,7 +4139,7 @@ void semantic_action_78(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[81]->arr);
 uint32_t counto = context->alias[81]->len;
-{{ result = ast_And(*o); }}
+{{ result = ast_and(*o); }}
 context->result = result;
 return;
 }
@@ -4155,7 +4155,7 @@ void semantic_action_82(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[85]->arr);
 uint32_t counto = context->alias[85]->len;
-{{ result = ast_Not(*o); }}
+{{ result = ast_not(*o); }}
 context->result = result;
 return;
 }
@@ -4171,7 +4171,7 @@ void semantic_action_89(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[90]->arr);
 uint32_t counto = context->alias[90]->len;
-{{ result = ast_Star(*o); }}
+{{ result = ast_star(*o); }}
 context->result = result;
 return;
 }
@@ -4187,7 +4187,7 @@ void semantic_action_93(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[94]->arr);
 uint32_t counto = context->alias[94]->len;
-{{ result = ast_Plus(*o); }}
+{{ result = ast_plus(*o); }}
 context->result = result;
 return;
 }
@@ -4203,7 +4203,7 @@ void semantic_action_97(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[98]->arr);
 uint32_t counto = context->alias[98]->len;
-{{ result = ast_Option(*o); }}
+{{ result = ast_option(*o); }}
 context->result = result;
 return;
 }
@@ -4235,7 +4235,7 @@ void semantic_action_111(context_t* context) {
 ast_node_t* result = NULL;
 ast_node_t** o = (ast_node_t**)(context->alias[114]->arr);
 uint32_t counto = context->alias[114]->len;
-{{ result = ast_Capture(*o); }}
+{{ result = ast_capture(*o); }}
 context->result = result;
 return;
 }
@@ -4330,7 +4330,7 @@ return;
 void semantic_action_124(context_t* context) {
 ast_node_t* result = NULL;
 {{
-      result = ast_AliasedNontm(c(1), c(0));
+      result = ast_aliased_nontm(c(1), c(0));
     }}
 context->result = result;
 return;
@@ -4344,7 +4344,7 @@ return;
 void semantic_action_130(context_t* context) {
 ast_node_t* result = NULL;
 {{
-      result = ast_Nontm(c(0));
+      result = ast_nontm(c(0));
     }}
 context->result = result;
 return;
@@ -4358,7 +4358,7 @@ return;
 void semantic_action_131(context_t* context) {
 ast_node_t* result = NULL;
 {{
-      result = ast_Literal(c(0));
+      result = ast_literal(c(0));
     }}
 context->result = result;
 return;
@@ -4372,7 +4372,7 @@ return;
 void semantic_action_145(context_t* context) {
 ast_node_t* result = NULL;
 {{
-      result = ast_CClass(c(0));
+      result = ast_cclass(c(0));
     }}
 context->result = result;
 return;

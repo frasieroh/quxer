@@ -46,9 +46,9 @@ pnode_t* NAME(uint32_t num_children, pnode_t** children) \
     return node;                                         \
 }
 
-MANY_CONSTRUCTOR(Seq, SEQUENCE_T)
+MANY_CONSTRUCTOR(seq, SEQUENCE_T)
 
-MANY_CONSTRUCTOR(Alt, ALTERNATIVE_T)
+MANY_CONSTRUCTOR(alt, ALTERNATIVE_T)
 
 #define UNARY_CONSTRUCTOR(NAME, TYPE)   \
 pnode_t* NAME(pnode_t* child)           \
@@ -61,22 +61,22 @@ pnode_t* NAME(pnode_t* child)           \
     return node;                        \
 }
 
-UNARY_CONSTRUCTOR(Star, STAR_T)
+UNARY_CONSTRUCTOR(star, STAR_T)
 
-UNARY_CONSTRUCTOR(Plus, PLUS_T)
+UNARY_CONSTRUCTOR(plus, PLUS_T)
 
-UNARY_CONSTRUCTOR(Option, OPTIONAL_T)
+UNARY_CONSTRUCTOR(option, OPTIONAL_T)
 
-UNARY_CONSTRUCTOR(And, AND_T)
+UNARY_CONSTRUCTOR(and, AND_T)
 
-UNARY_CONSTRUCTOR(Not, NOT_T)
+UNARY_CONSTRUCTOR(not, NOT_T)
 
-pnode_t* Literal(char* str_bytes)
+pnode_t* literal(char* str_bytes)
 {
-    return LiteralBytes((uint8_t*)str_bytes, strlen(str_bytes));
+    return literal_bytes((uint8_t*)str_bytes, strlen(str_bytes));
 }
 
-pnode_t* LiteralBytes(uint8_t* bytes, uint32_t len) 
+pnode_t* literal_bytes(uint8_t* bytes, uint32_t len) 
 {                                            
     bytes_t* bytes_ret = init_bytes(bytes, len);
     pnode_t* node = allocate_pnode(1);
@@ -87,7 +87,7 @@ pnode_t* LiteralBytes(uint8_t* bytes, uint32_t len)
     return node;
 } 
 
-pnode_t* Nontm(char* name)
+pnode_t* nontm(char* name)
 {
     pnode_t* node = allocate_pnode(1);
     node->type = NONTERMINAL_T;
@@ -98,7 +98,7 @@ pnode_t* Nontm(char* name)
     return node;
 }
 
-pnode_t* AliasedNontm(char* name, char* alias)
+pnode_t* aliased_nontm(char* name, char* alias)
 {
     pnode_t* node = allocate_pnode(2);
     node->type = NONTERMINAL_T;
@@ -111,7 +111,7 @@ pnode_t* AliasedNontm(char* name, char* alias)
     return node;
 }
 
-pnode_t* Range(uint8_t low, uint8_t high)
+pnode_t* range(uint8_t low, uint8_t high)
 {
     range_t* range = init_range(low, high);
     pnode_t* node = allocate_pnode(1);
@@ -122,13 +122,13 @@ pnode_t* Range(uint8_t low, uint8_t high)
     return node;
 }
 
-pnode_t* Capture(pnode_t* node)
+pnode_t* capture(pnode_t* node)
 {
     node->flags |= DO_CAPTURE;
     return node;
 }
 
-pnode_t* Action(pnode_t* node, char* code)
+pnode_t* action(pnode_t* node, char* code)
 {
     node->flags |= SEMANTIC_ACTION;
     node->code = malloc(sizeof(char) * (strlen(code) + 1));

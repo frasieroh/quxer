@@ -39,27 +39,27 @@ typedef struct {
 rule_t* init_rule(char* name, pnode_t* root);
 
 // hold pointers to their child parsers in child
-pnode_t* Seq(uint32_t num_children, pnode_t** children);
-pnode_t* Alt(uint32_t num_children, pnode_t** children);
-pnode_t* Star(pnode_t* child);
-pnode_t* Plus(pnode_t* child);
-pnode_t* Option(pnode_t* child);
-pnode_t* And(pnode_t* child);
-pnode_t* Not(pnode_t* child);
+pnode_t* seq(uint32_t num_children, pnode_t** children);
+pnode_t* alt(uint32_t num_children, pnode_t** children);
+pnode_t* star(pnode_t* child);
+pnode_t* plus(pnode_t* child);
+pnode_t* option(pnode_t* child);
+pnode_t* and(pnode_t* child);
+pnode_t* not(pnode_t* child);
 
 // holds the exact string that it accepts in string
-pnode_t* Literal(char* str_bytes);
-pnode_t* LiteralBytes(uint8_t* bytes, uint32_t len);
+pnode_t* literal(char* str_bytes);
+pnode_t* literal_bytes(uint8_t* bytes, uint32_t len);
 
 // holds the name of the nonterminal it matches in string
-pnode_t* Nontm(char* name);
-pnode_t* AliasedNontm(char* name, char* alias);
+pnode_t* nontm(char* name);
+pnode_t* aliased_nontm(char* name, char* alias);
 
 // holds a range of uint8_tacters it accepts in range
-pnode_t* Range(uint8_t low, uint8_t high);
+pnode_t* range(uint8_t low, uint8_t high);
 
-pnode_t* Capture(pnode_t* node);
-pnode_t* Action(pnode_t* node, char* code);
+pnode_t* capture(pnode_t* node);
+pnode_t* action(pnode_t* node, char* code);
 
 bytes_t* init_bytes(uint8_t* bytes, uint32_t len);
 range_t* init_range(uint8_t low, uint8_t high);

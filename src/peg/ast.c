@@ -35,7 +35,7 @@ ast_node_t* ast_rule(uint8_t* name, ast_node_t* body)
     return ast_node;
 }
 
-ast_node_t* ast_Alt(ast_node_t** first, ast_node_t** rest, uint32_t num)
+ast_node_t* ast_alt(ast_node_t** first, ast_node_t** rest, uint32_t num)
 {
     ast_node_t** ast_buf = malloc(sizeof(ast_node_t*) * num);
     pnode_t** pnode_buf = malloc(sizeof(pnode_t*) * num);
@@ -48,7 +48,7 @@ ast_node_t* ast_Alt(ast_node_t** first, ast_node_t** rest, uint32_t num)
     ast_node_t* ast_node = allocate_ast_node(num);
     ast_node->type = PNODE_T;
     if (num > 1) {
-        ast_node->data.pnode = Alt(num, pnode_buf);
+        ast_node->data.pnode = alt(num, pnode_buf);
     } else {
         ast_node->data.pnode = pnode_buf[0];
     }
@@ -60,7 +60,7 @@ ast_node_t* ast_Alt(ast_node_t** first, ast_node_t** rest, uint32_t num)
     return ast_node;
 }
 
-ast_node_t* ast_Seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
+ast_node_t* ast_seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
 {
     ast_node_t** ast_buf = malloc(sizeof(ast_node_t*) * num);
     ast_buf[0] = *first;
@@ -76,10 +76,10 @@ ast_node_t* ast_Seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
             pnode_t* fragment;
             uint32_t list_len = list->len;
             if (list_len > 1) {
-                fragment = Action(
-                        Seq(list_len, (pnode_t**)list->arr), ast_node->code);
+                fragment = action(
+                        seq(list_len, (pnode_t**)list->arr), ast_node->code);
             } else {
-                fragment = Action(get_dyn_arr(list, 0), ast_node->code);
+                fragment = action(get_dyn_arr(list, 0), ast_node->code);
             }
 
             for (uint32_t j = 0; j < list_len; ++j) {
@@ -91,7 +91,7 @@ ast_node_t* ast_Seq(ast_node_t** first, ast_node_t** rest, uint32_t num)
     pnode_t* result_pnode;
     if (list->len > 1) {
         uint32_t list_len = list->len;
-        result_pnode = Seq(list_len, (pnode_t**)list->arr);
+        result_pnode = seq(list_len, (pnode_t**)list->arr);
         for (uint32_t j = 0; j < list_len; ++j) {
             pop_dyn_arr(list);
         }
@@ -126,39 +126,39 @@ ast_node_t* NAME(ast_node_t* node)                 \
     return ast_node;                               \
 }                                                  \
 
-AST_CONSTRUCTOR(ast_And, And)
+AST_CONSTRUCTOR(ast_and, and)
 
-AST_CONSTRUCTOR(ast_Not, Not)
+AST_CONSTRUCTOR(ast_not, not)
 
-AST_CONSTRUCTOR(ast_Star, Star)
+AST_CONSTRUCTOR(ast_star, star)
 
-AST_CONSTRUCTOR(ast_Plus, Plus)
+AST_CONSTRUCTOR(ast_plus, plus)
 
-AST_CONSTRUCTOR(ast_Option, Option)
+AST_CONSTRUCTOR(ast_option, option)
 
-ast_node_t* ast_Capture(ast_node_t* node)
+ast_node_t* ast_capture(ast_node_t* node)
 {
-    Capture(node->data.pnode);
+    capture(node->data.pnode);
     return node;
 }
 
-ast_node_t* ast_AliasedNontm(uint8_t* name, uint8_t* alias)
+ast_node_t* ast_aliased_nontm(uint8_t* name, uint8_t* alias)
 {
     ast_node_t* ast_node = allocate_ast_node(0);
     ast_node->type = PNODE_T;
-    ast_node->data.pnode = AliasedNontm((char*)name, (char*)alias);
+    ast_node->data.pnode = aliased_nontm((char*)name, (char*)alias);
     return ast_node;
 }
 
-ast_node_t* ast_Nontm(uint8_t* name)
+ast_node_t* ast_nontm(uint8_t* name)
 {
     ast_node_t* ast_node = allocate_ast_node(0);
     ast_node->type = PNODE_T;
-    ast_node->data.pnode = Nontm((char*)name);
+    ast_node->data.pnode = nontm((char*)name);
     return ast_node;
 }
 
-ast_node_t* ast_Literal(uint8_t* str)
+ast_node_t* ast_literal(uint8_t* str)
 {
     uint32_t len = strlen((char*)str);
     uint32_t true_len = 0;
@@ -176,12 +176,12 @@ ast_node_t* ast_Literal(uint8_t* str)
     buf[true_len] = 0;
     ast_node_t* ast_node = allocate_ast_node(0);
     ast_node->type = PNODE_T;
-    ast_node->data.pnode = LiteralBytes(buf, true_len);
+    ast_node->data.pnode = literal_bytes(buf, true_len);
     free(buf);
     return ast_node;
 }
 
-ast_node_t* ast_CClass(uint8_t* str)
+ast_node_t* ast_cclass(uint8_t* str)
 {
     uint32_t len = strlen((char*)str);
     dyn_arr_t* list = init_dyn_arr(16);
@@ -212,18 +212,18 @@ ast_node_t* ast_CClass(uint8_t* str)
                 }
             }
             if (c1 < c2) {
-                append_dyn_arr(list, Range(c1, c2));
+                append_dyn_arr(list, range(c1, c2));
             } else {
-                append_dyn_arr(list, Range(c2, c1));
+                append_dyn_arr(list, range(c2, c1));
             }
             i = i + 2; // consumed 2 additional characters
         } else {
-            append_dyn_arr(list, LiteralBytes(&c1, 1));
+            append_dyn_arr(list, literal_bytes(&c1, 1));
         }
     }
     ast_node_t* ast_node = allocate_ast_node(0);
     ast_node->type = PNODE_T;
-    ast_node->data.pnode = Alt(list->len, (pnode_t**)(list->arr));
+    ast_node->data.pnode = alt(list->len, (pnode_t**)(list->arr));
     free_dyn_arr(list);
     return ast_node;
 }
@@ -232,7 +232,7 @@ ast_node_t* ast_dot()
 {
     ast_node_t* ast_node = allocate_ast_node(0);
     ast_node->type = PNODE_T;
-    ast_node->data.pnode = Range(0, 255);
+    ast_node->data.pnode = range(0, 255);
     return ast_node;
 }
 
