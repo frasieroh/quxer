@@ -5,7 +5,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 --std=c99 -Wall -Wno-unused-variable")
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
-    ${PROJECT_SOURCE_DIR}/shared/include
+    ${PROJECT_SOURCE_DIR}/lib/include
 )
 
 file(GLOB SRCS
@@ -13,7 +13,7 @@ file(GLOB SRCS
     "${PROJECT_SOURCE_DIR}/src/utils/*.c"
     "${PROJECT_SOURCE_DIR}/src/templates/*.c"
     "${PROJECT_SOURCE_DIR}/src/peg/*.c"
-    "${PROJECT_SOURCE_DIR}/shared/src/*.c"
+    "${PROJECT_SOURCE_DIR}/lib/src/*.c"
 )
 
 if ("${CMAKE_C_FLAGS}" MATCHES "-DBOOTSTRAP")
