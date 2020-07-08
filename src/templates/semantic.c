@@ -16,11 +16,11 @@ void write_helper_macros(FILE* file, writer_config_t* config)
 {
     fprintf(file,
         "#define c(x) "
-            "(((capture_t*)get_dyn_arr(context->capture, x))->str)\n"
+            "(((capture_t*)dq_get(context->capture, x))->str)\n"
         "#define s(x) "
-            "(((capture_t*)get_dyn_arr(context->capture, x))->start)\n"
+            "(((capture_t*)dq_get(context->capture, x))->start)\n"
         "#define e(x) "
-            "(((capture_t*)get_dyn_arr(context->capture, x))->end)\n"
+            "(((capture_t*)dq_get(context->capture, x))->end)\n"
         "#define ccount (context->capture->len)\n");
     return;
 }
@@ -71,10 +71,10 @@ void write_jump_map_fcns(FILE* file, writer_config_t* config, pnode_t* node)
         return;
     }
 5   void alias_allocs_<id>(context_t* context) {
-6       context->alias[<id1>] = init_dyn_arr(16);
+6       context->alias[<id1>] = init_dq(16);
         return;
 7   void alias_frees_<id>(context_t* context) {
-8       free_dyn_arr(context->alias[<id1>];
+8       free_dq(context->alias[<id1>];
         return;
 */
 {
@@ -147,7 +147,7 @@ void write_alias_allocs(FILE* file, writer_config_t* config,
 {
     if (node->flags & ALIAS) {
         fprintf(file,
-            "context->alias[%u] = init_dyn_arr(16);\n",
+            "context->alias[%u] = init_dq(16);\n",
             node->id);
     }
     switch (node->type) {
@@ -168,7 +168,7 @@ void write_alias_frees(FILE* file, writer_config_t* config,
 {
     if (node->flags & ALIAS) {
         fprintf(file,
-            "free_dyn_arr(context->alias[%u]);\n",
+            "free_dq(context->alias[%u]);\n",
             node->id);
     }
     switch (node->type) {

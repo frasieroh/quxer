@@ -20,8 +20,8 @@ if ("${CMAKE_C_FLAGS}" MATCHES "-DBOOTSTRAP")
     list(REMOVE_ITEM SRCS
         "${PROJECT_SOURCE_DIR}/src/peg/parser.c"
         "${PROJECT_SOURCE_DIR}/src/peg/ast.c"
-        "${PROJECT_SOURCE_DIR}/shared/src/internal.c"
-        "${PROJECT_SOURCE_DIR}/shared/src/arena.c"
+        "${PROJECT_SOURCE_DIR}/lib/src/internal.c"
+        "${PROJECT_SOURCE_DIR}/lib/src/arena.c"
     )
 endif()
 

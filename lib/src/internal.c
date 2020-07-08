@@ -11,7 +11,7 @@ memo_state_t* init_memo_state(imported_file_t* imported_file,
         uint32_t num_rules)
 {
     memo_state_t* state = malloc(sizeof(memo_state_t));
-    state->call_dyn_arr = init_dyn_arr(16);
+    state->callstack = init_dq(16);
     // state->cache_head = NULL;
     state->cache_arr = calloc(sizeof(cached_rnode_t),
              (imported_file->text_len + 1) * num_rules);
@@ -21,7 +21,7 @@ memo_state_t* init_memo_state(imported_file_t* imported_file,
 
 void free_memo_state(memo_state_t* state)
 {
-    free_dyn_arr(state->call_dyn_arr);
+    free_dq(state->callstack);
     free(state->cache_arr);
     free_arena(state->arena);
     free(state);
@@ -38,10 +38,10 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
             &(state->cache_arr[pos * (num_rules - 1) + id]);
     if (!(cached_rnode->flags & IS_VALID)) {
         cached_rnode->flags |= IN_PROGRESS;
-        append_dyn_arr(state->call_dyn_arr, &id);
+        dq_push_r(state->callstack, &id);
         eval_return_t ret;
         eval_map[id](state, text, text_length, pos, &ret);
-        pop_dyn_arr(state->call_dyn_arr);
+        dq_pop_r(state->callstack);
         rnode_t* result = ret.result;
         cached_rnode->result = result;
         cached_rnode->flags ^= IN_PROGRESS;
@@ -60,8 +60,8 @@ rnode_t* call_eval(uint32_t id, memo_state_t* state, uint8_t* text,
         cached_rnode->flags |= IS_VALID;
         return result;
     } else if (cached_rnode->flags & IN_PROGRESS) {
-         uint32_t top_id = *((uint32_t*)get_dyn_arr(
-                 state->call_dyn_arr, state->call_dyn_arr->len - 1));
+         uint32_t top_id = *((uint32_t*)dq_get(
+                 state->callstack, state->callstack->len - 1));
          if (top_id != id) {
              printf("Indirect left recursion: rule %s\n", name_map[id]);
              exit(EXIT_FAILURE);
@@ -172,8 +172,8 @@ void free_capture(capture_t* capture)
 context_t* init_context()
 {
     context_t* context = malloc(sizeof(context_t));
-    context->capture = init_dyn_arr(16);
-    context->alias = malloc(sizeof(dyn_arr_t*) * num_nodes);
+    context->capture = init_dq(16);
+    context->alias = malloc(sizeof(dq_t*) * num_nodes);
     context->result = NULL;
     return context;
 }
@@ -181,9 +181,9 @@ context_t* init_context()
 void free_context(context_t* context)
 {
     for (uint32_t i = 0; i < context->capture->len; ++i) {
-        free_capture(get_dyn_arr(context->capture, i));
+        free_capture(dq_get(context->capture, i));
     }
-    free_dyn_arr(context->capture);
+    free_dq(context->capture);
     free(context->alias);
     free(context);
     return;
@@ -209,7 +209,7 @@ void generate_semantic_result_recursive(
         generate_semantic_result_recursive(
                 inner_context, text, node->children[0]);
         if (node->flags & ALIAS) {
-            append_dyn_arr(
+            dq_push_r(
                     context->alias[node->id], inner_context->result);
         }
         free_context(inner_context);
@@ -220,7 +220,7 @@ void generate_semantic_result_recursive(
         }
     }
     if (node->flags & DO_CAPTURE) {
-        append_dyn_arr(
+        dq_push_r(
                 context->capture,
                 init_capture(text, node->start, node->end));
     }

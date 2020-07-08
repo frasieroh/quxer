@@ -93,7 +93,7 @@ grammar_t* init_metagrammar()
     }}
     
     ~cclass      = "[" <(&"\\" . . / !"]" .)*> "]" {{
-      result = ast_CClass(c(0));
+      result = ast_cclass(c(0));
     }}
     
     ~dot         = "." {{ result = ast_dot(); }}
@@ -365,7 +365,7 @@ grammar_t* init_metagrammar()
                     literal("["),
                     capture(temp3),
                     literal("]"))),
-                "result = ast_CClass(c(0));")
+                "result = ast_cclass(c(0));")
 		);
         // ~dot
 		rule_t* rule_dot = init_rule("dot",

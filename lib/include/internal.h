@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include "ptype.h"
-#include "dyn_arr.h"
+#include "deque.h"
 #include "arena.h"
 
 typedef struct rnode_t_ {
@@ -29,7 +29,7 @@ typedef struct {
 } cached_rnode_t;
 
 typedef struct {
-    dyn_arr_t* call_dyn_arr;
+    dq_t* callstack;
     cached_rnode_t* cache_arr;
     arena_t* arena;
 } memo_state_t;
@@ -46,8 +46,8 @@ typedef struct {
 } capture_t;
 
 typedef struct {
-    dyn_arr_t* capture; // capture->arr[index] -> capture_t*
-    dyn_arr_t** alias; // alias[which]->arr[index] -> void*
+    dq_t* capture; // capture->arr[index] -> capture_t*
+    dq_t** alias; // alias[which]->arr[index] -> void*
     void* result;
 } context_t;
 

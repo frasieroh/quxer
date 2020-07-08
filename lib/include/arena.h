@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
-#include "dyn_arr.h"
+#include "deque.h"
 
 typedef enum {
     FROZEN = 0x1,
@@ -37,9 +37,9 @@ typedef struct {
 
 typedef struct {
     arena_ptrs_t ptrs;
-    dyn_arr_t* fixed;
-    dyn_arr_t* fixed_backing;
-    dyn_arr_t* dynamic;
+    dq_t* fixed;
+    dq_t* fixed_backing;
+    dq_t* dynamic;
 } arena_t;
 
 arena_t* init_arena(size_t cap);

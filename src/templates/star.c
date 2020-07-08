@@ -13,12 +13,12 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 1       uint32_t start_<child_id> = start_<id>;
 2       rnode_t* result_<child_id> = NULL;
 3       uint32_t num_children_<id> = 0;
-4       dyn_arr_t* list_<id> = init_dyn_arr(16);
+4       dq_t* dq_<id> = init_dq(16);
         do {
 5           result_<child_id> = NULL;
             ... child parser ...
 6           if (result_<child_id> != NULL) {
-7               append_dyn_arr(list_<id>, result_<child id>);
+7               dq_push_r(dq_<id>, result_<child id>);
 8               start_<child_id> = result_<child_id>->end;
 9               ++num_children_<id>;
             }
@@ -31,15 +31,15 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 15      result_<id>->num_children = num_children_<id>;
 16      if (num_children_<id>) {
 17          for (uint32 i = 0; i < num_children_<id>; ++i) {
-18              result_<id>->children[i] = list_<id>->arr[i];
+18              result_<id>->children[i] = dq_get(dq_<id>, i);
             }
 19          result_<id>->end =
-                    ((rnode_t*)list_<id>->arr[num_children_<id> - 1])->end;
+                    ((rnode_t*)dq_get(dq_<id>, num_children_<id> - 1))->end;
         } else {
 20          result_<id>->end = start_<id>;
         }
 21      result_<id>->id = <id>
-22      free_dyn_arr(list_<id>);
+22      free_dq(dq_<id>);
     */
 {
     uint32_t id = node->id;
@@ -51,7 +51,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 /*1*/   "uint32_t start_%u = start_%u;\n"
 /*2*/   "rnode_t* result_%u = NULL;\n"
 /*3*/   "uint32_t num_children_%u = 0;\n"
-/*4*/   "dyn_arr_t* list_%u = init_dyn_arr(16);\n"
+/*4*/   "dq_t* dq_%u = init_dq(16);\n"
         "do {\n"
 /*5*/   "result_%u = NULL;\n",
 /*0*/   id, id,
@@ -63,7 +63,7 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
     write_template(file, config, child_node);
     fprintf(file,
 /*6*/   "if (result_%u != NULL) {\n"
-/*7*/   "    append_dyn_arr(list_%u, result_%u);\n"
+/*7*/   "    dq_push_r(dq_%u, result_%u);\n"
 /*8*/   "    start_%u = result_%u->end;\n"
 /*9*/   "    ++num_children_%u;\n"
         "}\n"
@@ -83,14 +83,14 @@ void write_star(FILE* file, writer_config_t* config, pnode_t* node)
 /*15*/  "result_%u->num_children = num_children_%u;\n"
 /*16*/  "if (num_children_%u) {\n"
 /*17*/  "for (uint32_t i = 0; i < num_children_%u; ++i) {\n"
-/*18*/  "result_%u->children[i] = list_%u->arr[i];\n"
+/*18*/  "result_%u->children[i] = dq_get(dq_%u, i);\n"
         "}\n"
-/*19*/  "result_%u->end = ((rnode_t*)list_%u->arr[num_children_%u - 1])->end;\n"
+/*19*/  "result_%u->end = ((rnode_t*)dq_get(dq_%u, num_children_%u - 1))->end;\n"
         "} else {\n"
 /*20*/  "result_%u->end = start_%u;\n"
         "}\n"
 /*21*/  "result_%u->id = %u;\n"
-/*22*/  "free_dyn_arr(list_%u);\n",
+/*22*/  "free_dq(dq_%u);\n",
 /*11*/  id, id,
 /*12*/  id, flags_str,
 /*13*/  id,

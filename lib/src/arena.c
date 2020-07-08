@@ -9,10 +9,10 @@
 #define FIXED_ALLOC_SIZE 48 // 3 children
 #define MINIMUM_DYNAMIC_FRAGMENT 192
 
-static void* arena_malloc_dynamic(dyn_arr_t* regions, alloc_boundary_t** top,
+static void* arena_malloc_dynamic(dq_t* regions, alloc_boundary_t** top,
         uint32_t num_cells);
 
-static void* arena_malloc_fixed(dyn_arr_t* regions, dyn_arr_t* backings,
+static void* arena_malloc_fixed(dq_t* regions, dq_t* backings,
         fixed_boundary_t** top);
 
 static region_t* init_fixed_region(uint32_t cap);
@@ -26,15 +26,15 @@ static void free_region(region_t* region);
 arena_t* init_arena(size_t cap)
 {
     arena_t* arena = malloc(sizeof(arena_t));
-    arena->fixed = init_dyn_arr(8);
-    arena->fixed_backing = init_dyn_arr(8);
-    arena->dynamic = init_dyn_arr(8);
+    arena->fixed = init_dq(8);
+    arena->fixed_backing = init_dq(8);
+    arena->dynamic = init_dq(8);
     region_t* fixed_region = init_fixed_region(cap);
     region_t* fixed_backing_region = init_fixed_backing_region(fixed_region);
     region_t* dynamic_region = init_dynamic_region(cap);
-    append_dyn_arr(arena->fixed, fixed_region);
-    append_dyn_arr(arena->fixed_backing, fixed_backing_region);
-    append_dyn_arr(arena->dynamic, dynamic_region);
+    dq_push_r(arena->fixed, fixed_region);
+    dq_push_r(arena->fixed_backing, fixed_backing_region);
+    dq_push_r(arena->dynamic, dynamic_region);
     arena->ptrs.fixed = fixed_backing_region->data.fixed_backing;
     arena->ptrs.dynamic = dynamic_region->data.dynamic;
     return arena;
@@ -44,19 +44,19 @@ void free_arena(arena_t* arena)
 {
     uint32_t region_cnt = arena->fixed->len;
     for (uint32_t i = 0; i < region_cnt; ++i) {
-        free_region(get_dyn_arr(arena->fixed, i));
+        free_region(dq_get(arena->fixed, i));
     }
-    free_dyn_arr(arena->fixed);
+    free_dq(arena->fixed);
     region_cnt = arena->fixed_backing->len;
     for (uint32_t i = 0; i < region_cnt; ++i) {
-        free_region(get_dyn_arr(arena->fixed_backing, i));
+        free_region(dq_get(arena->fixed_backing, i));
     }
-    free_dyn_arr(arena->fixed_backing);
+    free_dq(arena->fixed_backing);
     region_cnt = arena->dynamic->len;
     for (uint32_t i = 0; i < region_cnt; ++i) {
-        free_region(get_dyn_arr(arena->dynamic, i));
+        free_region(dq_get(arena->dynamic, i));
     }
-    free_dyn_arr(arena->dynamic);
+    free_dq(arena->dynamic);
     free(arena);
     return;
 }
@@ -99,7 +99,7 @@ void arena_reset_sp(arena_t* arena, arena_ptrs_t* prealloc)
     return;
 }
 
-void* arena_malloc_dynamic(dyn_arr_t* regions, alloc_boundary_t** top,
+void* arena_malloc_dynamic(dq_t* regions, alloc_boundary_t** top,
         uint32_t num_cells)
 {
     alloc_boundary_t* base = *top;
@@ -109,10 +109,10 @@ void* arena_malloc_dynamic(dyn_arr_t* regions, alloc_boundary_t** top,
     while (allocatable < num_cells) {
         if (current->flags & FROZEN) {
             if (current->next == NULL) {
-                region_t* last_region = get_dyn_arr(regions, regions->len - 1);
+                region_t* last_region = dq_get(regions, regions->len - 1);
                 uint32_t cap = last_region->cap * 2;
                 region_t* new_region = init_dynamic_region(cap);
-                append_dyn_arr(regions, new_region);
+                dq_push_r(regions, new_region);
                 current->next = new_region->data.dynamic;
             }
             base = current->next;
@@ -138,19 +138,19 @@ void* arena_malloc_dynamic(dyn_arr_t* regions, alloc_boundary_t** top,
     return base + 1;
 }
 
-void* arena_malloc_fixed(dyn_arr_t* regions, dyn_arr_t* backings,
+void* arena_malloc_fixed(dq_t* regions, dq_t* backings,
         fixed_boundary_t** top)
 {
     fixed_boundary_t* base = *top;
     while (1) {
         if (base->flags & FROZEN) {
             if (base->next == NULL) {
-                region_t* last_region = get_dyn_arr(regions, regions->len - 1);
+                region_t* last_region = dq_get(regions, regions->len - 1);
                 uint32_t cap = last_region->cap * 2;
                 region_t* new_region = init_fixed_region(cap);
                 region_t* new_backing = init_fixed_backing_region(new_region);
-                append_dyn_arr(regions, new_region);
-                append_dyn_arr(backings, new_backing);
+                dq_push_r(regions, new_region);
+                dq_push_r(backings, new_backing);
                 base->next = new_backing->data.fixed_backing;
             }
             base = base->next;
